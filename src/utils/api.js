@@ -1,0 +1,65 @@
+import { v4 as uuidv4 } from "uuid";
+import prisma from "../../lib/db";
+
+export async function getUser(context) {
+  const res = await prisma.profile.findFirst({
+    where: {
+      userId: context.user.id,
+    },
+    include: {
+      rooms: true,
+    },
+  });
+
+  return res;
+}
+
+export async function getRoomDetails(context) {
+  const res = await prisma.room.findUnique({
+    where: {
+      id: context.room.id,
+    },
+    include: {
+      ChoresList: {
+        include: {
+          ChoreListItem: true,
+        },
+      },
+      ShoppingList: {
+        include: {
+          ShoppingListItem: true,
+        },
+      },
+    },
+  });
+
+  return res;
+}
+
+export async function createChoresListItem(choreData) {
+  const res = await prisma.choreListItem.create({
+    data: {
+      id: uuidv4(),
+      choreListId: choreData.choreListId,
+      addedById: choreData.addedById,
+      name: choreData.name,
+      description: choreData.description,
+    },
+  });
+
+  return res;
+}
+
+export async function createShoppingListImte(shoppingItemData) {
+  const res = await prisma.shoppingListItem.create({
+    data: {
+      id: uuidv4(),
+      listId: shoppingItemData.shoppingListId,
+      addedById: shoppingItemData.addedById,
+      name: shoppingItemData.name,
+      quantity: shoppingItemData.quantity,
+    },
+  });
+
+  return res;
+}

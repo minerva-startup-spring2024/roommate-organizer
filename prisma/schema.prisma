@@ -1,0 +1,126 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["public"]
+}
+
+model Profile {
+  id                String             @id @db.Uuid
+  role              Role               @default(user)
+  firstName         String
+  lastName          String
+  userId            String             @db.Uuid
+  createdAt         DateTime           @default(now())
+  deletedAt         DateTime?
+  updatedAt         DateTime?          @updatedAt
+  user              String
+  announcements     Announcements[]
+  choreItems        ChoreListItem[]
+  shoppingListItems ShoppingListItem[]
+  rooms             Room[]             @relation("ProfileToRoom")
+
+  @@map("profiles")
+  @@schema("public")
+}
+
+model Room {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+  deletedAt    DateTime?
+  profiles     Profile[]     @relation("ProfileToRoom")
+  ChoresList   ChoresList?
+  ShoppingList ShoppingList?
+
+  @@map("rooms")
+  @@schema("public")
+}
+
+model ShoppingList {
+  id               String             @id @default(uuid()) @db.Uuid
+  name             String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime?          @updatedAt
+  deletedAt        DateTime?
+  ShoppingListItem ShoppingListItem[]
+  room             Room               @relation(fields: [roomId], references: [id])
+  roomId           String             @unique @db.Uuid
+
+  @@map("shopping_lists")
+  @@schema("public")
+}
+
+model ShoppingListItem {
+  id          String       @id @default(uuid()) @db.Uuid
+  name        String
+  quantity    Int
+  productLink String?
+  listId      String       @db.Uuid
+  addedById   String       @db.Uuid
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
+  deletedAt   DateTime?
+  addedBy     Profile      @relation(fields: [addedById], references: [id])
+  list        ShoppingList @relation(fields: [listId], references: [id])
+
+  @@map("shopping_list_items")
+  @@schema("public")
+}
+
+model ChoresList {
+  id            String          @id @default(uuid()) @db.Uuid
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?       @updatedAt
+  deletedAt     DateTime?
+  ChoreListItem ChoreListItem[]
+  room          Room            @relation(fields: [roomId], references: [id])
+  roomId        String          @unique @db.Uuid
+
+  @@map("chores_lists")
+  @@schema("public")
+}
+
+model ChoreListItem {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String
+  description String
+  choreListId String     @db.Uuid
+  addedById   String     @db.Uuid
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime?  @updatedAt
+  deletedAt   DateTime?
+  addedBy     Profile    @relation(fields: [addedById], references: [id])
+  choreList   ChoresList @relation(fields: [choreListId], references: [id])
+
+  @@map("chore_items")
+  @@schema("public")
+}
+
+model Announcements {
+  id        String    @id @default(uuid()) @db.Uuid
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  addedById String    @db.Uuid
+  addedBy   Profile   @relation(fields: [addedById], references: [id])
+
+  @@map("announcements")
+  @@schema("public")
+}
+
+enum Role {
+  admin
+  user
+
+  @@schema("public")
+}
