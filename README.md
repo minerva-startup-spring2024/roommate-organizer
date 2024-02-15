@@ -2,7 +2,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First visit the [Next.js](https://nextjs.org/) website and download Next.js for your operating system. 
+
+Then, install all of the dependencies as listed in the `package.json` file:
+
+```bash
+npm install
+```
+
+Then, you will need to set the database credentials as local environment variables. [not sure about this yet]
+
+Then, run the development server:
 
 ```bash
 npm run dev
