@@ -99,7 +99,7 @@ model ChoreListItem {
 model ShoppingList {
   id                String             @id @default(dbgenerated("gen_random_uuid()"))
   createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  updatedAt         DateTime           @default(now()) @updatedAt
   deletedAt         DateTime?
   roomId            String
   room              Room               @relation(fields: [roomId], references: [id])
