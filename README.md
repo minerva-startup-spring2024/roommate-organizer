@@ -10,7 +10,17 @@ Then, install all of the dependencies as listed in the `package.json` file:
 npm install
 ```
 
-Then, you will need to set the database credentials as local environment variables. [not sure about this yet]
+Then, you will need to set the database credentials as local environment variables. Login to our [Supa base account](https://supabase.com/). You can do this by using our admin Github account. You can find the Github credentials in our [Notion page](https://www.notion.so/bathientran/Roommate-Organizer-f3329359a9724554b9c678dedf549d86?p=bb905a6dd79945ea941990146400f6f2&pm=s). 
+
+Once you log in, go to the "roommate-organizer" project. Click on the green "Connect" button in the top right. 
+![Supa Base Connect](assets/supaBaseConnect.png)
+
+Then go to "App Frameworks" (choose Node.js)
+and you will see an example of a `env.local` file with credentials for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. It looks like this:
+
+![Supa Base Credentials](assets/supaBaseCredentials.png)
+
+Create your own `.env.local` file at the root of the repo and copy-paste the credentials there. 
 
 Then, run the development server:
 
