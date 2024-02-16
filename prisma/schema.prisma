@@ -11,116 +11,138 @@ datasource db {
 }
 
 model Profile {
-  id                String             @id @db.Uuid
-  role              Role               @default(user)
-  firstName         String
-  lastName          String
-  userId            String             @db.Uuid
-  createdAt         DateTime           @default(now())
-  deletedAt         DateTime?
-  updatedAt         DateTime?          @updatedAt
-  user              String
-  announcements     Announcements[]
-  choreItems        ChoreListItem[]
-  shoppingListItems ShoppingListItem[]
-  rooms             Room[]             @relation("ProfileToRoom")
+  id                        String             @id @default(dbgenerated("gen_random_uuid()"))
+  firstName                 String?
+  lastName                  String?
+  metadata                  Json?
+  profileImage              String?
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @default(now()) @updatedAt
+  deletedAt                 DateTime?
+  userId                    String?            @unique
+  rooms                     Room[]             @relation("RoomMembers")
+  announcements             Announcement[]
+  createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
+  createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
+  assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
+  buildings                 Building[]
 
-  @@map("profiles")
+  @@map("profile")
+  @@schema("public")
+}
+
+model Building {
+  id              String   @id @default(dbgenerated("gen_random_uuid()"))
+  name            String?
+  address         String?
+  metadata        Json?
+  buildingOwnerId String?
+  buildingOwner   Profile? @relation(fields: [buildingOwnerId], references: [id])
+  rooms           Room[]
+
+  @@map("building")
   @@schema("public")
 }
 
 model Room {
-  id           String        @id @default(uuid()) @db.Uuid
-  name         String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime?     @updatedAt
-  deletedAt    DateTime?
-  profiles     Profile[]     @relation("ProfileToRoom")
-  ChoresList   ChoresList?
-  ShoppingList ShoppingList?
-
-  @@map("rooms")
-  @@schema("public")
-}
-
-model ShoppingList {
-  id               String             @id @default(uuid()) @db.Uuid
-  name             String
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime?          @updatedAt
-  deletedAt        DateTime?
-  ShoppingListItem ShoppingListItem[]
-  room             Room               @relation(fields: [roomId], references: [id])
-  roomId           String             @unique @db.Uuid
-
-  @@map("shopping_lists")
-  @@schema("public")
-}
-
-model ShoppingListItem {
-  id          String       @id @default(uuid()) @db.Uuid
-  name        String
-  quantity    Int
-  productLink String?
-  listId      String       @db.Uuid
-  addedById   String       @db.Uuid
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime?    @updatedAt
-  deletedAt   DateTime?
-  addedBy     Profile      @relation(fields: [addedById], references: [id])
-  list        ShoppingList @relation(fields: [listId], references: [id])
-
-  @@map("shopping_list_items")
-  @@schema("public")
-}
-
-model ChoresList {
-  id            String          @id @default(uuid()) @db.Uuid
-  name          String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime?       @updatedAt
+  id            String         @id @default(dbgenerated("gen_random_uuid()"))
+  name          String?
+  metadata      Json?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
   deletedAt     DateTime?
-  ChoreListItem ChoreListItem[]
-  room          Room            @relation(fields: [roomId], references: [id])
-  roomId        String          @unique @db.Uuid
+  buildingId    String?
+  building      Building?      @relation(fields: [buildingId], references: [id])
+  members       Profile[]      @relation("RoomMembers")
+  shoppingLists ShoppingList[]
+  choreLists    ChoreList[]
+  announcements Announcement[]
 
-  @@map("chores_lists")
+  @@map("room")
+  @@schema("public")
+}
+
+model ChoreList {
+  id             String          @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
+  deletedAt      DateTime?
+  roomId         String
+  room           Room            @relation(fields: [roomId], references: [id])
+  choreListItems ChoreListItem[]
+
+  @@map("chore_list")
   @@schema("public")
 }
 
 model ChoreListItem {
-  id          String     @id @default(uuid()) @db.Uuid
-  name        String
-  description String
-  choreListId String     @db.Uuid
-  addedById   String     @db.Uuid
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime?  @updatedAt
-  deletedAt   DateTime?
-  addedBy     Profile    @relation(fields: [addedById], references: [id])
-  choreList   ChoresList @relation(fields: [choreListId], references: [id])
+  id           String    @id @default(dbgenerated("gen_random_uuid()"))
+  name         String?
+  type         String?
+  status       String?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  deletedAt    DateTime?
+  choreListId  String
+  choreList    ChoreList @relation(fields: [choreListId], references: [id])
+  assignedToId String?
+  assignedTo   Profile?  @relation("AssignedChoreListItems", fields: [assignedToId], references: [id])
+  createdById  String?
+  createdBy    Profile?  @relation("CreatedChoreListItems", fields: [createdById], references: [id])
 
-  @@map("chore_items")
+  @@map("chore_list_item")
   @@schema("public")
 }
 
-model Announcements {
-  id        String    @id @default(uuid()) @db.Uuid
-  title     String
-  content   String
+model ShoppingList {
+  id                String             @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  deletedAt         DateTime?
+  roomId            String
+  room              Room               @relation(fields: [roomId], references: [id])
+  shoppingListItems ShoppingListItem[]
+
+  @@map("shopping_list")
+  @@schema("public")
+}
+
+model ShoppingListItem {
+  id             String       @id @default(dbgenerated("gen_random_uuid()"))
+  name           String?
+  type           String?
+  status         String?
+  quantity       Float?
+  metadata       Json?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  deletedAt      DateTime?
+  shoppingListId String
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  assignedToId   String?
+  assignedTo     Profile?     @relation("AssignedShoppingListItems", fields: [assignedToId], references: [id])
+  createdById    String?
+  createdBy      Profile?     @relation("CreatedShoppingListItems", fields: [createdById], references: [id])
+
+  @@map("shopping_list_item")
+  @@schema("public")
+}
+
+model Announcement {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  content   String?
+  status    String?
+  metadata  Json?
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
-  addedById String    @db.Uuid
-  addedBy   Profile   @relation(fields: [addedById], references: [id])
+  roomId    String
+  room      Room      @relation(fields: [roomId], references: [id])
+  sentById  String
+  sentBy    Profile   @relation(fields: [sentById], references: [id])
 
-  @@map("announcements")
-  @@schema("public")
-}
-
-enum Role {
-  admin
-  user
-
+  @@map("announcement")
   @@schema("public")
 }
