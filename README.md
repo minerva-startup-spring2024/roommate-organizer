@@ -2,7 +2,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First add the necessary environment variables that you can find in [Notion](https://www.notion.so/bathientran/Setup-9d7157ea304a4dc1ae8bd4d4c74b7b12?pvs=4).
+
+Create a `.env` file and paste the content of the environment variables.
+
+Then you can run the development server:
 
 ```bash
 npm run dev
