@@ -2,11 +2,28 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First add the necessary environment variables that you can find in [Notion](https://www.notion.so/bathientran/Setup-9d7157ea304a4dc1ae8bd4d4c74b7b12?pvs=4).
 
-Create a `.env` file and paste the content of the environment variables.
+First visit the [Next.js](https://nextjs.org/) website and download Next.js for your operating system. 
 
-Then you can run the development server:
+Then, install all of the dependencies as listed in the `package.json` file:
+
+```bash
+npm install
+```
+
+Then, you will need to set the database credentials as local environment variables. Login to our [Supa base account](https://supabase.com/). You can do this by using our admin Github account. You can find the Github credentials in our [Notion page](https://www.notion.so/bathientran/Roommate-Organizer-f3329359a9724554b9c678dedf549d86?p=bb905a6dd79945ea941990146400f6f2&pm=s). 
+
+Once you log in, go to the "roommate-organizer" project. Click on the green "Connect" button in the top right. 
+![Supa Base Connect](assets/supaBaseConnect.png)
+
+Then go to "App Frameworks" (choose Node.js)
+and you will see an example of a `env.local` file with credentials for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. It looks like this:
+
+![Supa Base Credentials](assets/supaBaseCredentials.png)
+
+Create your own `.env.local` file at the root of the repo and copy-paste the credentials there. 
+
+Then, run the development server:
 
 ```bash
 npm run dev
