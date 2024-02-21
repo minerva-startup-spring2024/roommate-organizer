@@ -7,20 +7,56 @@ export const dynamic = "force-dynamic";
 export async function POST(request, context) {
   const roomData = await request.json();
   const roomId = uuidv4();
-  console.log("RoomID:", roomId)
 
-  const createRoom = await prisma.room.create({
+  const newRoom = await prisma.room.create({
     data: {
-      // id: roomId,
+      id: roomId,
       name: roomData.name,
-      shoppingLists: roomData.shoppingLists,
-      choreLists: roomData.choreLists,
-      members: roomData.members
+      members: {
+        // Connect the profile to the room
+        connect: { id: roomData.user.id },
+      },
+    },
+  });
+
+  // Link user to the new room
+  const updatedProfile = await prisma.profile.update({
+    where: { id: roomData.user.id }, 
+    data: {
+      rooms: {
+        connect: { id: roomId },
+      },
+    },
+  });
+
+  // Create shopping list for the room
+  const shoppingList = await prisma.shoppingList.create({
+    data: {
+      roomId: roomId,
+    },
+  });
+
+  // Create chore list for the room
+  const choreList = await prisma.choreList.create({
+    data: {
+      roomId: roomId,
+    },
+  });
+
+  const updatedRoom = await prisma.room.update({
+    where: { id: roomId },
+    data: {
+      shoppingLists: {
+        connect: { id: shoppingList.id },
+      },
+      choreLists: {
+        connect: { id: choreList.id },
+      },
     },
   });
 
   return NextResponse.json(
-    { message: "Created room", room: createRoom },
+    { message: "Created room", room: newRoom },
     { status: 200 }
   );
 }
@@ -37,7 +73,7 @@ export async function DELETE(request, context) {
   });
 
   return NextResponse.json(
-    { message: "Deleted chore", chore: deleteChore },
+    { message: "Deleted chore", chore: newRoom },
     { status: 200 }
   );
 }

@@ -12,7 +12,7 @@ export default function AddRoomForm({ context }) {
     setRoomName(event.target.value);
   };
 
-  const { rooms, ...userWithoutRooms } = context.user;
+//   const { rooms, ...userWithoutRooms } = context.user;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,10 +23,7 @@ export default function AddRoomForm({ context }) {
       },
       body: JSON.stringify({
         name: roomName,
-        shoppingLists: { create: [] },
-        choreLists: { create: [] },
-        announcements: { create: [] },
-        members: { create: [ userWithoutRooms ] }
+        user: context.user
       }),
     });
     router.refresh();
