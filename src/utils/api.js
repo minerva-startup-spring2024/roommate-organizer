@@ -20,16 +20,17 @@ export async function getRoomDetails(context) {
       id: context.room.id,
     },
     include: {
-      ChoresList: {
+      choreLists: {
         include: {
-          ChoreListItem: true,
+          choreListItems: true,
         },
       },
-      ShoppingList: {
+      shoppingLists: {
         include: {
-          ShoppingListItem: true,
+          shoppingListItems: true,
         },
       },
+      members: true
     },
   });
 

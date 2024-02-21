@@ -3,41 +3,42 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function AddChoreForm({ context }) {
+export default function AddRoomForm({ context }) {
   const router = useRouter();
 
-  const [choreName, setChoreName] = useState("");
+  const [roomName, setRoomName] = useState("");
 
   const handleInputChange = (event) => {
-    setChoreName(event.target.value);
+    setRoomName(event.target.value);
   };
+
+//   const { rooms, ...userWithoutRooms } = context.user;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await fetch(`/api/chores`, {
+    await fetch(`/api/rooms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        choreListId: context.choreList.id,
-        name: choreName,
-        createdById: context.user.id,
+        name: roomName,
+        user: context.user
       }),
     });
     router.refresh();
-    setChoreName("");
+    setRoomName("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Enter chore name"
-        value={choreName}
+        placeholder="Enter room name"
+        value={roomName}
         onChange={handleInputChange}
       />
-      <button type="submit">Add Chore</button>
+      <button type="submit">Add Room</button>
     </form>
   );
 }

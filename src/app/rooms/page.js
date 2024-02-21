@@ -1,4 +1,5 @@
 import Home from "@/app/_components/Home";
+import AddRoomForm from "@/app/_components/CreateRoom";
 import { getUser } from "@/utils/api";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -20,11 +21,19 @@ export default async function HomePage() {
   }
 
   const user = await getUser(data.session);
-  console.log(user);
+  console.log("User", user);
+
   return (
     <main className="max-w-lg m-auto">
       <h1 className="text-2xl text-center mb-6">Home</h1>
-      <Home rooms={user.rooms} />
+      {user && user.rooms && user.rooms.length > 0 ? (
+        <Home rooms={user.rooms} />
+      ) : (
+        <p>No rooms yet</p>
+      )}
+      <AddRoomForm
+        context={{ user: user}}
+      />
     </main>
   );
 }

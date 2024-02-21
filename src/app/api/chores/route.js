@@ -11,9 +11,8 @@ export async function POST(request, context) {
     data: {
       id: uuidv4(),
       choreListId: choreData.choreListId,
-      addedById: choreData.addedById,
+      createdById: choreData.createdById,
       name: choreData.name,
-      description: choreData.description,
     },
   });
 

@@ -21,18 +21,25 @@ export default async function RoomPage({ params }) {
       <h1></h1>
       <h1>Chores</h1>
       <ul>
-        {roomDetails.ChoresList.ChoreListItem.map((chore, index) => (
+        {roomDetails.choreLists[0].choreListItems.map((chore, index) => (
           <Chore key={index} chore={chore} />
         ))}
       </ul>
       <AddChoreForm
-        context={{ choreList: roomDetails.ChoresList, user: user }}
+        context={{ choreList: roomDetails.choreLists[0], user: user }}
       />
 
       <h1>Shopping List</h1>
       <ul>
-        {roomDetails.ShoppingList.ShoppingListItem.map((item, index) => (
+        {roomDetails.shoppingLists[0].shoppingListItems.map((item, index) => (
           <li key={index}>{item.name}</li>
+        ))}
+      </ul>
+
+      <h1>Members</h1>
+      <ul>
+        {roomDetails.members.map((member, index) => (
+          <li key={index}>{member.userId}</li>
         ))}
       </ul>
     </div>
