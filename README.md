@@ -77,4 +77,5 @@ There are three users you can use to log in:
 ### Commands that can be used
 
 - `npx prisma migrate dev --name {NAME}`: Run a migration
+- `npx supabase db reset`: Reset the database.
 - `npx supabase stop`: Stop the local Supabase setup.
