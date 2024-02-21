@@ -32,6 +32,7 @@
     ```bash
     npx prisma generate
     npx prisma migrate deploy
+    npx prisma db seed
     ```
 
     <br>
@@ -59,6 +60,15 @@ There are three users you can use to log in:
 - Admin: admin@example.com | test123
 - Roommate 1: user_primary@example.com | test123
 - Roommate 2: user_secondary@example.com | test123
+
+### Common Issues
+
+- `npx supabase start`
+  - If you see any errors container the word `Docker`, make sure you have:
+    1. Docker installed
+    2. Docker running
+    3. Gave enough time for Docker to get started
+  - Once you know that Docker is fully ready, retry `npx supabase start`
 
 ### Tips
 
