@@ -12,6 +12,7 @@ datasource db {
 
 model Profile {
   id                        String             @id @default(dbgenerated("gen_random_uuid()"))
+  role                      Role               @default(roommate)
   firstName                 String?
   lastName                  String?
   metadata                  Json?
@@ -144,5 +145,13 @@ model Announcement {
   sentBy    Profile   @relation(fields: [sentById], references: [id])
 
   @@map("announcement")
+  @@schema("public")
+}
+
+enum Role {
+  admin
+  roommate
+  manager
+
   @@schema("public")
 }
