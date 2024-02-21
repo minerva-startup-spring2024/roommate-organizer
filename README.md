@@ -1,59 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Getting Started
 
-## Getting Started
+1. Install all of the dependencies as listed in the `package.json` file:
 
+   <br>
 
-First visit the [Next.js](https://nextjs.org/) website and download Next.js for your operating system. 
+   ```bash
+   npm install
+   ```
 
-Then, install all of the dependencies as listed in the `package.json` file:
+<br>
 
-```bash
-npm install
-```
+2.  Install Docker for your local setup. We use Docker to manage your local Supabase database setup: https://docs.docker.com/get-docker/.
+    <br>
 
-Then, you will need to set the database credentials as local environment variables. Login to our [Supa base account](https://supabase.com/). You can do this by using our admin Github account. You can find the Github credentials in our [Notion page](https://www.notion.so/bathientran/Roommate-Organizer-f3329359a9724554b9c678dedf549d86?p=bb905a6dd79945ea941990146400f6f2&pm=s). 
+3.  Rename the `.env.local` file to just `.env`.
+    <br>
 
-Once you log in, go to the "roommate-organizer" project. Click on the green "Connect" button in the top right. 
-![Supa Base Connect](assets/supaBaseConnect.png)
+4.  Start the local Supabase instance. This may take some time and requires you to have Docker installed with enough storage to download all the required Docker images.
+    <br>
 
-Then go to "App Frameworks" (choose Node.js)
-and you will see an example of a `env.local` file with credentials for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. It looks like this:
+    ```bash
+    npx supabase start
+    ```
 
-![Supa Base Credentials](assets/supaBaseCredentials.png)
+    <br>
 
-Create your own `.env.local` file at the root of the repo and copy-paste the credentials there. 
+5.  Run the database migrations to setup your database using Prisma.
 
-Then, run the development server:
+    <br>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    npx prisma generate
+    npx prisma migrate deploy
+    npx prisma db seed
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    <br>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+6.  Start the application.
 
-## Learn More
+    <br>
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    <br>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+There are now multiple services running:
 
-## Deploy on Vercel
+| Service            | URL                                                     | Description                  |
+| ------------------ | ------------------------------------------------------- | ---------------------------- |
+| App                | http://localhost:3000                                   | Main application.            |
+| Database Interface | http://127.0.0.1:54323                                  | Supabase database interface. |
+| Database           | postgresql://postgres:postgres@127.0.0.1:54322/postgres | Database URL                 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+There are three users you can use to log in:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Admin: admin@example.com | test123
+- Roommate 1: user_primary@example.com | test123
+- Roommate 2: user_secondary@example.com | test123
 
-## Prisma
+### Common Issues
+
+- `npx supabase start`
+  - If you see any errors container the word `Docker`, make sure you have:
+    1. Docker installed
+    2. Docker running
+    3. Gave enough time for Docker to get started
+  - Once you know that Docker is fully ready, retry `npx supabase start`
+
+### Tips
+
+- Use the local database interface to take a look at the database: http://127.0.0.1:54323
+
+### Commands that can be used
 
 - `npx prisma migrate dev --name {NAME}`: Run a migration
+- `npx supabase db reset`: Reset the database.
+- `npx supabase stop`: Stop the local Supabase setup.
