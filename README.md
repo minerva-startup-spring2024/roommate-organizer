@@ -69,6 +69,10 @@ There are three users you can use to log in:
     2. Docker running
     3. Gave enough time for Docker to get started
   - Once you know that Docker is fully ready, retry `npx supabase start`
+ 
+- Supabase not accessible
+   - You likely stopped your local supabase setup without using `supabase stop` and `supabase start` still shows it as running.
+   - Execute `supabase stop` and then `supabase start` again. 
 
 ### Tips
 
