@@ -22,8 +22,7 @@ export default function AddChoreForm({ context }) {
       body: JSON.stringify({
         choreListId: context.choreList.id,
         name: choreName,
-        addedById: context.user.id,
-        description: "",
+        createdById: context.user.id,
       }),
     });
     router.refresh();
