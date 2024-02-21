@@ -5,8 +5,6 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 export default async function RoomPage({ params }) {
-  const shoppingList = ["Milk", "Eggs", "Bread"];
-  const announcements = ["House meeting on Friday", "Rent due next week"];
   const roomDetails = await getRoomDetails({ room: { id: params.slug } });
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getSession();
