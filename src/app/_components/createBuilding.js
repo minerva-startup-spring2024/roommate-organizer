@@ -19,7 +19,12 @@ export default function AddBuildingForm({ context }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!context.user || !context.user.id) {
+      console.error("User ID is missing");
+      return;
+    }
     await fetch(`/api/building`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
