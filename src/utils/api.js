@@ -30,6 +30,7 @@ export async function getRoomDetails(context) {
           shoppingListItems: true,
         },
       },
+      members: true
     },
   });
 

@@ -35,6 +35,13 @@ export default async function RoomPage({ params }) {
           <li key={index}>{item.name}</li>
         ))}
       </ul>
+
+      <h1>Members</h1>
+      <ul>
+        {roomDetails.members.map((member, index) => (
+          <li key={index}>{member.userId}</li>
+        ))}
+      </ul>
     </div>
   );
 }

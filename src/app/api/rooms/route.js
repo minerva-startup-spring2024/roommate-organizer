@@ -8,6 +8,7 @@ export async function POST(request, context) {
   const roomData = await request.json();
   const roomId = uuidv4();
 
+  // TODO: turn this call into a single transaction
   const newRoom = await prisma.room.create({
     data: {
       id: roomId,
