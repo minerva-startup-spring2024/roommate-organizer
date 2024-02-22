@@ -7,6 +7,115 @@ import { checkMembership } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * @swagger
+ * /api/chores:
+ *   get:
+ *     summary: Get chore list
+ *     description: Retrieve the chore list for a specific room
+ *     parameters:
+ *       - in: query
+ *         name: roomId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the room
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ChoreList'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *
+ *   post:
+ *     summary: Create a new chore
+ *     description: Create a new chore and add it to the chore list
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *                name:
+ *                  type: string
+ *                assignedToId:
+ *                  type: string
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ChoreListItem'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *   delete:
+ *     summary: Delete a chore
+ *     description: Delete a chore from the chore list
+ *
+ * components:
+ *  schemas:
+ *    ChoreList:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ *        choreListItems:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/ChoreListItem'
+ *    Error:
+ *      type: object
+ *      properties:
+ *         message:
+ *           type: string
+ *    ChoreListItem:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        name:
+ *          type: string
+ *        status:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ *        assignedToId:
+ *          type: string
+ *        createdById:
+ *          type: string
+ */
+
 export async function GET(request, context) {
   try {
     const roomId = request.nextUrl.searchParams.get("roomId");
