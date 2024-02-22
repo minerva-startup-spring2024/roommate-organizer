@@ -29,7 +29,7 @@ async function main() {
     data: {
       firstName: "Primary",
       lastName: "Roommate",
-      role: "roommate",
+      role: "ROOMMATE",
       userId: primaryUser.data.user.id,
     },
   });
@@ -38,7 +38,7 @@ async function main() {
     data: {
       firstName: "Secondary",
       lastName: "Roommate",
-      role: "roommate",
+      role: "ROOMMATE",
       userId: secondaryUser.data.user.id,
     },
   });
@@ -47,7 +47,7 @@ async function main() {
     data: {
       firstName: "Minerva",
       lastName: "Manager",
-      role: "manager",
+      role: "MANAGER",
       profileImage:
         "https://upload.wikimedia.org/wikipedia/commons/f/fb/Minerva_Logo_cntr_blk.png",
       userId: adminUser.data.user.id,
@@ -87,7 +87,6 @@ async function main() {
     data: {
       name: "Take out trash",
       type: "Weekly",
-      status: "Pending",
       choreListId: choreList.id,
       createdById: primaryProfile.id,
       assignedToId: secondaryProfile.id,

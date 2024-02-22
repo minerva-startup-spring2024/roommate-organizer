@@ -12,7 +12,7 @@ datasource db {
 
 model Profile {
   id                        String             @id @default(dbgenerated("gen_random_uuid()"))
-  role                      Role               @default(roommate)
+  role                      Role               @default(ROOMMATE)
   firstName                 String?
   lastName                  String?
   metadata                  Json?
@@ -78,20 +78,20 @@ model ChoreList {
 }
 
 model ChoreListItem {
-  id           String    @id @default(dbgenerated("gen_random_uuid()"))
+  id           String      @id @default(dbgenerated("gen_random_uuid()"))
   name         String?
   type         String?
-  status       String?
+  status       ChoreStatus @default(OPEN)
   metadata     Json?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @default(now()) @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt
   deletedAt    DateTime?
   choreListId  String
-  choreList    ChoreList @relation(fields: [choreListId], references: [id])
+  choreList    ChoreList   @relation(fields: [choreListId], references: [id])
   assignedToId String?
-  assignedTo   Profile?  @relation("AssignedChoreListItems", fields: [assignedToId], references: [id])
+  assignedTo   Profile?    @relation("AssignedChoreListItems", fields: [assignedToId], references: [id])
   createdById  String?
-  createdBy    Profile?  @relation("CreatedChoreListItems", fields: [createdById], references: [id])
+  createdBy    Profile?    @relation("CreatedChoreListItems", fields: [createdById], references: [id])
 
   @@map("chore_list_item")
   @@schema("public")
@@ -149,9 +149,17 @@ model Announcement {
 }
 
 enum Role {
-  admin
-  roommate
-  manager
+  ADMIN
+  ROOMMATE
+  MANAGER
+
+  @@schema("public")
+}
+
+enum ChoreStatus {
+  OPEN
+  CANCELED
+  DONE
 
   @@schema("public")
 }
