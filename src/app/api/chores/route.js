@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
  * @swagger
  * /api/chores:
  *   get:
- *     summary: Get chore list
+ *     summary: Get room's chores
  *     description: Retrieve the chore list for a specific room
  *     parameters:
  *       - in: query
