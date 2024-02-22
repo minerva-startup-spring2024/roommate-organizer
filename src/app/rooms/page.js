@@ -6,6 +6,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function HomePage() {
+  const chores = [
+    "Clean the kitchen",
+    "Take out the trash",
+    "Vacuum the living room",
+  ];
+  const assignments = ["John", "Sarah", "Michael"];
+  const announcements = ["Meeting at 2pm", "New roommate moving in next week"];
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getSession();
 

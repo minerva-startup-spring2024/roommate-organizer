@@ -1,15 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function AddChoreForm({ context }) {
-  const router = useRouter();
+export default function AddChoreForm({ roomId }) {
+  const [choreName, setChoreName] = useState();
+  const [assignedToId, setAssignedToId] = useState();
 
-  const [choreName, setChoreName] = useState("");
-
-  const handleInputChange = (event) => {
+  const handleSetChoreName = (event) => {
     setChoreName(event.target.value);
+  };
+
+  const handleSetAssignedToId = (event) => {
+    setAssignedToId(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -20,13 +22,13 @@ export default function AddChoreForm({ context }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        choreListId: context.choreList.id,
         name: choreName,
-        createdById: context.user.id,
+        assignedToId: assignedToId,
+        roomId: roomId,
       }),
     });
-    router.refresh();
     setChoreName("");
+    setAssignedToId("");
   };
 
   return (
@@ -35,7 +37,13 @@ export default function AddChoreForm({ context }) {
         type="text"
         placeholder="Enter chore name"
         value={choreName}
-        onChange={handleInputChange}
+        onChange={handleSetChoreName}
+      />
+      <input
+        type="text"
+        placeholder="Enter assigned to name"
+        value={assignedToId}
+        onChange={handleSetAssignedToId}
       />
       <button type="submit">Add Chore</button>
     </form>
