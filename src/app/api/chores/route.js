@@ -90,6 +90,15 @@ export async function POST(request, context) {
 export async function PATCH(request, context) {
   const { id, data } = await request.json();
   try {
+    const supabase = createServerComponentClient({ cookies });
+    const { data: user, error } = await supabase.auth.getUser();
+
+    if (error) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
+    }
+
+    await checkMembership(roomId, user.id);
+
     const updateChore = await prisma.choreListItem.update({
       where: {
         id: id,
