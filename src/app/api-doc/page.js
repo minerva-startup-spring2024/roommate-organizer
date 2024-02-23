@@ -1,5 +1,10 @@
 import getApiDocs from "../../../lib/swagger";
-import ReactSwagger from "../_components/ReactSwagger";
+
+import dynamic from "next/dynamic";
+
+const ReactSwagger = dynamic(() => import("../_components/ReactSwagger"), {
+  ssr: false,
+});
 
 export default async function IndexPage() {
   const spec = await getApiDocs();
