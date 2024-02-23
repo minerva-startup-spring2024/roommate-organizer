@@ -1,10 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import prisma from "../../lib/db";
+import isAuthenticated from "./authWrapper";
 
-export async function getUser(context) {
+export async function getProfile(context) {
+  const user = isAuthenticated();
+
   const res = await prisma.profile.findFirst({
     where: {
-      userId: context.user.id,
+      userId: user.id,
     },
     include: {
       rooms: true,
@@ -30,7 +33,7 @@ export async function getRoomDetails(context) {
           shoppingListItems: true,
         },
       },
-      members: true
+      members: true,
     },
   });
 
