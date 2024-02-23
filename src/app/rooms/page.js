@@ -1,26 +1,9 @@
 import AddRoomForm from "@/app/_components/CreateRoom";
 import Home from "@/app/_components/Home";
-import { getUser } from "@/utils/api";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getProfile } from "@/utils/api";
 
 export default async function HomePage() {
-  const chores = [
-    "Clean the kitchen",
-    "Take out the trash",
-    "Vacuum the living room",
-  ];
-  const assignments = ["John", "Sarah", "Michael"];
-  const announcements = ["Meeting at 2pm", "New roommate moving in next week"];
-  const supabase = createServerComponentClient({ cookies });
-  const { data } = await supabase.auth.getSession();
-
-  if (!data.session?.user) {
-    redirect("/login");
-  }
-
-  const user = await getUser(data.session);
+  const user = await getProfile();
 
   return (
     <main className="max-w-lg m-auto">
