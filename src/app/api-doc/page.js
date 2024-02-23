@@ -1,4 +1,4 @@
-import { getApiDocs } from "../../../lib/swagger";
+import getApiDocs from "../../../lib/swagger";
 import ReactSwagger from "../_components/ReactSwagger";
 
 export default async function IndexPage() {
