@@ -11,6 +11,8 @@ export const dynamic = "force-dynamic";
  * @swagger
  * /api/chores:
  *   get:
+ *     tags:
+ *       - Chores
  *     summary: Get room's chores
  *     description: Retrieve the chore list for a specific room
  *     parameters:
@@ -41,6 +43,8 @@ export const dynamic = "force-dynamic";
  *               $ref: '#/components/schemas/Error'
  *
  *   post:
+ *     tags:
+ *       - Chores
  *     summary: Create a new chore
  *     description: Create a new chore and add it to the chore list
  *     requestBody:
@@ -74,6 +78,8 @@ export const dynamic = "force-dynamic";
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *   delete:
+ *     tags:
+ *       - Chores
  *     summary: Delete a chore
  *     description: Delete a chore from the chore list
  *
