@@ -1,23 +1,11 @@
-import prisma from "../../../lib/db";
+import { getProfile } from "@/utils/api";
 
-export const checkMembership = async (roomId, userId) => {
-  const isMember = await prisma.room.findFirst({
-    where: {
-      id: roomId,
-    },
-    include: {
-      members: {
-        where: {
-          userId: userId,
-        },
-      },
-    },
-  });
+export const getProfileIfMember = async (roomId) => {
+  const profile = await getProfile();
 
-  if (!isMember) {
-    return NextResponse.json(
-      { message: "User is not a member of the room" },
-      { status: 400 }
-    );
+  if (!profile.rooms.some((room) => room.id === roomId)) {
+    return;
   }
+
+  return profile;
 };

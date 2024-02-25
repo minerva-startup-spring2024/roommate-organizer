@@ -20,7 +20,7 @@ model Profile {
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
   deletedAt                 DateTime?
-  userId                    String?            @unique
+  userId                    String             @unique
   rooms                     Room[]             @relation("RoomMembers")
   announcements             Announcement[]
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
@@ -53,7 +53,7 @@ model Room {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   deletedAt     DateTime?
-  buildingId    String?
+  buildingId    String?        @unique
   building      Building?      @relation(fields: [buildingId], references: [id])
   members       Profile[]      @relation("RoomMembers")
   shoppingLists ShoppingList[]
@@ -69,7 +69,7 @@ model ChoreList {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @default(now()) @updatedAt
   deletedAt      DateTime?
-  roomId         String
+  roomId         String          @unique
   room           Room            @relation(fields: [roomId], references: [id])
   choreListItems ChoreListItem[]
 
@@ -105,7 +105,7 @@ model ShoppingList {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @default(now()) @updatedAt
   deletedAt         DateTime?
-  roomId            String
+  roomId            String             @unique
   room              Room               @relation(fields: [roomId], references: [id])
   shoppingListItems ShoppingListItem[]
 
@@ -114,21 +114,21 @@ model ShoppingList {
 }
 
 model ShoppingListItem {
-  id             String       @id @default(dbgenerated("gen_random_uuid()"))
+  id             String                 @id @default(dbgenerated("gen_random_uuid()"))
   name           String?
   type           String?
-  status         String?
+  status         ShoppingListItemStatus @default(OPEN)
   quantity       Float?
   metadata       Json?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now()) @updatedAt
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @default(now()) @updatedAt
   deletedAt      DateTime?
   shoppingListId String
-  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  shoppingList   ShoppingList           @relation(fields: [shoppingListId], references: [id])
   assignedToId   String?
-  assignedTo     Profile?     @relation("AssignedShoppingListItems", fields: [assignedToId], references: [id])
+  assignedTo     Profile?               @relation("AssignedShoppingListItems", fields: [assignedToId], references: [id])
   createdById    String?
-  createdBy      Profile?     @relation("CreatedShoppingListItems", fields: [createdById], references: [id])
+  createdBy      Profile?               @relation("CreatedShoppingListItems", fields: [createdById], references: [id])
 
   @@map("shopping_list_item")
   @@schema("public")
@@ -160,6 +160,14 @@ enum Role {
 }
 
 enum ChoreStatus {
+  OPEN
+  CANCELED
+  DONE
+
+  @@schema("public")
+}
+
+enum ShoppingListItemStatus {
   OPEN
   CANCELED
   DONE
