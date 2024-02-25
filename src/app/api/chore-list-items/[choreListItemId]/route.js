@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
  * @swagger
  * /api/chore-list-items/[choreListItemId]:
  *   patch:
- *     tag:
- *      - Chore List Items
+ *     tags:
+ *       - Chore List Items
  *     summary: Update a choreListItem
  *     description: Update a choreListItem
  *     parameters:
@@ -38,8 +38,8 @@ export const dynamic = "force-dynamic";
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *   delete:
- *     tag:
- *      - Chore List Items
+ *     tags:
+ *       - Chore List Items
  *     summary: Delete a choreListItem
  *     description: Delete a choreListItem
  *     parameters:
