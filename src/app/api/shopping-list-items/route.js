@@ -52,10 +52,13 @@ export const dynamic = "force-dynamic";
  *           schema:
  *             type: object
  *             properties:
- *                name:
+ *                roomId:
  *                  type: string
- *                assignedToId:
- *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    name:
+ *                      type: string
  *     responses:
  *       200:
  *         description: Successful response
@@ -153,10 +156,17 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const data = await request.json();
+  const { roomId, data } = await request.json();
+
+  if (!roomId) {
+    return NextResponse.json(
+      { message: "No room id provided" },
+      { status: 400 }
+    );
+  }
 
   try {
-    const profile = await getProfileIfMember(data.roomId);
+    const profile = await getProfileIfMember(roomId);
 
     if (!profile) {
       return NextResponse.json(
@@ -166,7 +176,7 @@ export async function POST(request, context) {
     }
 
     const shoppingList = await prisma.shoppingList.findFirst({
-      where: { roomId: data.roomId },
+      where: { roomId: roomId },
     });
 
     const createShoppingListItem = await prisma.shoppingListItem.create({
@@ -187,13 +197,6 @@ export async function POST(request, context) {
       { status: 200 }
     );
   } catch (error) {
-    if (!data.roomId) {
-      return NextResponse.json(
-        { message: "No room id provided" },
-        { status: 400 }
-      );
-    }
-
     return NextResponse.json(
       { message: "Error creating item", error: error },
       { status: 500 }

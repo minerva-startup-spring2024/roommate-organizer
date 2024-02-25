@@ -97,7 +97,7 @@ export const dynamic = "force-dynamic";
 export async function PATCH(request, context) {
   const data = await request.json();
   try {
-    const shoppingListItemId = context.params.id;
+    const shoppingListItemId = context.params.shoppingListItemId;
 
     const shoppingListItem = await prisma.shoppingListItem.findUnique({
       where: {
@@ -149,7 +149,7 @@ export async function PATCH(request, context) {
 
 export async function DELETE(request, context) {
   try {
-    const shoppingListItemId = context.params.id;
+    const shoppingListItemId = context.params.shoppingListItemId;
 
     const shoppingListItem = await prisma.shoppingListItem.findUnique({
       where: {
