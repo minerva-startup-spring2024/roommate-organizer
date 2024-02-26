@@ -3,7 +3,7 @@ import prisma from "../../lib/db";
 import isAuthenticated from "./authWrapper";
 
 export async function getProfile(context) {
-  const user = isAuthenticated();
+  const { user } = await isAuthenticated();
 
   const res = await prisma.profile.findFirst({
     where: {
