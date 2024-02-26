@@ -27,6 +27,7 @@ async function main() {
   // Seed data for Profile
   const primaryProfile = await prisma.profile.create({
     data: {
+      id: "081af0a8-6dbf-47d0-9a15-4c4573e9e131",
       firstName: "Primary",
       lastName: "Roommate",
       role: "ROOMMATE",
@@ -36,6 +37,7 @@ async function main() {
 
   const secondaryProfile = await prisma.profile.create({
     data: {
+      id: "8102289a-09e4-4b48-9bd3-f0adbc174e8e",
       firstName: "Secondary",
       lastName: "Roommate",
       role: "ROOMMATE",
@@ -45,6 +47,7 @@ async function main() {
 
   const adminProfile = await prisma.profile.create({
     data: {
+      id: "ed13b501-404c-4749-b40c-660e8d73faea",
       firstName: "Minerva",
       lastName: "Manager",
       role: "MANAGER",
@@ -57,6 +60,7 @@ async function main() {
   // Seed data for Building
   const building = await prisma.building.create({
     data: {
+      id: "6f99bc66-32ab-4c25-aea2-e0108bc1da3e",
       name: "SF Residence Hall",
       address: "16 Turk St",
       metadata: { floors: 5 },
@@ -67,6 +71,7 @@ async function main() {
   // Seed data for Room
   const room = await prisma.room.create({
     data: {
+      id: "3b432163-fd3d-47b7-8b1b-9f7dfaa57f34",
       name: "101",
       buildingId: building.id,
       members: {
@@ -78,6 +83,7 @@ async function main() {
   // Seed data for ChoreList
   const choreList = await prisma.choreList.create({
     data: {
+      id: "a06b4a14-27b9-4285-802b-1464aa8d1969",
       roomId: room.id,
     },
   });
@@ -85,6 +91,7 @@ async function main() {
   // Seed data for ChoreListItem
   const choreListItem = await prisma.choreListItem.create({
     data: {
+      id: "6be969cf-ca8d-4eea-811a-c42c38720fa0",
       name: "Take out trash",
       type: "Weekly",
       choreListId: choreList.id,
@@ -96,6 +103,7 @@ async function main() {
   // Seed data for ShoppingList
   const shoppingList = await prisma.shoppingList.create({
     data: {
+      id: "ab1cf2c5-4a1e-4e08-a757-288060e6d9f3",
       roomId: room.id,
     },
   });
@@ -103,9 +111,9 @@ async function main() {
   // Seed data for ShoppingListItem
   const shoppingListItem = await prisma.shoppingListItem.create({
     data: {
+      id: "c28a5103-cb36-4a77-8172-0402284e64e3",
       name: "Milk",
       type: "Dairy",
-      status: "Needed",
       quantity: 2,
       shoppingListId: shoppingList.id,
       createdById: primaryProfile.id,

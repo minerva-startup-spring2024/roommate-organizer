@@ -5,7 +5,7 @@ import isAuthenticated from "./authWrapper";
 export async function getProfile(context) {
   const { user } = await isAuthenticated();
 
-  const res = await prisma.profile.findFirst({
+  const res = await prisma.profile.findUnique({
     where: {
       userId: user.id,
     },

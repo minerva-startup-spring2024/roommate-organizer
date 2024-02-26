@@ -1,18 +1,16 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import prisma from "../../../../lib/db";
-import { checkMembership } from "../_utils";
+import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/chores:
+ * /api/chore-list-items:
  *   get:
  *     tags:
- *       - Chores
+ *       - Chore List Items
  *     summary: Get room's chores
  *     description: Retrieve the chore list for a specific room
  *     parameters:
@@ -44,7 +42,7 @@ export const dynamic = "force-dynamic";
  *
  *   post:
  *     tags:
- *       - Chores
+ *       - Chore List Items
  *     summary: Create a new chore
  *     description: Create a new chore and add it to the chore list
  *     requestBody:
@@ -77,11 +75,6 @@ export const dynamic = "force-dynamic";
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *   delete:
- *     tags:
- *       - Chores
- *     summary: Delete a chore
- *     description: Delete a chore from the chore list
  *
  * components:
  *  schemas:
@@ -123,135 +116,85 @@ export const dynamic = "force-dynamic";
  */
 
 export async function GET(request, context) {
+  const roomId = request.nextUrl.searchParams.get("roomId");
   try {
-    const roomId = request.nextUrl.searchParams.get("roomId");
+    const profile = await getProfileIfMember(roomId);
 
-    if (!roomId) {
+    if (!profile) {
       return NextResponse.json(
-        { message: "No room ID provided" },
+        { message: "User is not a member of the room" },
         { status: 400 }
       );
     }
 
-    const supabase = createServerComponentClient({ cookies });
-    const { data: user, error } = await supabase.auth.getUser();
-
-    if (error) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
-    }
-
-    await checkMembership(roomId, user.id);
-
-    const choreList = await prisma.choreList.findFirst({
+    const choreList = await prisma.choreList.findUnique({
       where: {
         roomId: roomId,
       },
       include: {
-        choreListItems: true,
+        choreListItems: { where: { deletedAt: null } },
       },
     });
 
     return NextResponse.json({ ...choreList }, { status: 200 });
   } catch (error) {
+    if (!roomId) {
+      return NextResponse.json(
+        { message: "No room id provided" },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Error getting chores", error: error },
+      { message: "Error getting chore list", error: error },
       { status: 500 }
     );
   }
 }
 
 export async function POST(request, context) {
-  const { name, assignedToId, roomId } = await request.json();
+  const { roomId, data } = await request.json();
+
+  if (!roomId) {
+    return NextResponse.json(
+      { message: "No room id provided" },
+      { status: 400 }
+    );
+  }
 
   try {
-    const supabase = createServerComponentClient({ cookies });
-    const { data: user, error } = await supabase.auth.getUser();
+    const profile = await getProfileIfMember(roomId);
 
-    if (error) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
     }
-
-    await checkMembership(roomId, user.id);
-
-    const profile = await prisma.profile.findFirst({
-      where: { userId: user.id },
-    });
 
     const choreList = await prisma.choreList.findFirst({
       where: { roomId: roomId },
     });
 
-    const createChore = await prisma.choreListItem.create({
+    const createchoreListItem = await prisma.choreListItem.create({
       data: {
         choreListId: choreList.id,
-        name: name,
+        name: data.name,
         createdById: profile.id,
-        assignedToId: assignedToId || null,
+        assignedToId: data.assignedToId || null,
       },
     });
 
     return NextResponse.json(
-      { message: "Created chore", chore: createChore },
+      {
+        message: "Created item",
+        choreListItem: createchoreListItem,
+      },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error creating chore", error: error },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(request, context) {
-  const { id, data } = await request.json();
-  try {
-    const supabase = createServerComponentClient({ cookies });
-    const { data: user, error } = await supabase.auth.getUser();
-
-    if (error) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
-    }
-
-    await checkMembership(roomId, user.id);
-
-    const updateChore = await prisma.choreListItem.update({
-      where: {
-        id: id,
-      },
-      data: {
-        ...data,
-      },
-    });
-
-    return NextResponse.json(
-      { message: "Updated chore", chore: updateChore },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Error updating chore", error: error },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(request, context) {
-  const { id } = await request.json();
-
-  try {
-    const deleteChore = await prisma.choreListItem.delete({
-      where: {
-        id: id,
-      },
-    });
-
-    return NextResponse.json(
-      { message: "Deleted chore", chore: deleteChore },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Error deleting chore", error: error },
+      { message: "Error creating item", error: error },
       { status: 500 }
     );
   }
