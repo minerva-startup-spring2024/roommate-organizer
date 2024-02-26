@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const dynamic = "force-dynamic";
 
-/**
+/** 
  * @swagger
  * /api/rooms:
  *   post:
