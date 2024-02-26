@@ -12,6 +12,47 @@ export const dynamic = "force-dynamic";
 /**
  * @swagger
  * /api/rooms:
+ *   post:
+ *     summary: Create a new room
+ *     description: Create a new room and add the user as a member
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               user:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 roomId:
+ *                   type: string
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error' 
  *   get:
  *     summary: Get room details
  *     description: Retrieve details for a specific room
