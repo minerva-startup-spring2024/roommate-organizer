@@ -8,6 +8,7 @@ export default function RoomDetail({ roomId }) {
   const [choreListItems, setChoreListItems] = useState([]);
   const [shoppingListItems, setShoppingListItems] = useState([]);
   const [announcementsList, setAnnouncements] = useState([]);
+  const [members, setMembers] = useState([]);
   const [roomDetails, setRoomDetails] = useState({});
 
   useEffect(() => {
@@ -15,6 +16,16 @@ export default function RoomDetail({ roomId }) {
       .then((res) => res.json())
       .then((data) => {
         setChoreListItems(data.choreListItems);
+      });
+  }, [roomId]);
+
+  useEffect(() => {
+    fetch(`/api/rooms?roomId=${roomId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("HI", data)
+        setRoomDetails(data);
+        setMembers(data.members)
       });
   }, [roomId]);
 
@@ -37,11 +48,11 @@ export default function RoomDetail({ roomId }) {
       </ul>
 
       <h1>Members</h1>
-      {/* <ul>
-        {roomDetails.members.map((member, index) => (
+      <ul>
+        {members.map((member, index) => (
           <li key={index}>{member.userId}</li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 }
