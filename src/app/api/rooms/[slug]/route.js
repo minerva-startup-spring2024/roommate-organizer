@@ -1,13 +1,11 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import prisma from "../../../../../lib/db";
-import { checkMembership } from "../../_utils";
+import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
-/** 
+/**
  * @swagger
  * /api/rooms/[slug]:
  *   post:
@@ -102,68 +100,41 @@ export const dynamic = "force-dynamic";
  *           type: string
  */
 
-
-
 export async function POST(request, context) {
-    try {
-      const { roomId, profileId } = await request.json();
-  
-      if (!roomId || !profileId) {
-        return NextResponse.json(
-          { message: "Both roomId and userId are required" },
-          { status: 400 }
-        );
-      }
+  try {
+    const { roomId, profileId } = await request.json();
 
-      const supabase = createServerComponentClient({ cookies });
-      const { data: user, error } = await supabase.auth.getUser();
-
-      if (error) {
-        return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
-      }
-
-      await checkMembership(roomId, user.id);
-  
-      const roomExists = await prisma.room.findUnique({
-        where: { id: roomId },
-      });
-  
-      if (!roomExists) {
-        return NextResponse.json(
-          { message: "Room not found" },
-          { status: 400 }
-        );
-      }
-  
-      const profileExists = await prisma.profile.findUnique({
-        where: { id: profileId },
-      });
-  
-      if (!profileExists) {
-        return NextResponse.json(
-          { message: "Profile not found" },
-          { status: 400 }
-        );
-      }
-  
-      await prisma.room.update({
-        where: { id: roomId },
-        data: {
-          members: {
-            connect: { id: profileId },
-          },
-        },
-      });
-
-      
-  
+    if (!roomId || !profileId) {
       return NextResponse.json(
-        { message: "User added to the room successfully" },
-        { status: 200 }
+        { message: "Both roomId and userId are required" },
+        { status: 400 }
       );
-    } catch (error) {
-      console.error("Error adding user to room:", error);
-      return NextResponse.error('Failed to add user to room', { status: 500 });
     }
+
+    const inviter = await getProfileIfMember(roomId);
+
+    if (!inviter) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.room.update({
+      where: { id: roomId },
+      data: {
+        members: {
+          connect: { id: profileId },
+        },
+      },
+    });
+
+    return NextResponse.json(
+      { message: "User added to the room successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error adding user to room:", error);
+    return NextResponse.error("Failed to add user to room", { status: 500 });
   }
-  
+}

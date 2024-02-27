@@ -1,15 +1,13 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import prisma from "../../../../lib/db";
-import { checkMembership } from "../_utils";
 
 import { v4 as uuidv4 } from "uuid";
+import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
-/** 
+/**
  * @swagger
  * /api/rooms:
  *   post:
@@ -52,7 +50,7 @@ export const dynamic = "force-dynamic";
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error' 
+ *               $ref: '#/components/schemas/Error'
  *   get:
  *     summary: Get room details
  *     description: Retrieve details for a specific room
@@ -136,7 +134,6 @@ export const dynamic = "force-dynamic";
  *           type: string
  */
 
-
 export async function POST(request, context) {
   const roomData = await request.json();
   const roomId = uuidv4();
@@ -153,7 +150,6 @@ export async function POST(request, context) {
   // Single transaction to create a room
   try {
     await prisma.$transaction([
-
       // Create room
       prisma.room.create({
         data: {
@@ -168,7 +164,7 @@ export async function POST(request, context) {
 
       // Link user to the new room
       prisma.profile.update({
-        where: { id: roomData.user.id }, 
+        where: { id: roomData.user.id },
         data: {
           rooms: {
             connect: { id: roomId },
@@ -203,7 +199,7 @@ export async function POST(request, context) {
             connect: { id: choreListId },
           },
         },
-      })
+      }),
     ]);
 
     return NextResponse.json(
@@ -211,8 +207,8 @@ export async function POST(request, context) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.error('Failed to create room', { status: 500 });
-  } 
+    return NextResponse.error("Failed to create room", { status: 500 });
+  }
 }
 
 export async function GET(request, context) {
@@ -226,16 +222,16 @@ export async function GET(request, context) {
       );
     }
 
-    const supabase = createServerComponentClient({ cookies });
-    const { data: user, error } = await supabase.auth.getUser();
+    const profile = await getProfileIfMember(roomId);
 
-    if (error) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
     }
 
-    await checkMembership(roomId, user.id);
-
-    const room = await prisma.room.findFirst({
+    const room = await prisma.room.findUnique({
       where: {
         id: roomId,
       },
@@ -244,10 +240,9 @@ export async function GET(request, context) {
       },
     });
 
-
     return NextResponse.json({ ...room }, { status: 200 });
   } catch (error) {
-    console.log("error getting room", error)
+    console.log("error getting room", error);
     return NextResponse.json(
       { message: "Error getting room", error: error },
       { status: 500 }
