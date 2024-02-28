@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.topBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px 36px;
+    height: 100px;
+    background: linear-gradient(to right, rgba(221, 94, 137, 1) 0%, rgba(247, 187, 151, 1) 100%);
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.roomTitle {
+    display: flex;
+    flex-direction: row;
+}
