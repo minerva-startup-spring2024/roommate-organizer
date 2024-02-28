@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 20px;
+    border: 1px solid #DD5E89;
+    border-radius: 8px;
+    padding: 12px 18px;
+    background-color: white;
+}
+
+.previewText {
+    font-size: 16px;
+    color: #373943;
+    border: none;
+    background: transparent;
+    border-bottom: none;
+    outline: none;
+}
+
+.submitButton {
+    font-size: 30px;
+    color: #373943;
+    background: transparent;
+    border: none;
+}
