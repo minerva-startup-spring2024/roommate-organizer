@@ -23,9 +23,8 @@ export default function RoomDetail({ roomId }) {
     fetch(`/api/rooms?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("HI", data)
         setRoomDetails(data);
-        setMembers(data.members)
+        setMembers(data.members);
       });
   }, [roomId]);
 

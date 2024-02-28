@@ -1,5 +1,5 @@
-import RoomDetail from "@/app/_components/RoomDetail";
+import Room from "@/app/_components/Room/Room";
 
 export default async function RoomPage({ params }) {
-  return <RoomDetail roomId={params.slug} />;
+  return <Room roomId={params.slug} />;
 }
