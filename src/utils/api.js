@@ -10,7 +10,13 @@ export async function getProfile(context) {
       userId: user.id,
     },
     include: {
-      rooms: true,
+      rooms: {
+        include: {
+          members: true,
+          choreLists: { include: { choreListItems: true } },
+          shoppingLists: { include: { shoppingListItems: true } },
+        },
+      },
     },
   });
 
