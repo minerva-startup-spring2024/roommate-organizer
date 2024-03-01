@@ -24,6 +24,8 @@ async function main() {
     password: "test123",
   });
 
+ 
+
   // Seed data for Profile
   const primaryProfile = await prisma.profile.create({
     data: {
