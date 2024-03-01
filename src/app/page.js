@@ -9,8 +9,9 @@ export default async function LandinPage() {
 
   return (
     <div>
-      <TopBar title={"Rooms"} />
+      <TopBar title={"Rooms"}/>
       <div className="mainContainer">
+
         <RoomsOverview rooms={user.rooms} />
         <CreateRoomBox context={{ user: user }} />
       </div>
