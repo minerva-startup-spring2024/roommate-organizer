@@ -1,17 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import styles from "./CreateRoomBox.module.css";
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from "next/navigation";
+
+
 
 export default function CreateRoomBox({ context }) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const router=useRouter();
+  
 
   const [roomName, setRoomName] = useState("");
 
   const handleInputChange = (event) => {
     setRoomName(event.target.value);
   };
+
+  const buildingId=searchParams.get('buildingId');
+
+  console.log(context.user)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,6 +33,7 @@ export default function CreateRoomBox({ context }) {
       body: JSON.stringify({
         name: roomName,
         user: context.user,
+        buildingId
       }),
     });
     router.refresh();

@@ -17,6 +17,11 @@ export async function getProfile(context) {
           shoppingLists: { include: { shoppingListItems: true } },
         },
       },
+      buildings:{
+        include:{
+          rooms:{include:{announcements:true}}
+        }       
+      }
     },
   });
 
@@ -40,6 +45,7 @@ export async function getRoomDetails(context) {
         },
       },
       members: true,
+      announcements:true
     },
   });
 

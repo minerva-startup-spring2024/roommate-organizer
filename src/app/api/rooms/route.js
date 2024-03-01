@@ -5,6 +5,7 @@ import prisma from "../../../../lib/db";
 import { v4 as uuidv4 } from "uuid";
 import { getProfileIfMember } from "../_utils";
 
+
 export const dynamic = "force-dynamic";
 
 /**
@@ -159,6 +160,10 @@ export async function POST(request, context) {
             // Connect the profile to the room
             connect: { id: roomData.user.id },
           },
+          building:{
+            connect: {id: roomData.buildingId}
+          }
+
         },
       }),
 
