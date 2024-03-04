@@ -1,36 +1,61 @@
 import { login, signup } from "./actions";
 import "./page.css";
+import HouseIcon from "@mui/icons-material/House";
 
 export default function LoginPage() {
   return (
     <div className="loginPage">
-      {" "}
-      {/* Added class to apply page styles */}
-      <h1 className="text-2xl text-center mb-6">Login</h1>
-      <form id="loginForm">
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          className="loginInput"
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          className="loginInput"
-        />
-        <button className="loginButton" formAction={login}>
-          Log in
-        </button>
-        <button className="loginButton" formAction={signup}>
-          Sign up
-        </button>
-      </form>
+      <div className="leftSide">
+        <p className="welcomeText">WELCOME!</p>
+        <HouseIcon style={{ fontSize: "200px", color: "#fff" }} />
+      </div>
+      <div className="rightSide">
+        <form id="loginForm">
+          <h1 className="loginTitle">Get Started</h1>
+          <div className="inputContainer">
+            <input
+              className="loginInput"
+              id="fullname"
+              name="fullname"
+              type="text"
+              placeholder="Full Name"
+              required
+            />
+            {/* Add an icon inside the input or as a sibling element */}
+          </div>
+          <div className="inputContainer">
+            <input
+              className="loginInput"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email ID"
+              required
+            />
+            {/* Add an icon inside the input or as a sibling element */}
+          </div>
+          <div className="inputContainer">
+            <input
+              className="loginInput"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            {/* Add an icon inside the input or as a sibling element */}
+          </div>
+          <button className="signUpButton" onClick={signup}>
+            SIGN UP
+          </button>
+          <div className="alreadyUser">
+            Already a user?{" "}
+            <span className="loginLink" onClick={login}>
+              LOG IN
+            </span>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
