@@ -6,7 +6,7 @@
   height: 100vh; /* full screen height */
 }
 
-.loginForm {
+#loginForm {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
