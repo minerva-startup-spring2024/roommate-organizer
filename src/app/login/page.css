@@ -1,0 +1,45 @@
+.loginPage {
+  background-color: #f9dfe5; /* soft pink background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* full screen height */
+}
+
+.loginForm {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px; /* or any other width */
+}
+
+.loginTitle {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.loginInput {
+  border: 1px solid #eaeaea;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.loginButton,
+.signupButton {
+  background-color: #ff8c42; /* color that matches the design */
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.loginButton {
+  background-color: #ffd1c4; /* different color for login button */
+}
