@@ -11,6 +11,8 @@ export const dynamic = "force-dynamic";
  * @swagger
  * /api/rooms:
  *   post:
+ *     tags:
+ *       - Rooms
  *     summary: Create a new room
  *     description: Create a new room and add the user as a member
  *     requestBody:
@@ -52,6 +54,8 @@ export const dynamic = "force-dynamic";
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *   get:
+ *     tags:
+ *       - Rooms
  *     summary: Get room details
  *     description: Retrieve details for a specific room
  *     parameters:
@@ -103,8 +107,8 @@ export const dynamic = "force-dynamic";
  *        members:
  *          type: array
  *          items:
- *            $ref: '#/components/schemas/RoomMember'
- *    RoomMember:
+ *            $ref: '#/components/schemas/Profile'
+ *    Profile:
  *      type: object
  *      properties:
  *        id:
@@ -244,7 +248,6 @@ export async function GET(request, context) {
 
     return NextResponse.json({ ...room }, { status: 200 });
   } catch (error) {
-    console.log("error getting room", error);
     return NextResponse.json(
       { message: "Error getting room", error: error },
       { status: 500 }
