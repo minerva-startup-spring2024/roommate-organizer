@@ -107,7 +107,6 @@ export async function PATCH(request, context) {
   const data = await request.json();
   try {
     const shoppingListItemId = context.params.shoppingListItemId;
-    console.log("Update shopping list item", shoppingListItemId)
 
     const shoppingListItem = await prisma.shoppingListItem.findUnique({
       where: {

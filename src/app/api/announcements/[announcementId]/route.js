@@ -110,10 +110,8 @@ export const dynamic = "force-dynamic";
 
 export async function PATCH(request, context) {
   const data = await request.json();
-  console.log("Made the call with this data:", data)
   try {
     const announcementId = context.params.announcementId;
-    console.log("Announcement id", announcementId)
 
     const announcement = await prisma.announcement.findUnique({
       where: {
@@ -121,17 +119,13 @@ export async function PATCH(request, context) {
       }
     });
 
-    console.log("Unique announcement", announcement)
-
     if (!announcement) {
-      console.log("Not found")
       return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
     const profile = await getProfileIfMember( announcement.roomId );
 
     if (!profile) {
-      console.log("No profile")
       return NextResponse.json(
         { message: "User is not a member of the room" },
         { status: 400 }

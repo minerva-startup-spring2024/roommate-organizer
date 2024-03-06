@@ -248,7 +248,6 @@ export async function GET(request, context) {
 
     return NextResponse.json({ ...room }, { status: 200 });
   } catch (error) {
-    console.log("error getting room", error);
     return NextResponse.json(
       { message: "Error getting room", error: error },
       { status: 500 }
