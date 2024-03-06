@@ -239,6 +239,7 @@ export async function GET(request, context) {
         members: true,
         shoppingLists: { include: { shoppingListItems: true } },
         choreLists: { include: { choreListItems: true } },
+        announcements: true,
       },
     });
 
