@@ -5,19 +5,19 @@ export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/shopping-list-items/{shoppingListItemId}:
+ * /api/announcements/{announcementId}:
  *   patch:
  *     tags:
- *       - Shopping List Items
- *     summary: Update a shoppingListItem
- *     description: Update a shoppingListItem
+ *       - Announcements
+ *     summary: Update an announcement
+ *     description: Update an announcement
  *     parameters:
  *       - in: path
- *         name: shoppingListItemId
+ *         name: announcementId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the shoppingListItem
+ *         description: The ID of the announcement
  *     requestBody:
  *       required: true
  *       content:
@@ -25,15 +25,17 @@ export const dynamic = "force-dynamic";
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               content:
  *                 type: string
+ *               status:
+ *                 type: String
  *     responses:
  *       200:
  *         description: Successful response
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/shoppingListItem'
+ *               $ref: '#/components/schemas/announcement'
  *       400:
  *         description: Bad Request
  *         content:
@@ -48,23 +50,23 @@ export const dynamic = "force-dynamic";
  *               $ref: '#/components/schemas/Error'
  *   delete:
  *     tags:
- *       - Shopping List Items
- *     summary: Delete a shoppingListItem
- *     description: Delete a shoppingListItem
+ *       - Announcements
+ *     summary: Delete an announcement
+ *     description: Delete an announcement
  *     parameters:
  *       - in: path
- *         name: shoppingListItemId
+ *         name: announcementId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the shoppingListItem
+ *         description: The ID of the announcement
  *     responses:
  *       200:
  *         description: Successful response
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/shoppingListItem'
+ *               $ref: '#/components/schemas/announcement'
  *       400:
  *         description: Bad Request
  *         content:
@@ -80,51 +82,51 @@ export const dynamic = "force-dynamic";
  *
  * components:
  *    schemas:
- *      shoppingListItem:
- *        type: object
- *        properties:
+ *      announcement:
+ *          type: object
+ *          properties:
  *          id:
- *            type: string
- *          name:
- *            type: string
- *          status:
- *           type: string
+ *              type: string
+ *          content:
+ *              type: optional string 
+ *          status: 
+ *              type: optional string
+ *          metadata:
+ *              type: Json
  *          createdAt:
- *            type: string
+ *              type: string
  *          updatedAt:
- *            type: string
- *          assignedToId:
- *            type: string
- *          createdById:
- *            type: string
+ *              type: string
+ *          roomId:
+ *              type: String
+ *          sentById:
+ *              type: String
  *      Error:
  *        type: object
  *        properties:
  *          message:
  *            type: string
  */
+
 export async function PATCH(request, context) {
   const data = await request.json();
   try {
-    const shoppingListItemId = context.params.shoppingListItemId;
-    console.log("Update shopping list item", shoppingListItemId)
+    const announcementId = context.params.announcementId;
 
-    const shoppingListItem = await prisma.shoppingListItem.findUnique({
+    const announcement = await prisma.announcement.findUnique({
       where: {
-        id: shoppingListItemId,
+        id: announcementId,
       },
       include: {
-        shoppingList: true,
+        roomId: true,
       },
     });
 
-    if (!shoppingListItem) {
-      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    if (!announcement) {
+      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(
-      shoppingListItem.shoppingList.roomId
-    );
+    const profile = await getProfileIfMember( announcement.roomId );
 
     if (!profile) {
       return NextResponse.json(
@@ -133,9 +135,9 @@ export async function PATCH(request, context) {
       );
     }
 
-    const updateShoppingListItem = await prisma.shoppingListItem.update({
+    const updateAnnouncement = await prisma.announcement.update({
       where: {
-        id: shoppingListItemId,
+        id: announcementId,
       },
       data: {
         ...data,
@@ -144,14 +146,14 @@ export async function PATCH(request, context) {
 
     return NextResponse.json(
       {
-        message: "Updated item",
-        shoppingListItem: updateShoppingListItem,
+        message: "Updated announcement",
+        announcement: announcement,
       },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error updating item", error: error },
+      { message: "Error updating announcement", error: error },
       { status: 500 }
     );
   }
@@ -159,24 +161,22 @@ export async function PATCH(request, context) {
 
 export async function DELETE(request, context) {
   try {
-    const shoppingListItemId = context.params.shoppingListItemId;
+    const announcementId = context.params.announcementId;
 
-    const shoppingListItem = await prisma.shoppingListItem.findUnique({
+    const announcement = await prisma.announcement.findUnique({
       where: {
-        id: shoppingListItemId,
+        id: announcementId,
       },
       include: {
-        shoppingList: true,
+        roomId: true,
       },
     });
 
-    if (!shoppingListItem) {
-      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    if (!announcement) {
+      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(
-      shoppingListItem.shoppingList.roomId
-    );
+    const profile = await getProfileIfMember(announcement.roomId);
 
     if (!profile) {
       return NextResponse.json(
@@ -185,9 +185,9 @@ export async function DELETE(request, context) {
       );
     }
 
-    const deleteShoppingListItem = await prisma.shoppingListItem.update({
+    const deleteAnnouncement = await prisma.announcement.update({
       where: {
-        id: shoppingListItemId,
+        id: announcementId,
       },
       data: {
         deletedAt: new Date(),
@@ -196,14 +196,14 @@ export async function DELETE(request, context) {
 
     return NextResponse.json(
       {
-        message: "Deleted item",
-        shoppingListItem: deleteShoppingListItem,
+        message: "Deleted announcement",
+        announcement: deleteAnnouncement,
       },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error deleting item", error: error },
+      { message: "Error deleting announcement", error: error },
       { status: 500 }
     );
   }

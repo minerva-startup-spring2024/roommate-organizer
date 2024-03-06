@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/chore-list-items/[choreListItemId]:
+ * /api/chore-list-items/{choreListItemId}:
  *   patch:
  *     tags:
  *       - Chore List Items

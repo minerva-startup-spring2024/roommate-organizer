@@ -11,6 +11,8 @@ export const dynamic = "force-dynamic";
  * @swagger
  * /api/rooms:
  *   post:
+ *     tags:
+ *       - Rooms
  *     summary: Create a new room
  *     description: Create a new room and add the user as a member
  *     requestBody:
@@ -52,6 +54,8 @@ export const dynamic = "force-dynamic";
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *   get:
+ *     tags:
+ *       - Rooms
  *     summary: Get room details
  *     description: Retrieve details for a specific room
  *     parameters:
