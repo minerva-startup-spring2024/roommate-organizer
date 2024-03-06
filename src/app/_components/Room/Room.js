@@ -28,7 +28,6 @@ export default function Room({ roomId }) {
       <TopBar
         title={roomDetails.name}
         details={true}
-        onDetailsClick={console.log("Hi")}
       />
       {!loading && (
         <div className={styles.container}>

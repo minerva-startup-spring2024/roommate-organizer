@@ -103,8 +103,8 @@ export const dynamic = "force-dynamic";
  *        members:
  *          type: array
  *          items:
- *            $ref: '#/components/schemas/RoomMember'
- *    RoomMember:
+ *            $ref: '#/components/schemas/Profile'
+ *    Profile:
  *      type: object
  *      properties:
  *        id:

@@ -25,6 +25,8 @@
 
     <br>
 
+    If it's not the first time you're running the project, you can also directly start the containers from Docker. 
+
 5.  Run the database migrations to setup your database using Prisma.
 
     <br>
@@ -54,6 +56,7 @@ There are now multiple services running:
 | App                | http://localhost:3000                                   | Main application.            |
 | Database Interface | http://127.0.0.1:54323                                  | Supabase database interface. |
 | Database           | postgresql://postgres:postgres@127.0.0.1:54322/postgres | Database URL                 |
+| Documentation      | http://localhost:3000/api-doc                           | API Documentation       |
 
 There are three users you can use to log in:
 
