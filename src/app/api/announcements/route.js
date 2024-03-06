@@ -40,7 +40,47 @@ export const dynamic = "force-dynamic";
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
-* components:
+*   post:
+ *     tags:
+ *      - Announcements
+ *     summary: Create a new announcement
+ *     description: Create a new announcement and add it to a roomId
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *                roomId:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    content:
+ *                      type: string
+ *                    status:
+ *                      type: string
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/shoppingListItem'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ * components:
  *  schemas:
  *    announcement:
  *      type: object
@@ -114,6 +154,51 @@ export async function GET(request, context) {
   
       return NextResponse.json(
         { message: "Error getting announcements", error: error },
+        { status: 500 }
+      );
+    }
+  }
+
+
+export async function POST(request, context) {
+    const { roomId, data } = await request.json();
+  
+    if (!roomId) {
+      return NextResponse.json(
+        { message: "No room id provided" },
+        { status: 400 }
+      );
+    }
+  
+    try {
+      const profile = await getProfileIfMember(roomId);
+  
+      if (!profile) {
+        return NextResponse.json(
+          { message: "User is not a member of the room" },
+          { status: 400 }
+        );
+      }
+  
+      const createAnnouncement = await prisma.announcement.create({
+        data: {
+          roomId: roomId,
+          content: data.content,
+          status: data.status || "Active",
+          sentById: profile.id
+        },
+      });
+  
+      return NextResponse.json(
+        {
+          message: "Created announcement",
+          announcement: createAnnouncement,
+        },
+        { status: 200 }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Error creating item", error: error },
         { status: 500 }
       );
     }
