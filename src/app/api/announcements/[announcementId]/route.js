@@ -28,7 +28,7 @@ export const dynamic = "force-dynamic";
  *               content:
  *                 type: string
  *               status:
- *                 type: String
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful response
@@ -110,25 +110,28 @@ export const dynamic = "force-dynamic";
 
 export async function PATCH(request, context) {
   const data = await request.json();
+  console.log("Made the call with this data:", data)
   try {
     const announcementId = context.params.announcementId;
+    console.log("Announcement id", announcementId)
 
     const announcement = await prisma.announcement.findUnique({
       where: {
         id: announcementId,
-      },
-      include: {
-        roomId: true,
-      },
+      }
     });
 
+    console.log("Unique announcement", announcement)
+
     if (!announcement) {
+      console.log("Not found")
       return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
     const profile = await getProfileIfMember( announcement.roomId );
 
     if (!profile) {
+      console.log("No profile")
       return NextResponse.json(
         { message: "User is not a member of the room" },
         { status: 400 }
@@ -147,7 +150,7 @@ export async function PATCH(request, context) {
     return NextResponse.json(
       {
         message: "Updated announcement",
-        announcement: announcement,
+        announcement: updateAnnouncement,
       },
       { status: 200 }
     );
@@ -166,10 +169,7 @@ export async function DELETE(request, context) {
     const announcement = await prisma.announcement.findUnique({
       where: {
         id: announcementId,
-      },
-      include: {
-        roomId: true,
-      },
+      }
     });
 
     if (!announcement) {

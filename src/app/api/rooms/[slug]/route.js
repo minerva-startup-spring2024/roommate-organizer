@@ -4,6 +4,7 @@ import prisma from "../../../../../lib/db";
 import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
+
 /**
  * @swagger
  * /api/rooms/{slug}:
