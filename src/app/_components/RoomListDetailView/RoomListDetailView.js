@@ -6,7 +6,6 @@ import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "./RoomListDetailView.module.css";
 
 const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
-  const [addItemBoxStatus, setAddItemBoxStatus] = useState(false);
   const [memberSelectionStatus, setMemberSelectionStatus] = useState(false);
   const [addItemBoxAssignedTo, setAddItemBoxAssignedTo] = useState(null);
   const [addItemBoxName, setAddItemBoxName] = useState("");
@@ -16,7 +15,7 @@ const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
   const [loading, setLoading] = useState(true);
 
   const getItems = (shouldLoad) => {
-    fetch(`/api/chore-list-items?roomId=${roomId}`)
+    fetch(`/api/${endpoint}?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         setItems(data.choreListItems);
@@ -35,7 +34,7 @@ const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
   };
 
   const addItem = async () => {
-    fetch(`/api/chore-list-items?roomId=${roomId}`, {
+    fetch(`/api/${endpoint}?roomId=${roomId}`, {
       method: "POST",
       body: JSON.stringify({
         roomId: roomId,
@@ -62,7 +61,7 @@ const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
         : t
     );
     setItems(updatedItems);
-    fetch(`/api/chore-list-items/${choreId}`, {
+    fetch(`/api/${endpoint}/${choreId}`, {
       method: "PATCH",
       body: JSON.stringify({
         status: newChoreStatus,

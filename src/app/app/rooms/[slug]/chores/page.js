@@ -18,6 +18,7 @@ export default async function RoomChoresPage({ params }) {
       listType="chores"
       roomId={params.slug}
       userProfile={profile}
+      endpoint="chore-list-items"
     />
   );
 }
