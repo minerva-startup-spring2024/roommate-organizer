@@ -6,3 +6,4 @@ export const colorPinkAction = "#F26C6D";
 export const colorPinkBackground = "#EDD4D4";
 export const colorWhiteBase = "#FFFFFF";
 export const colorBlackBase = "#000000";
+export const colorGreen = "#00972A";
