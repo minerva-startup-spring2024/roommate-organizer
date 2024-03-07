@@ -35,6 +35,15 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  --color-grey-300: #6F727D;
+  --color-grey-100: #9E9E9E;
+  --color-grey-700: #BDBDBD;
+  --color-pink-accent: #DD5E89;
+  --color-pink-action: #F26C6D;
+  --color-pink-background: #EDD4D4;
+  --color-white-base: #FFFFFF;
+  --color-black-base: #000000;
 }
 
 * {
