@@ -2,6 +2,7 @@ import TopBar from "@/app/_components/TopBar/TopBar";
 import { getProfileIfMember } from "@/app/api/_utils";
 import "@/app/globals.css";
 import { Inter } from "next/font/google";
+import styles from "./layout.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +16,9 @@ export default async function RoomLayout({ children, params }) {
       <TopBar
         title={roomDetails.name}
         details={true}
-        onDetailsClick={console.log("Hi")}
+        onDetailsClick={() => console.log("Hi")}
       />
-      <main>{children}</main>
+      <div className={styles.container}>{children}</div>
     </div>
   );
 }
