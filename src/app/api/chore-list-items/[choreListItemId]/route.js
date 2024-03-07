@@ -1,5 +1,5 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 

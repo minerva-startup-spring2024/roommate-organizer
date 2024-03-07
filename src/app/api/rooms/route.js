@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 import prisma from "../../../../lib/db";
 
+import { getProfileIfMember } from "@/app/api/_utils";
 import { v4 as uuidv4 } from "uuid";
-import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
