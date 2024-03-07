@@ -7,7 +7,6 @@
     height: 80vh;
     margin: auto;
     padding: 20px;
-    font-family: 'Arial', sans-serif;
     box-sizing: border-box;
 }
 
@@ -27,7 +26,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: var(--color-grey-100);
     margin: 0 auto;
     
 }
@@ -55,7 +54,7 @@
 .input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-grey-100);
     border-radius: 4px;
     margin-bottom: 10px;
 }
@@ -63,7 +62,7 @@
 .button {
     padding: 12px;
     border: none;
-    background-color: #DD5E89;
+    background-color: var(--color-pink-action);
     color: white;
     text-transform: uppercase;
     border-radius: 4px;
@@ -73,8 +72,8 @@
 .buttonDisabled {
     padding: 12px;
     border: none;
-    background-color: #DDDCE1;
-    color: white;
+    background-color: var(--color-pink-background);
+    color: var(--color-grey-100);
     text-transform: uppercase;
     border-radius: 4px;
     cursor: not-allowed;
