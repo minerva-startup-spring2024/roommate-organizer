@@ -132,7 +132,12 @@ export async function GET(request, context) {
         roomId: roomId,
       },
       include: {
-        choreListItems: { where: { deletedAt: null } },
+        choreListItems: {
+          where: {
+            deletedAt: null,
+          },
+          include: { assignedTo: true, createdBy: true },
+        },
       },
     });
 

@@ -241,8 +241,18 @@ export async function GET(request, context) {
       },
       include: {
         members: true,
-        shoppingLists: { include: { shoppingListItems: true } },
-        choreLists: { include: { choreListItems: true } },
+        shoppingLists: {
+          include: {
+            shoppingListItems: {
+              include: { assignedTo: true, createdBy: true },
+            },
+          },
+        },
+        choreLists: {
+          include: {
+            choreListItems: { include: { assignedTo: true, createdBy: true } },
+          },
+        },
       },
     });
 
