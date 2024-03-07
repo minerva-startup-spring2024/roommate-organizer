@@ -11,7 +11,9 @@ export default async function LandinPage() {
     <div>
       <TopBar title={"Rooms"} />
       <div className="mainContainer">
+       {user != null && user.rooms != null && (
         <RoomsOverview rooms={user.rooms} />
+       )}
         <CreateRoomBox context={{ user: user }} />
       </div>
     </div>

@@ -39,5 +39,5 @@ export async function signup(formData) {
     redirect("/error");
   }
 
-  redirect("/");
+  redirect("/create-profile");
 }
