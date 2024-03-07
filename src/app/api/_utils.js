@@ -1,3 +1,4 @@
+import prisma from "@/../lib/db";
 import isAuthenticated from "@/utils/authWrapper";
 
 export const getProfile = async () => {
