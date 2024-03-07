@@ -1,8 +1,8 @@
+import CreateRoomBox from "@/app/_components/CreateRoomBox/CreateRoomBox.js";
+import RoomsOverview from "@/app/_components/RoomsOverview.js";
+import TopBar from "@/app/_components/TopBar/TopBar.js";
+import "@/app/globals.css";
 import { getProfile } from "@/utils/api";
-import CreateRoomBox from "../_components/CreateRoomBox/CreateRoomBox.js";
-import RoomsOverview from "../_components/RoomsOverview.js";
-import TopBar from "../_components/TopBar/TopBar.js";
-import "../globals.css";
 
 export default async function HomePage() {
   const user = await getProfile();
