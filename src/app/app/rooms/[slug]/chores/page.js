@@ -1,16 +1,23 @@
-import { getProfile } from "@/app/api/_utils";
+import RoomListDetailView from "@/app/_components/RoomListDetailView/RoomListDetailView";
+import { getProfileIfMember } from "@/app/api/_utils";
 import "@/app/globals.css";
 
-export default async function RoomChoresPage() {
-  const user = await getProfile();
+export default async function RoomChoresPage({ params }) {
+  const profile = await getProfileIfMember(params.slug);
 
+  if (!profile) {
+    return {
+      redirect: {
+        destination: "/app",
+        permanent: false,
+      },
+    };
+  }
   return (
-    <div>
-      {/* <TopBar title={"Rooms"} />
-      <div className="mainContainer">
-        <RoomsOverview rooms={user.rooms} />
-        <CreateRoomBox context={{ user: user }} />
-      </div> */}
-    </div>
+    <RoomListDetailView
+      listType="chores"
+      roomId={params.slug}
+      userProfile={profile}
+    />
   );
 }
