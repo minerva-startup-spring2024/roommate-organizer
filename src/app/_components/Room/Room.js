@@ -24,38 +24,31 @@ export default function Room({ roomId }) {
   }, [roomId]);
 
   return (
-    <div>
-      {/* <TopBar
-        title={roomDetails.name}
-        details={true}
-        onDetailsClick={console.log("Hi")}
-      /> */}
-      <div className={styles.container}>
-        {loading ? (
-          <GreyBeatLoader />
-        ) : (
-          <>
-            <RoomItemPreview
-              previewTitle="chores"
-              items={
-                roomDetails.choreLists.length > 0
-                  ? roomDetails.choreLists[0].choreListItems
-                  : []
-              }
-              roomId={roomId}
-            />
-            <RoomItemPreview
-              previewTitle="shopping items"
-              items={
-                roomDetails.shoppingLists.length > 0
-                  ? roomDetails.shoppingLists[0].shoppingListItems
-                  : []
-              }
-              roomId={roomId}
-            />
-          </>
-        )}
-      </div>
+    <div className={styles.container}>
+      {loading ? (
+        <GreyBeatLoader />
+      ) : (
+        <>
+          <RoomItemPreview
+            previewTitle="chores"
+            items={
+              roomDetails.choreLists.length > 0
+                ? roomDetails.choreLists[0].choreListItems
+                : []
+            }
+            roomId={roomId}
+          />
+          <RoomItemPreview
+            previewTitle="shopping items"
+            items={
+              roomDetails.shoppingLists.length > 0
+                ? roomDetails.shoppingLists[0].shoppingListItems
+                : []
+            }
+            roomId={roomId}
+          />
+        </>
+      )}
     </div>
   );
 }
