@@ -135,7 +135,10 @@ export async function GET(request, context) {
         roomId: roomId,
       },
       include: {
-        shoppingListItems: { where: { deletedAt: null } },
+        shoppingListItems: {
+          where: { deletedAt: null },
+          include: { assignedTo: true, createdBy: true },
+        },
       },
     });
 
