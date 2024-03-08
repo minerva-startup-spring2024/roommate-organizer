@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa6";
 import styles from "./RoomItemPreview.module.css";
 
-const RoomItemPreview = ({ previewTitle, items, roomId }) => {
+const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
   return (
     <div className={styles.itemPreviewContainer}>
       <p className={styles.boxTitle}>{previewTitle}</p>
@@ -14,7 +14,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId }) => {
           <>
             {items.slice(0, 3).map((item) => (
               <Link
-                href={`${roomId}/${previewTitle}`}
+                href={`${roomId}/${linkRoute}`}
                 key={item.id}
                 className={styles.itemContainer}
               >
@@ -39,7 +39,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId }) => {
             ))}
             <div className={styles.viewMoreContainer}>
               <Link
-                href={`${roomId}/${previewTitle}`}
+                href={`${roomId}/${linkRoute}`}
                 className={styles.viewMoreButton}
               >
                 View all {previewTitle}

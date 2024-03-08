@@ -37,6 +37,7 @@ export default function Room({ roomId }) {
                 : []
             }
             roomId={roomId}
+            linkRoute="chores"
           />
           <RoomItemPreview
             previewTitle="shopping items"
@@ -46,6 +47,7 @@ export default function Room({ roomId }) {
                 : []
             }
             roomId={roomId}
+            linkRoute="shopping-list"
           />
         </>
       )}
