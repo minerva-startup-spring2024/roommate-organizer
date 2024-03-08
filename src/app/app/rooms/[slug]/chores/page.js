@@ -19,6 +19,7 @@ export default async function RoomChoresPage({ params }) {
       roomId={params.slug}
       userProfile={profile}
       endpoint="chore-list-items"
+      attributeName="choreListItems"
     />
   );
 }
