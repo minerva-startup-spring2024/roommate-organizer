@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
-import TopBar from "../TopBar/TopBar";
 import styles from "./Room.module.css";
 
 export default function Room({ roomId }) {
@@ -24,13 +24,11 @@ export default function Room({ roomId }) {
   }, [roomId]);
 
   return (
-    <div>
-      <TopBar
-        title={roomDetails.name}
-        details={true}
-      />
-      {!loading && (
-        <div className={styles.container}>
+    <div className={styles.container}>
+      {loading ? (
+        <GreyBeatLoader />
+      ) : (
+        <>
           <RoomItemPreview
             previewTitle="chores"
             items={
@@ -49,7 +47,7 @@ export default function Room({ roomId }) {
             }
             roomId={roomId}
           />
-        </div>
+        </>
       )}
     </div>
   );

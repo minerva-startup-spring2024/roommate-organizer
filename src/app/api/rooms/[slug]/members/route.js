@@ -1,16 +1,14 @@
 import { NextResponse } from "next/server";
 
+import prisma from "@/../lib/db";
 import { getProfileIfMember } from "@/app/api/_utils";
-import prisma from "../../../../../lib/db";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/rooms/{slug}:
+ * /api/rooms/[slug]:
  *   post:
- *     tags:
- *       - Rooms
  *     summary: Add user to existing room
  *     description: Add another user to an existing room
  *     requestBody:
@@ -50,61 +48,93 @@ export const dynamic = "force-dynamic";
  *               $ref: '#/components/schemas/Error'
  *
  * components:
- *   schemas:
- *     Room:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *         name:
- *           type: string
- *         metadata:
- *           type: object
- *         createdAt:
- *           type: string
- *         updatedAt:
- *           type: string
- *         deletedAt:
- *           type: string
- *         buildingId:
- *           type: string
- *         members:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/Profile'
- *     Profile:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *         role:
- *           type: string
- *         firstName:
- *           type: string
- *         lastName:
- *           type: string
- *         metadata:
- *           type: object
- *         profileImage:
- *           type: string
- *         createdAt:
- *           type: string
- *         updatedAt:
- *           type: string
- *         deletedAt:
- *           type: string
- *         userId:
- *           type: string
- *     Error:
- *       type: object
- *       properties:
+ *  schemas:
+ *    Room:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        name:
+ *          type: string
+ *        metadata:
+ *          type: object
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ *        deletedAt:
+ *          type: string
+ *        buildingId:
+ *          type: string
+ *        members:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/RoomMember'
+ *    RoomMember:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        role:
+ *          type: string
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        metadata:
+ *          type: object
+ *        profileImage:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *        updatedAt:
+ *          type: string
+ *        deletedAt:
+ *          type: string
+ *        userId:
+ *          type: string
+ *    Error:
+ *      type: object
+ *      properties:
  *         message:
  *           type: string
  */
 
-export async function POST(request, context) {
+export async function GET(request, context) {
+  const roomId = context.params.slug;
   try {
-    const { roomId, profileId } = await request.json();
+    const profile = await getProfileIfMember(roomId);
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
+    }
+
+    const roomWithMembers = await prisma.room.findUnique({
+      where: { id: roomId },
+      include: {
+        members: true,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        members: roomWithMembers.members,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error getting room members:", error);
+    return NextResponse.error("Error getting room members", { status: 500 });
+  }
+}
+
+export async function POST(request, context) {
+  const roomId = context.params.slug;
+  try {
+    const { profileId } = await request.json();
 
     if (!roomId || !profileId) {
       return NextResponse.json(
