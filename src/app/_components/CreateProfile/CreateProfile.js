@@ -39,10 +39,6 @@ export default function CreateProfile() {
         .from("avatars")
         .upload(filePath, file);
 
-      const { data } = await supabase.storage
-        .from("avatars")
-        .getPublicUrl(filePath);
-
       if (uploadError) {
         throw uploadError;
       }
@@ -53,7 +49,7 @@ export default function CreateProfile() {
       reader.readAsDataURL(event.target.files[0]);
       setProfileData((prevData) => ({
         ...prevData,
-        profileImage: data.publicUrl,
+        profileImage: filePath,
       }));
     } catch (error) {
       alert(error.message);
@@ -86,8 +82,8 @@ export default function CreateProfile() {
       router.push("/app");
     } else {
       setError(createProfile.statusText);
+      setSubmitLoading(false);
     }
-    setSubmitLoading(false);
   };
 
   return (
