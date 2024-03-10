@@ -7,37 +7,25 @@ import { createClient } from "@/utils/supabase/server";
 export async function login(formData) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  if (
+    !formData.email ||
+    !formData.password ||
+    formData.email.length === 0 ||
+    formData.password.length === 0
+  ) {
+    return "Email and password are required";
+  }
+
   const data = {
-    email: formData.get("email"),
-    password: formData.get("password"),
+    email: formData.email,
+    password: formData.password,
   };
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/error");
+    return error.message;
   }
 
   redirect("/");
-}
-
-export async function signup(formData) {
-  const supabase = createClient();
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
-
-  const { error } = await supabase.auth.signUp(data);
-
-  if (error) {
-    redirect("/error");
-  }
-
-  redirect("/create-profile");
 }

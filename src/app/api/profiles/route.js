@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import prisma from "@/../lib/db";
 import isAuthenticated from "@/utils/authWrapper";
 
 export const dynamic = "force-dynamic";
@@ -77,6 +78,7 @@ export async function POST(request, context) {
 
     return NextResponse.json({ profile: profile }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "Error creating profile", error: error },
       { status: 500 }

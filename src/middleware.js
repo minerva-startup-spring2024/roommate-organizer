@@ -15,7 +15,7 @@ export const config = {
   ],
 };
 
-const unprotectedRoutes = ["/login"];
+const unprotectedRoutes = ["/login", "/sign-up"];
 
 export async function middleware(request) {
   const authStatus = await isAuthenticated();
