@@ -1,20 +1,19 @@
 "use client";
 
 import HouseIcon from "@mui/icons-material/House";
-import Link from "next/link";
 import { useState } from "react";
-import { login } from "./actions";
+import { signup } from "./actions";
 import "./page.css";
 
 export default function LoginPage() {
   const [error, setError] = useState();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
-    const loginError = await login(formData);
-    if (loginError) {
-      setError(loginError);
+    const signUpError = await signup(formData);
+    if (signUpError) {
+      setError(signUpError);
     }
   };
 
@@ -25,8 +24,8 @@ export default function LoginPage() {
         <HouseIcon style={{ fontSize: "200px", color: "#fff" }} />
       </div>
       <div className="rightSide">
-        <form id="loginForm" onSubmit={handleLogin}>
-          <h1 className="loginTitle">Sign In</h1>
+        <form id="loginForm" onSubmit={handleSignUp}>
+          <h1 className="loginTitle">Get Started</h1>
           <div className="inputContainer">
             <input
               className="loginInput"
@@ -59,14 +58,14 @@ export default function LoginPage() {
           </div>
           <div>{error}</div>
           <button type="submit" className="signUpButton">
-            LOG IN
+            SIGN UP
           </button>
-          <div className="alreadyUser">
-            Not yet a user?{" "}
-            <Link className="loginLink" href="sign-up">
-              SIGN UP
+          {/* <div className="alreadyUser">
+            Already a user?{" "}
+            <Link className="loginLink" href="/login">
+              LOG IN
             </Link>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

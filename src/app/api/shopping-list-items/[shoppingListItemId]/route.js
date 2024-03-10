@@ -1,11 +1,11 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/shopping-list-items/[shoppingListItemId]:
+ * /api/shopping-list-items/{shoppingListItemId}:
  *   patch:
  *     tags:
  *       - Shopping List Items
@@ -18,6 +18,15 @@ export const dynamic = "force-dynamic";
  *           type: string
  *         required: true
  *         description: The ID of the shoppingListItem
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful response

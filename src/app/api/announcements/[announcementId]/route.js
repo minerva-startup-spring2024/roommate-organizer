@@ -1,30 +1,41 @@
-import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
+import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/chore-list-items/{choreListItemId}:
+ * /api/announcements/{announcementId}:
  *   patch:
  *     tags:
- *       - Chore List Items
- *     summary: Update a choreListItem
- *     description: Update a choreListItem
+ *       - Announcements
+ *     summary: Update an announcement
+ *     description: Update an announcement
  *     parameters:
  *       - in: path
- *         name: choreListItemId
+ *         name: announcementId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the choreListItem
+ *         description: The ID of the announcement
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *               status:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful response
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/choreListItem'
+ *               $ref: '#/components/schemas/announcement'
  *       400:
  *         description: Bad Request
  *         content:
@@ -39,23 +50,23 @@ export const dynamic = "force-dynamic";
  *               $ref: '#/components/schemas/Error'
  *   delete:
  *     tags:
- *       - Chore List Items
- *     summary: Delete a choreListItem
- *     description: Delete a choreListItem
+ *       - Announcements
+ *     summary: Delete an announcement
+ *     description: Delete an announcement
  *     parameters:
  *       - in: path
- *         name: choreListItemId
+ *         name: announcementId
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the choreListItem
+ *         description: The ID of the announcement
  *     responses:
  *       200:
  *         description: Successful response
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/choreListItem'
+ *               $ref: '#/components/schemas/announcement'
  *       400:
  *         description: Bad Request
  *         content:
@@ -71,48 +82,48 @@ export const dynamic = "force-dynamic";
  *
  * components:
  *    schemas:
- *      choreListItem:
- *        type: object
- *        properties:
+ *      announcement:
+ *          type: object
+ *          properties:
  *          id:
- *            type: string
- *          name:
- *            type: string
- *          status:
- *           type: string
+ *              type: string
+ *          content:
+ *              type: optional string 
+ *          status: 
+ *              type: optional string
+ *          metadata:
+ *              type: Json
  *          createdAt:
- *            type: string
+ *              type: string
  *          updatedAt:
- *            type: string
- *          assignedToId:
- *            type: string
- *          createdById:
- *            type: string
+ *              type: string
+ *          roomId:
+ *              type: String
+ *          sentById:
+ *              type: String
  *      Error:
  *        type: object
  *        properties:
  *          message:
  *            type: string
  */
+
 export async function PATCH(request, context) {
   const data = await request.json();
   try {
-    const choreListItemId = context.params.choreListItemId;
+    const announcementId = context.params.announcementId;
 
-    const choreListItem = await prisma.choreListItem.findUnique({
+    const announcement = await prisma.announcement.findUnique({
       where: {
-        id: choreListItemId,
-      },
-      include: {
-        choreList: true,
-      },
+        id: announcementId,
+      }
     });
 
-    if (!choreListItem) {
-      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    if (!announcement) {
+      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember( announcement.roomId );
 
     if (!profile) {
       return NextResponse.json(
@@ -121,9 +132,9 @@ export async function PATCH(request, context) {
       );
     }
 
-    const updatechoreListItem = await prisma.choreListItem.update({
+    const updateAnnouncement = await prisma.announcement.update({
       where: {
-        id: choreListItemId,
+        id: announcementId,
       },
       data: {
         ...data,
@@ -132,14 +143,14 @@ export async function PATCH(request, context) {
 
     return NextResponse.json(
       {
-        message: "Updated item",
-        choreListItem: updatechoreListItem,
+        message: "Updated announcement",
+        announcement: updateAnnouncement,
       },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error updating item", error: error },
+      { message: "Error updating announcement", error: error },
       { status: 500 }
     );
   }
@@ -147,22 +158,19 @@ export async function PATCH(request, context) {
 
 export async function DELETE(request, context) {
   try {
-    const choreListItemId = context.params.choreListItemId;
+    const announcementId = context.params.announcementId;
 
-    const choreListItem = await prisma.choreListItem.findUnique({
+    const announcement = await prisma.announcement.findUnique({
       where: {
-        id: choreListItemId,
-      },
-      include: {
-        choreList: true,
-      },
+        id: announcementId,
+      }
     });
 
-    if (!choreListItem) {
-      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    if (!announcement) {
+      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember(announcement.roomId);
 
     if (!profile) {
       return NextResponse.json(
@@ -171,9 +179,9 @@ export async function DELETE(request, context) {
       );
     }
 
-    const deletechoreListItem = await prisma.choreListItem.update({
+    const deleteAnnouncement = await prisma.announcement.update({
       where: {
-        id: choreListItemId,
+        id: announcementId,
       },
       data: {
         deletedAt: new Date(),
@@ -182,14 +190,14 @@ export async function DELETE(request, context) {
 
     return NextResponse.json(
       {
-        message: "Deleted item",
-        choreListItem: deletechoreListItem,
+        message: "Deleted announcement",
+        announcement: deleteAnnouncement,
       },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error deleting item", error: error },
+      { message: "Error deleting announcement", error: error },
       { status: 500 }
     );
   }

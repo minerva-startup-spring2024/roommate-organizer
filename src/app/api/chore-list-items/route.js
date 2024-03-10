@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { getProfileIfMember } from "@/app/api/_utils";
 import prisma from "../../../../lib/db";
-import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -132,7 +132,12 @@ export async function GET(request, context) {
         roomId: roomId,
       },
       include: {
-        choreListItems: { where: { deletedAt: null } },
+        choreListItems: {
+          where: {
+            deletedAt: null,
+          },
+          include: { assignedTo: true, createdBy: true },
+        },
       },
     });
 

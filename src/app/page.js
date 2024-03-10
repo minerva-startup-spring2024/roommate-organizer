@@ -1,19 +1,17 @@
-import CreateRoomBox from "@/app/_components/CreateRoomBox/CreateRoomBox";
-import RoomsOverview from "@/app/_components/RoomsOverview";
-import TopBar from "@/app/_components/TopBar/TopBar";
-import { getProfile } from "@/utils/api";
+import { getProfile } from "@/app/api/_utils";
+import { redirect } from "next/navigation";
+import { BeatLoader } from "react-spinners";
 import "./globals.css";
 
-export default async function LandinPage() {
+export default async function LandingPage() {
   const user = await getProfile();
+  if (user) {
+    redirect("/app");
+  }
 
   return (
     <div>
-      <TopBar title={"Rooms"} />
-      <div className="mainContainer">
-        <RoomsOverview rooms={user.rooms} />
-        <CreateRoomBox context={{ user: user }} />
-      </div>
+      <BeatLoader />
     </div>
   );
 }
