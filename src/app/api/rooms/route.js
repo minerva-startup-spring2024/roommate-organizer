@@ -204,6 +204,9 @@ export async function POST(request, context) {
           },
         },
       }),
+
+      // Create a Google Calendar for the room
+      await createRoomCalendar(roomId)
     ]);
 
     return NextResponse.json(
@@ -254,6 +257,7 @@ export async function GET(request, context) {
             choreListItems: { include: { assignedTo: true, createdBy: true } },
           },
         },
+        metadata: true,
       },
     });
 
@@ -263,5 +267,55 @@ export async function GET(request, context) {
       { message: "Error getting room", error: error },
       { status: 500 }
     );
+  }
+}
+
+
+// Calendar functionality
+const { google } = require('googleapis');
+
+async function createRoomCalendar(roomId) {
+  console.log("Create calendar")
+
+  // Set up OAuth2 client
+  // const oauth2Client = new google.auth.OAuth2(
+  //   process.env.CLIENT_ID,
+  //   process.env.CLIENT_SECRET,
+  //   process.env.REDIRECT_URIS // optional
+  // );
+
+  const calendar = google.calendar({ version: 'v3' });
+
+  const apiKey = process.env.GCAL_API_KEY;
+
+  // Set up authorized client using the API key
+  const oauth2Client = new google.auth.OAuth2(apiKey);
+  oauth2Client.setCredentials({ access_token: apiKey });
+
+  console.log("oath2client")
+
+  const calendarResource = {
+    summary: `Room ${roomId} Calendar`
+  };
+
+  console.log("calendarResource")
+
+  try {
+    const newCalendar = await calendar.calendars.insert({ resource: calendarResource });
+    console.log("new calendar")
+    const calendarId = newCalendar.data.id;
+
+    // Update room with calendar ID
+    await prisma.room.update({
+      where: { id: roomId },
+      metadata: {
+        calendarId,
+      }
+    });
+
+    return NextResponse.json({ message: "Calendar created successfully" }, { status: 200 });
+  } catch (error) {
+    console.error('Error creating calendar:', error);
+    return NextResponse.json({ message: "Error creating calendar", error: error }, { status: 500 });
   }
 }

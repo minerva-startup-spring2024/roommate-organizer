@@ -83,6 +83,7 @@ export default function Room({ roomId }) {
     shoppingLists: [],
     announcements: [],
     members: [],
+    metadata: {}
   });
   useEffect(() => {
     fetch(`/api/rooms?roomId=${roomId}`)
@@ -99,13 +100,17 @@ export default function Room({ roomId }) {
         <GreyBeatLoader />
       ) : (
         <>
+          <div> 
+            <p> Calendar</p>
+            <p> {roomDetails.metadata} </p>
+          </div>
           {/* Announcements */}
-          <AnnouncementsRoomPreviewSection announcements={roomDetails.announcements} />
+          <AnnouncementsRoomPreviewSection announcements={roomDetails.announcements != null ? roomDetails.announcements : []} />
           {/* Chore and Shopping Previews */}
           <RoomItemPreview
             previewTitle="Chores"
             items={
-              roomDetails.choreLists.length > 0
+              roomDetails.choreLists != null && roomDetails.choreLists.length > 0
                 ? roomDetails.choreLists[0].choreListItems
                 : []
             }
@@ -114,7 +119,7 @@ export default function Room({ roomId }) {
           <RoomItemPreview
             previewTitle="Shopping Items"
             items={
-              roomDetails.shoppingLists.length > 0
+              roomDetails.shoppingLists && roomDetails.shoppingLists.length > 0
                 ? roomDetails.shoppingLists[0].shoppingListItems
                 : []
             }
