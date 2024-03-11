@@ -109,6 +109,7 @@
 @media (max-width: 768px) {
   .loginPage {
     flex-direction: column; /* Stack left and right side vertically */
+    padding: 20px;
   }
 
   .leftSide,
@@ -119,7 +120,7 @@
   }
 
   #loginForm {
-    width: 90%; /* Make form width responsive */
+    width: 100%; /* Make form width responsive */
     padding: 20px; /* Adjust padding */
   }
 
