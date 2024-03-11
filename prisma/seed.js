@@ -1,5 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { createClient } = require("@supabase/supabase-js");
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -8,7 +10,80 @@ const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 const prisma = new PrismaClient();
 
+async function bucketExists(bucketId) {
+  const { data, error } = await supabase.storage.listBuckets();
+  if (error) {
+    console.error("Error listing buckets:", error);
+    return false;
+  }
+  return data.some((bucket) => bucket.id === bucketId);
+}
+
+async function ensureBucketExists(bucketId, options = { public: false }) {
+  const exists = await bucketExists(bucketId);
+  if (!exists) {
+    const { error } = await supabase.storage.createBucket(bucketId, options);
+    if (error) {
+      console.error(`Failed to create bucket "${bucketId}":`, error);
+      throw error;
+    }
+    console.log(`Bucket "${bucketId}" created successfully.`);
+  }
+}
+
+async function uploadWithRetry(bucketId, filePath, fileBuffer, retryCount = 3) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= retryCount; attempt++) {
+    try {
+      const { data, error } = await supabase.storage
+        .from(bucketId)
+        .upload(filePath, fileBuffer, {
+          contentType: "image/jpeg",
+          upsert: true,
+        });
+
+      if (error) throw error;
+      console.log(`Successfully uploaded "${filePath}" on attempt ${attempt}.`);
+      return data;
+    } catch (error) {
+      console.error(
+        `Attempt ${attempt} to upload "${filePath}" failed:`,
+        error.message
+      );
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+    }
+  }
+
+  console.error(`All attempts to upload "${filePath}" have failed.`);
+  throw lastError;
+}
+
+async function seedSupabaseStorage(supabase) {
+  const uploadedFiles = [];
+  const bucketId = "avatars";
+  await ensureBucketExists(bucketId, { public: true });
+
+  // Specify your directory and file handling logic here
+  const seedImagesDirectory = "assets/seed-images";
+  const filesToUpload = fs.readdirSync(seedImagesDirectory);
+
+  for (const fileName of filesToUpload) {
+    const filePath = path.join(seedImagesDirectory, fileName);
+    const fileBuffer = fs.readFileSync(filePath);
+    // Customize the unique file path as needed
+    const uniqueFilePath = `${fileName}`;
+    await uploadWithRetry(bucketId, uniqueFilePath, fileBuffer);
+    uploadedFiles.push(uniqueFilePath);
+  }
+
+  return uploadedFiles;
+}
+
 async function main() {
+  const uploadedImagePaths = await seedSupabaseStorage().catch(console.error);
+
   const adminUser = await supabase.auth.signUp({
     email: "admin@example.com",
     password: "test123",
@@ -32,6 +107,7 @@ async function main() {
       lastName: "Roommate",
       role: "ROOMMATE",
       userId: primaryUser.data.user.id,
+      profileImage: uploadedImagePaths[0],
     },
   });
 
@@ -42,6 +118,7 @@ async function main() {
       lastName: "Roommate",
       role: "ROOMMATE",
       userId: secondaryUser.data.user.id,
+      profileImage: uploadedImagePaths[1],
     },
   });
 
@@ -54,6 +131,7 @@ async function main() {
       profileImage:
         "https://upload.wikimedia.org/wikipedia/commons/f/fb/Minerva_Logo_cntr_blk.png",
       userId: adminUser.data.user.id,
+      profileImage: uploadedImagePaths[2],
     },
   });
 

@@ -2,8 +2,22 @@
     padding: 24px 36px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    height: 100%;
+    height: 100%; 
     overflow: scroll;
+}
+
+.previewsSection {
+    display: flex;
+    width: 100%; 
+}
+
+.previewsSection > * {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.previewsSection > *:last-child {
+    margin-right: 0; /* Remove margin from the last preview item */
 }

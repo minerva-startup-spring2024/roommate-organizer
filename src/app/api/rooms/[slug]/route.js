@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 
+import { getProfileIfMember } from "@/app/api/_utils";
 import prisma from "../../../../../lib/db";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/rooms/[slug]:
+ * /api/rooms/{slug}:
  *   post:
+ *     tags:
+ *       - Rooms
  *     summary: Add user to existing room
  *     description: Add another user to an existing room
  *     requestBody:
@@ -48,54 +50,54 @@ export const dynamic = "force-dynamic";
  *               $ref: '#/components/schemas/Error'
  *
  * components:
- *  schemas:
- *    Room:
- *      type: object
- *      properties:
- *        id:
- *          type: string
- *        name:
- *          type: string
- *        metadata:
- *          type: object
- *        createdAt:
- *          type: string
- *        updatedAt:
- *          type: string
- *        deletedAt:
- *          type: string
- *        buildingId:
- *          type: string
- *        members:
- *          type: array
- *          items:
- *            $ref: '#/components/schemas/RoomMember'
- *    RoomMember:
- *      type: object
- *      properties:
- *        id:
- *          type: string
- *        role:
- *          type: string
- *        firstName:
- *          type: string
- *        lastName:
- *          type: string
- *        metadata:
- *          type: object
- *        profileImage:
- *          type: string
- *        createdAt:
- *          type: string
- *        updatedAt:
- *          type: string
- *        deletedAt:
- *          type: string
- *        userId:
- *          type: string
- *    Error:
- *      type: object
- *      properties:
+ *   schemas:
+ *     Room:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         metadata:
+ *           type: object
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         deletedAt:
+ *           type: string
+ *         buildingId:
+ *           type: string
+ *         members:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Profile'
+ *     Profile:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         role:
+ *           type: string
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         metadata:
+ *           type: object
+ *         profileImage:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         deletedAt:
+ *           type: string
+ *         userId:
+ *           type: string
+ *     Error:
+ *       type: object
+ *       properties:
  *         message:
  *           type: string
  */

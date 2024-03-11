@@ -1,11 +1,11 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/chore-list-items/[choreListItemId]:
+ * /api/chore-list-items/{choreListItemId}:
  *   patch:
  *     tags:
  *       - Chore List Items

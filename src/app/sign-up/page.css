@@ -1,0 +1,106 @@
+.loginPage {
+  background: linear-gradient(
+    135deg,
+    #f6d2dd 30%,
+    #f9dfe5 70%
+  ); /* Adjusted for gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0; /* Add padding for smaller screens */
+}
+.leftSide {
+  flex: 1; /* Takes up half the space */
+  background-color: #c06c84;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 0;
+  margin: 0;
+}
+.welcomeText {
+  margin-top: 20px;
+  font-size: 24px;
+}
+.rightSide {
+  flex: 1; /* Takes up the other half */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginForm {
+  background: #fff;
+  padding: 40px; /* Increased padding */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Adjusted width */
+}
+
+.loginTitle {
+  font-size: 36px; /* Increased font size */
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.loginInput {
+  border: 1px solid #eaeaea;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  position: relative; /* For icon placement */
+}
+
+.loginInput::before {
+  content: ""; /* Add icon via CSS or use actual elements in HTML */
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Add background or font icon style here */
+}
+
+.loginButton {
+  background-color: #ffd1c4;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.signupButton {
+  background-color: #ff8c42;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Additional styles for the sign-up button and the already a user text */
+.signUpButton {
+  background-color: #fe8c42; /* Adjust the color as needed */
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.alreadyUser {
+  text-align: center;
+  color: #555;
+  margin-top: 20px;
+}
