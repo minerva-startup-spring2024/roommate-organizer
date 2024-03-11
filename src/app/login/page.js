@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <div className="loginPage">
       <div className="leftSide">
-        <p className="welcomeText">WELCOME!</p>
+        <p className="welcomeText">ROOMMATE ORGANIZER</p>
         <HouseIcon style={{ fontSize: "200px", color: "#fff" }} />
       </div>
       <div className="rightSide">
