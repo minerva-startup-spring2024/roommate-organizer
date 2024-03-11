@@ -104,3 +104,48 @@
   color: #555;
   margin-top: 20px;
 }
+/* Responsive styles */
+@media (max-width: 768px) {
+  .loginPage {
+    flex-direction: column;
+    padding: 20px; /* Add some padding on smaller screens */
+  }
+
+  .leftSide,
+  .rightSide {
+    flex: none;
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Height is adjusted automatically */
+  }
+
+  .welcomeText {
+    font-size: 20px; /* Smaller font size on small screens */
+  }
+
+  #loginForm {
+    width: 100%; /* Make form width responsive */
+    padding: 20px; /* Adjust padding */
+  }
+
+  .loginTitle {
+    font-size: 24px; /* Smaller title on small screens */
+  }
+
+  .loginInput,
+  .loginButton,
+  .signupButton {
+    /* Decrease the padding for input fields and buttons */
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even more adjustments for very small screens */
+  .welcomeText {
+    font-size: 18px; /* Even smaller font size for very small screens */
+  }
+
+  .loginTitle {
+    font-size: 22px; /* Smaller title for very small screens */
+  }
+}
