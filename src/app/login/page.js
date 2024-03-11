@@ -50,9 +50,9 @@ export default function LoginPage() {
           </button>
           <div className="alreadyUser">
             Already a user?{" "}
-            <span className="loginLink" onClick={login}>
+            <button className="loginButton" onClick={login}>
               LOG IN
-            </span>
+            </button>
           </div>
         </form>
       </div>
