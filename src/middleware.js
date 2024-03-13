@@ -32,6 +32,8 @@ export async function middleware(request) {
   } else {
     const profileStatus = await getProfile(authStatus);
 
+    console.log(profileStatus);
+
     if (
       !profileStatus &&
       !request.nextUrl.pathname.startsWith("/create-profile") &&
