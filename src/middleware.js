@@ -32,7 +32,7 @@ export async function middleware(request) {
   } else {
     const profileStatus = await getProfile(authStatus);
 
-    console.log(profileStatus);
+    console.log(authStatus, profileStatus);
 
     if (
       !profileStatus &&
