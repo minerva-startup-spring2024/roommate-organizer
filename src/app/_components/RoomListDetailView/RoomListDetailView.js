@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "./RoomListDetailView.module.css";
 
-const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
+const RoomListDetailView = ({
+  listType,
+  endpoint,
+  attributeName,
+  roomId,
+  userProfile,
+}) => {
   const [memberSelectionStatus, setMemberSelectionStatus] = useState(false);
   const [addItemBoxAssignedTo, setAddItemBoxAssignedTo] = useState(null);
   const [addItemBoxName, setAddItemBoxName] = useState("");
@@ -18,7 +24,7 @@ const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
     fetch(`/api/${endpoint}?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
-        setItems(data.choreListItems);
+        setItems(data[attributeName]);
         if (shouldLoad) {
           setLoading(false);
         }
@@ -50,21 +56,21 @@ const RoomListDetailView = ({ listType, endpoint, roomId, userProfile }) => {
     });
   };
 
-  const handleUpdateItemBoxStatus = (choreId, choreStatus) => {
-    const newChoreStatus = choreStatus === "DONE" ? "OPEN" : "DONE";
+  const handleUpdateItemBoxStatus = (itemId, itemStatus) => {
+    const newItemStatus = itemStatus === "DONE" ? "OPEN" : "DONE";
     const updatedItems = items.map((t) =>
-      t.id === choreId
+      t.id === itemId
         ? {
             ...t,
-            status: newChoreStatus,
+            status: newItemStatus,
           }
         : t
     );
     setItems(updatedItems);
-    fetch(`/api/${endpoint}/${choreId}`, {
+    fetch(`/api/${endpoint}/${itemId}`, {
       method: "PATCH",
       body: JSON.stringify({
-        status: newChoreStatus,
+        status: newItemStatus,
       }),
     }).then(() => getItems(false));
   };

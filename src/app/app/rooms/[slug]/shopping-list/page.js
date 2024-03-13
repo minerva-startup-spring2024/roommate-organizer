@@ -15,11 +15,11 @@ export default async function RoomChoresPage({ params }) {
   }
   return (
     <RoomListDetailView
-      listType="chores"
+      listType="shopping-list"
       roomId={params.slug}
       userProfile={profile}
-      endpoint="chore-list-items"
-      attributeName="choreListItems"
+      endpoint="shopping-list-items"
+      attributeName="shoppingListItems"
     />
   );
 }
