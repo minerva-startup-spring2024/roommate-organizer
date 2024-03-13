@@ -1,6 +1,6 @@
 import { createClient } from "./supabase/server";
 
-export default async function isAuthenticated() {
+export async function isAuthenticated() {
   const supabase = createClient();
   const { data: user, error } = await supabase.auth.getUser();
 
@@ -9,4 +9,16 @@ export default async function isAuthenticated() {
   }
 
   return user;
+}
+
+export async function getProfile(user) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("profile")
+    .select()
+    .eq("userId", user.user.id)
+    .single();
+
+  return data;
 }

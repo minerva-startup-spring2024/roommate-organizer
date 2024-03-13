@@ -1,6 +1,6 @@
 import { updateSession } from "@/utils/supabase/middleware";
 import { NextResponse } from "next/server";
-import isAuthenticated from "./utils/authWrapper";
+import { getProfile, isAuthenticated } from "./utils/authWrapper";
 
 export const config = {
   matcher: [
@@ -19,6 +19,7 @@ const unprotectedRoutes = ["/login", "/sign-up"];
 
 export async function middleware(request) {
   const authStatus = await isAuthenticated();
+
   if (!authStatus) {
     if (request.nextUrl.pathname.startsWith("/api")) {
       return new Response("Not Authorized", { status: 401 });
@@ -28,6 +29,18 @@ export async function middleware(request) {
       const absoluteURL = new URL("/login", request.nextUrl.origin);
       return NextResponse.redirect(absoluteURL.toString());
     }
+  } else {
+    const profileStatus = await getProfile(authStatus);
+
+    if (
+      !profileStatus &&
+      !request.nextUrl.pathname.startsWith("/create-profile") &&
+      !request.nextUrl.pathname.startsWith("/api/profiles")
+    ) {
+      const profileURL = new URL("/create-profile", request.nextUrl.origin);
+      return NextResponse.redirect(profileURL.toString());
+    }
   }
+
   return await updateSession(request);
 }

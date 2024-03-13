@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import prisma from "@/../lib/db";
-import isAuthenticated from "@/utils/authWrapper";
+import { isAuthenticated } from "@/utils/authWrapper";
 
 export const dynamic = "force-dynamic";
 

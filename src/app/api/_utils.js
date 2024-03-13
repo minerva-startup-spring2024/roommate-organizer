@@ -1,5 +1,5 @@
 import prisma from "@/../lib/db";
-import isAuthenticated from "@/utils/authWrapper";
+import { isAuthenticated } from "@/utils/authWrapper";
 
 export const getProfile = async () => {
   const { user } = await isAuthenticated();
