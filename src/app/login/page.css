@@ -24,7 +24,7 @@
   margin: 0;
 }
 .welcomeText {
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 24px;
 }
 .rightSide {
@@ -67,7 +67,7 @@
 }
 
 .loginButton {
-  background-color: #ffd1c4;
+  background-color: #ff8c42;
   color: white;
   padding: 15px;
   border: none;
@@ -102,5 +102,40 @@
 .alreadyUser {
   text-align: center;
   color: #555;
-  margin-top: 20px;
+  margin-top: 10px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .loginPage {
+    flex-direction: column; /* Stack left and right side vertically */
+    padding: 20px;
+  }
+
+  .leftSide,
+  .rightSide {
+    flex: none; /* Override previous flex setting */
+    width: 100%; /* Take full width */
+    height: auto; /* Adjust height automatically */
+  }
+
+  #loginForm {
+    width: 100%; /* Make form width responsive */
+    padding: 20px; /* Adjust padding */
+  }
+
+  .loginTitle,
+  .welcomeText {
+    font-size: 28px; /* Adjust font size */
+  }
+
+  .loginInput,
+  .loginButton,
+  .signupButton,
+  .signUpButton {
+    padding: 10px; /* Adjust padding */
+  }
+  .layout_navContainer__lk3xF {
+    display: none;
+  }
 }

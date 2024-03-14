@@ -7,6 +7,7 @@ import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./CreateProfile.module.css";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 export default function CreateProfile() {
   const router = useRouter();
@@ -88,8 +89,10 @@ export default function CreateProfile() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.profilePicContainer}>
-        {localProfileImage ? (
+      <div className={styles.profilePic}>
+        {uploading ? (
+          <BeatLoader size={10} />
+        ) : localProfileImage ? (
           <Image
             src={localProfileImage}
             alt="Profile Picture"
@@ -98,10 +101,12 @@ export default function CreateProfile() {
             className={styles.profilePic}
           />
         ) : (
-          <div className={styles.profilePic}>
-            {uploading ? <BeatLoader size={10} /> : "Upload Profile Picture"}
-          </div>
+          <>
+            <CameraAltIcon className={styles.cameraIcon} />
+            {}
+          </>
         )}
+        {}
         <input
           type="file"
           name="profilePicture"

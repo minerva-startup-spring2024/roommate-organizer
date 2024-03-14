@@ -1,85 +1,101 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 80vh;
-    margin: auto;
-    padding: 20px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #c06c84;
 }
 
 .profilePicContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin-bottom: 20px;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .profilePic {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: var(--color-grey-100);
-    margin: 0 auto;
-    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #eaeaea;
+  margin: 0 auto;
+  position: relative;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .fileInput {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    opacity: 0;
-    top: 0;
-    cursor: pointer;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  top: 0;
+  cursor: pointer;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .inputGroup {
-    width: 100%;
-    margin-bottom: 15px;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--color-grey-100);
-    border-radius: 4px;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
 .button {
-    padding: 12px;
-    border: none;
-    background-color: var(--color-pink-action);
-    color: white;
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 12px;
+  border: none;
+  background-color: #c06c84;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .buttonDisabled {
-    padding: 12px;
-    border: none;
-    background-color: var(--color-pink-background);
-    color: var(--color-grey-100);
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: not-allowed;
+  padding: 12px;
+  border: none;
+  background-color: var(--color-pink-background);
+  color: #555;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: not-allowed;
 }
 
 .error {
-    padding: 12px;
-    color: red;
+  padding: 12px;
+  color: #ff6b6b;
+}
+.cameraIcon {
+  color: grey;
+  position: relative;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  width: 50%;
+  height: 50%;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
 }
