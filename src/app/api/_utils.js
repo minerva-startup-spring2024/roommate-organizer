@@ -16,6 +16,11 @@ export const getProfile = async () => {
           shoppingLists: { include: { shoppingListItems: true } },
         },
       },
+      buildings:{
+        include:{
+          rooms:{include:{announcements:true}}
+        }       
+      }
     },
   });
 
