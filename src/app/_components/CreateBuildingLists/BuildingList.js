@@ -17,10 +17,20 @@ export default function BuildingsList() {
             });
     }, []);
 
-    const handleBuildingClick = (buildingId) => {
+    const handleBuildingClick = async (buildingId) => {
         // Navigate to the room creation page and pass the building ID as a query parameter
-
-        sessionStorage.setItem('buildingSelected', 'true');
+        const updateProfileResponse = await fetch('/api/buildings/updateprofile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ buildingId }),
+        });
+    
+        if (updateProfileResponse.ok) {
+            console.log("Profile updated with building selection");
+        }
+    
         router.push(`/app?buildingId=${buildingId}`);
     };
 

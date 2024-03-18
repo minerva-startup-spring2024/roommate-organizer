@@ -13,15 +13,15 @@ export default async function HomePage() {
 
 
     const user = await getProfile(); 
+    console.log(user)
 
 
           
-    // If the user does not have any rooms, redirect them to the /buildings page and if their query has a building id to avoid circular navigation.Has circular navigation
-    /*
-    if (!user.rooms || user.rooms.length === 0){
+    // If the user does not have any buildign selection, redirect them to the buildings page
+    if (!user.buildings || user.buildings.length === 0){
       redirect('app/buildings');
       return;
-    }*/
+    }
     
 
   return (
