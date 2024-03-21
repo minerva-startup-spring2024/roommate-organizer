@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./AnnouncementsRoomPreviewSection.module.css";
 
 function AnnouncementsRoomPreviewSection({ announcements }) {
@@ -23,11 +24,15 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
               </div>
               <div className={styles.announcementDivider}></div>
               <div className={styles.announcementHeader}>
-                <img
+                {/*}
+                <Image
                   className={styles.profilePhoto}
                   src="Placeholder photo"
                   alt="Profile"
+                  width={25}
+                  height={25}
                 />
+              */}
                 <div className={styles.subheader}>
                   <p>Placeholder Name</p>
                   <p>Last Updated: {formattedUpdatedAt}</p>

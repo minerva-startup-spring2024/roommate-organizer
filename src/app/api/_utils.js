@@ -36,3 +36,14 @@ export const getProfileIfMember = async (roomId) => {
 
   return profile;
 };
+
+
+export const getProfileIfBuilding = async (buildingId) => {
+  const profile = await getProfile();
+
+  if (!profile.buildings.some((building) => building.id === buildingId)) {
+    return;
+  }
+
+  return profile;
+};
