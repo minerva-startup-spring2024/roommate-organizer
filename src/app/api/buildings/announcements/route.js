@@ -18,7 +18,7 @@ export async function POST(request) {
     }
 
     const  sender  = await getProfileIfMember(roomId);
-
+    
     console.log(`print this is the ${sender.id}`)
 
     const sentById = sender.id
@@ -41,6 +41,7 @@ export async function POST(request) {
         content,
         roomId,
         sentById,
+        status:'unread',
       },
     });
 

@@ -22,7 +22,8 @@ model Profile {
   deletedAt                 DateTime?
   userId                    String             @unique
   rooms                     Room[]             @relation("RoomMembers")
-  announcements             Announcement[]
+  announcementsSent         Announcement[]     @relation("SentBy")
+  announcementsReceived     Announcement[]     @relation("SentTo")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
@@ -142,10 +143,12 @@ model Announcement {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
-  roomId    String
-  room      Room      @relation(fields: [roomId], references: [id])
+  roomId    String?
+  room      Room?      @relation(fields: [roomId], references: [id])
   sentById  String
-  sentBy    Profile   @relation(fields: [sentById], references: [id])
+  sentToId  String?
+  sentBy    Profile   @relation(name: "SentBy", fields: [sentById], references: [id])
+  sentTo    Profile?  @relation(name: "SentTo", fields: [sentToId], references: [id])
 
   @@map("announcement")
   @@schema("public")

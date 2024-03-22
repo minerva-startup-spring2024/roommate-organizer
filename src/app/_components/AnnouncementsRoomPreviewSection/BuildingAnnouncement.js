@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-function AnnouncementForm({ roomId, sentById }) {
+function AnnouncementForm({ roomId}) {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 

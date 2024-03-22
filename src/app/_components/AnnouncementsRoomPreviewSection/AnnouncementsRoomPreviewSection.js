@@ -8,7 +8,7 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
   });
 
   const latestAnnouncements = sortedAnnouncements.slice(0, 3);
-
+  
   return (
     <div className={styles.announcementsSection}>
       <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
@@ -34,8 +34,9 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
                 />
               */}
                 <div className={styles.subheader}>
-                  <p>Placeholder Name</p>
+                  <p>Sent By:{announcement.sentBy?.firstName}</p>
                   <p>Last Updated: {formattedUpdatedAt}</p>
+                  <p>{announcement.status}</p>
                 </div>
               </div>
             </div>
