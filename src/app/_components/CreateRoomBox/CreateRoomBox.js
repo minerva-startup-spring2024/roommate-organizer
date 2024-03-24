@@ -4,8 +4,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./CreateRoomBox.module.css";
 
+import { useSearchParams } from 'next/navigation'
+
+
+
 export default function CreateRoomBox({ context }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const buildingId=searchParams.get('buildingId');
 
   const [roomName, setRoomName] = useState("");
 
@@ -23,6 +29,7 @@ export default function CreateRoomBox({ context }) {
       body: JSON.stringify({
         name: roomName,
         user: context.user,
+        buildingId,
       }),
     });
     router.refresh();

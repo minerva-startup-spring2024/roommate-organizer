@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import prisma from "../../../../lib/db";
 import { getProfileIfMember } from "../_utils";
+import { getProfile } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -140,14 +141,19 @@ export async function GET(request, context) {
       const announcements = await prisma.announcement.findMany({
         where: {
           roomId: roomId,
-        }
+        },
+        include:{
+          sentBy:true,
+        },
       });
-  
-      return NextResponse.json({ ...announcements }, { status: 200 });
+
+      console.log(JSON.stringify(announcements, null, 2));
+
+      return NextResponse.json({ announcements: { announcements } }, { status: 200 });
     } catch (error) {
       if (!roomId) {
         return NextResponse.json(
-          { message: "No room id provided" },
+          { message: "No sender id provided" },
           { status: 400 }
         );
       }
@@ -161,9 +167,9 @@ export async function GET(request, context) {
 
 
 export async function POST(request, context) {
-    const { roomId, data } = await request.json();
+    const { senderId, content, toManager } = await request.json();
   
-    if (!roomId) {
+    if (!senderId) {
       return NextResponse.json(
         { message: "No room id provided" },
         { status: 400 }
@@ -171,7 +177,14 @@ export async function POST(request, context) {
     }
   
     try {
-      const profile = await getProfileIfMember(roomId);
+
+      const profile = await getProfile(senderId);
+
+      console.log(`this is the ${profile.rooms[0].id}`);
+
+      const roomId=profile.rooms[0].id
+
+      let sentToId; 
   
       if (!profile) {
         return NextResponse.json(
@@ -179,13 +192,33 @@ export async function POST(request, context) {
           { status: 400 }
         );
       }
+      const sentById=profile.id
+      
+
+      if(toManager){
+        const managerProfile = await prisma.profile.findFirst({
+          where: {
+            role: "MANAGER",
+          },
+        });
+      if (managerProfile) {
+        sentToId = managerProfile.id;
+      } else {
+        return NextResponse.json(
+          { message: "Manager not found" },
+          { status: 404 }
+        );
+      }
+      };
   
       const createAnnouncement = await prisma.announcement.create({
         data: {
-          roomId: roomId,
-          content: data.content,
-          status: data.status || "Active",
-          sentById: profile.id
+          content,
+          roomId,
+          sentById,
+          status: "unread",
+          sentToId,
+
         },
       });
   

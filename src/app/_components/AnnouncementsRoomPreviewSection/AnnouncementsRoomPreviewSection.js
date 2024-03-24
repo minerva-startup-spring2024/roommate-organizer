@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./AnnouncementsRoomPreviewSection.module.css";
 
 function AnnouncementsRoomPreviewSection({ announcements }) {
@@ -7,7 +8,7 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
   });
 
   const latestAnnouncements = sortedAnnouncements.slice(0, 3);
-
+  
   return (
     <div className={styles.announcementsSection}>
       <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
@@ -23,14 +24,19 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
               </div>
               <div className={styles.announcementDivider}></div>
               <div className={styles.announcementHeader}>
-                <img
+                {/*}
+                <Image
                   className={styles.profilePhoto}
                   src="Placeholder photo"
                   alt="Profile"
+                  width={25}
+                  height={25}
                 />
+              */}
                 <div className={styles.subheader}>
-                  <p>Placeholder Name</p>
+                  <p>Sent By:{announcement.sentBy?.firstName}</p>
                   <p>Last Updated: {formattedUpdatedAt}</p>
+                  <p>{announcement.status}</p>
                 </div>
               </div>
             </div>

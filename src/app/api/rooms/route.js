@@ -163,6 +163,9 @@ export async function POST(request, context) {
             // Connect the profile to the room
             connect: { id: roomData.user.id },
           },
+          building:{
+            connect: {id: roomData.buildingId}
+          }
         },
       }),
 
@@ -241,7 +244,11 @@ export async function GET(request, context) {
       },
       include: {
         members: true,
-        announcements: true,
+        announcements:{
+          include:{
+            sentBy:true,
+          }
+        },
         shoppingLists: {
           include: {
             shoppingListItems: {
