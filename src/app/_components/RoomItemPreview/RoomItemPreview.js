@@ -37,16 +37,16 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
                 <FaAngleRight color={"#373943"} />
               </Link>
             ))}
-            <div className={styles.viewMoreContainer}>
-              <Link
-                href={`${roomId}/${linkRoute}`}
-                className={styles.viewMoreButton}
-              >
-                View all {previewTitle}
-              </Link>
-            </div>
           </>
         )}
+        <div className={styles.viewMoreContainer}>
+          <Link
+            href={`${roomId}/${linkRoute}`}
+            className={styles.viewMoreButton}
+          >
+            View or add {previewTitle}
+          </Link>
+        </div>
       </div>
     </div>
   );

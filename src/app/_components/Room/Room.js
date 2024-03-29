@@ -30,7 +30,7 @@
 //         title={roomDetails.name}
 //         details={true}
 //       />
-//       <div className={styles.mainContent}>  
+//       <div className={styles.mainContent}>
 //         {!loading && (
 //           <>
 //             {/* Announcements */}
@@ -61,7 +61,7 @@
 //         )}
 //       </div>
 //       {loading && (
-//         <div className={styles.loadingContainer}> 
+//         <div className={styles.loadingContainer}>
 //           <GreyBeatLoader />
 //         </div>
 //       )}
@@ -72,10 +72,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
-import AnnouncementsRoomPreviewSection from '../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection';
-import styles from "./Room.module.css";
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
   const [roomDetails, setRoomDetails] = useState({
@@ -94,13 +93,15 @@ export default function Room({ roomId }) {
   }, [roomId]);
 
   return (
-    <div className={styles.container}>
+    <>
       {loading ? (
         <GreyBeatLoader />
       ) : (
         <>
           {/* Announcements */}
-          <AnnouncementsRoomPreviewSection announcements={roomDetails.announcements} />
+          <AnnouncementsRoomPreviewSection
+            announcements={roomDetails.announcements}
+          />
           {/* Chore and Shopping Previews */}
           <RoomItemPreview
             previewTitle="Chores"
@@ -124,6 +125,6 @@ export default function Room({ roomId }) {
           />
         </>
       )}
-    </div>
+    </>
   );
 }
