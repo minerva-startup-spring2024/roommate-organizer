@@ -20,5 +20,10 @@ export async function getProfile(user) {
     .eq("userId", user.user.id)
     .single();
 
+  if (error) {
+    console.log("ERROR IN GETTING PROFILE:", error);
+    return null;
+  }
+
   return data;
 }
