@@ -1,5 +1,6 @@
 "use client";
 
+import "../../../App.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
@@ -7,6 +8,12 @@ import styles from "../RoomListDetailView/RoomListDetailView.module.css";
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import DateTimePicker from 'react-datetime-picker';
+import { Day, Inject, Month, ScheduleComponent, ViewDirective, ViewsDirective, Week } from "@syncfusion/ej2-react-schedule";
+import { registerLicense } from "@syncfusion/ej2-base";
+
+registerLicense(
+    "Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCekx+WmFZfVpgdVVMZVpbRnFPMyBoS35RckVnWX5fcHFTRGdbVkRz"
+);
 
 
 const EventsDetailView = ({
@@ -19,7 +26,7 @@ const EventsDetailView = ({
   const [memberSelectionStatus, setMemberSelectionStatus] = useState(false);
   const [addItemBoxAssignedTo, setAddItemBoxAssignedTo] = useState(null);
   const [addItemBoxName, setAddItemBoxName] = useState("");
-  const [items, setItems] = useState([]);
+  const [events, setEvents] = useState([]);
   const [members, setMembers] = useState([]);
   const [filterCategory, setFilterCategory] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -30,12 +37,21 @@ const EventsDetailView = ({
   const [endDate, setEndDate] = useState(new Date());
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
+  const calendarData = [
+    {
+        Id: 1,
+        Subject: "Event 1",
+        StartTime: new Date(2025, 1, 11, 10, 0),
+        EndTime: new Date(2025, 1, 11, 12, 30),
+        IsAllDay: false
+    }
+  ]
 
-  const getItems = (shouldLoad) => {
-    fetch(`/api/${endpoint}?roomId=${roomId}`)
+  const getEvents = (shouldLoad) => {
+    fetch(`/api/events?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
-        setItems(data[attributeName]);
+        setEvents(data[attributeName]);
         if (shouldLoad) {
           setLoading(false);
         }
@@ -63,7 +79,7 @@ const EventsDetailView = ({
         },
       }),
     }).then(() => {
-      getItems(false);
+      getEvents(false);
       setEventTitle("");
       setEventDescription(null);
       setStartDate(new Date());
@@ -87,15 +103,11 @@ const EventsDetailView = ({
       body: JSON.stringify({
         status: newItemStatus,
       }),
-    }).then(() => getItems(false));
-  };
-
-  const handleInputChange = (event) => {
-    setAddItemBoxName(event.target.value);
+    }).then(() => getEvents(false));
   };
 
   useEffect(() => {
-    getItems(true);
+    getEvents(true);
     getMembers();
   }, []);
 
@@ -127,13 +139,29 @@ const EventsDetailView = ({
   }
 
   return (
-    <div className={styles.taskList}>
+    <div className="flex justify-center items-center min-h-screen">
       <p className={styles.boxTitle}>{listType}</p>
       {loading ? (
         <GreyBeatLoader />
       ) : (
         <>
 
+            <div>
+                <ScheduleComponent 
+                eventSettings = {{
+                    dataSource: calendarData,
+                }}
+                selectedDate={new Date(2025, 1, 11)}
+                currentView="Week">
+                  <ViewsDirective>
+                    <ViewDirective option="Day" />
+                    <ViewDirective option="Week" />
+                    <ViewDirective option="Month" />
+                  </ViewsDirective>
+
+                  <Inject services={[Day, Week, Month]} />
+                </ScheduleComponent>
+            </div>
             < div style={{width: "400px", margin: "30px auto"}}>
                 <input
                     type="text"

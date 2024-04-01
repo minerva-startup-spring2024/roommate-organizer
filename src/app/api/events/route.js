@@ -180,4 +180,50 @@ export async function POST(request, context) {
         { status: 500 }
       );
     }
+}
+
+export async function GET(request, context) {
+  const roomId = request.nextUrl.searchParams.get("roomId");
+  try {
+    const profile = await getProfileIfMember(roomId);
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
+    }
+
+    const events = await prisma.announcement.findMany({
+        where: {
+          roomId: roomId,
+        }
+      });
+
+    // const events = await prisma.event.findMany({
+    //   where: {
+    //     roomId: roomId,
+    //   },
+    //   include: {
+    //     events: {
+    //     //   where: { deletedAt: null },
+    //       include: { createdById: true },
+    //     },
+    //   },
+    // });
+
+    return NextResponse.json({ ...events }, { status: 200 });
+  } catch (error) {
+    if (!roomId) {
+      return NextResponse.json(
+        { message: "No room id provided" },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Error getting events", error: error },
+      { status: 500 }
+    );
   }
+}
