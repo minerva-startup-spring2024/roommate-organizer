@@ -2,12 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "./CreateRoomBox.module.css";
 
 export default function CreateRoomBox({ context }) {
   const router = useRouter();
 
   const [roomName, setRoomName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
     setRoomName(event.target.value);
@@ -15,6 +17,7 @@ export default function CreateRoomBox({ context }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     await fetch(`/api/rooms`, {
       method: "POST",
       headers: {
@@ -25,6 +28,7 @@ export default function CreateRoomBox({ context }) {
         user: context.user,
       }),
     });
+    setLoading(false);
     router.refresh();
     setRoomName("");
   };
@@ -38,9 +42,13 @@ export default function CreateRoomBox({ context }) {
         onChange={handleInputChange}
         className={styles.previewText}
       />
-      <button type="submit" className={styles.submitButton}>
-        +
-      </button>
+      {loading ? (
+        <GreyBeatLoader />
+      ) : (
+        <button type="submit" className={styles.submitButton}>
+          +
+        </button>
+      )}
     </form>
   );
 }

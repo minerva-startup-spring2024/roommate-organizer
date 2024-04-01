@@ -21,7 +21,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
                 <div className={styles.itemLabel}>
                   <Image
                     src={
-                      item.assignedTo
+                      item.assignedTo.profileImage
                         ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
                         : "/default.png"
                     }
