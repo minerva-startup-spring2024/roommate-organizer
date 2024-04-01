@@ -35,7 +35,12 @@ const EventsDetailView = ({
     startTime: { name: 'startTime' },
     endTime: { name: 'endTime' }
   };
-  const eventSettings = { includeFiltersInQuery: true, dataSource: events, fields: fieldsData }
+  const eventSettings = { 
+    includeFiltersInQuery: true, 
+    dataSource: events, 
+    fields: fieldsData, 
+    allowDeleting: true  
+  }
 
   const getEvents = (shouldLoad) => {
     fetch(`/api/events?roomId=${roomId}`)
@@ -81,8 +86,57 @@ const EventsDetailView = ({
 
   useEffect(() => {
     getEvents(true);
-  }, []);
+  }, [startDate, endDate]);
 
+  const handleActionBegin = async (args) => {
+    if (args.requestType === 'eventRemove') {
+      // Extract the event ID of the event being deleted
+      const eventId = args.deletedRecords[0].id;
+  
+      try {
+        const response = await fetch(`/api/events`, {
+            method: "DELETE",
+            body: JSON.stringify({
+              eventId: eventId,
+            }),
+          });
+
+        if (response.ok) {
+            getEvents(false);
+            // Return the response
+            return response;
+        } else {
+            console.error('Error deleting event:', response.statusText);
+        }
+        console.log("Response", response)
+        return response;
+      } catch (error) {
+        console.error('Error deleting event:', error.message);
+      }
+    } else if (args.requestType === 'eventChange') {
+        const updatedEvent =  args.changedRecords[0];
+        
+        try {
+            console.log("EDIT EVENT", updatedEvent);
+
+            const response = await fetch(`/api/events`, {
+                method: "PUT", 
+                body: JSON.stringify({
+                    eventData: updatedEvent,
+                })
+            });
+
+            if (response.ok) {
+                getEvents(false);
+                return response;
+            } else {
+                console.error('Error editing event:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error editing event:', error.message);
+        }
+    }
+  };
 
 // Google authentication for later integraiton with Google Calendar
 //   const googleSignIn = async () => {
@@ -117,10 +171,12 @@ const EventsDetailView = ({
 
             <div>
                 <ScheduleComponent 
-                selectedDate={new Date()} 
-                readonly={true} 
+                // selectedDate={new Date()} 
+                readonly={false} 
                 eventSettings={eventSettings}
-                currentView="Week">
+                currentView="Week"
+                actionBegin={handleActionBegin}
+                >
                   <ViewsDirective>
                     <ViewDirective option="Day" />
                     <ViewDirective option="Week" />

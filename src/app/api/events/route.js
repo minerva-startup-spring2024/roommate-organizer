@@ -200,18 +200,6 @@ export async function GET(request, context) {
         }
       });
 
-    // const events = await prisma.event.findMany({
-    //   where: {
-    //     roomId: roomId,
-    //   },
-    //   include: {
-    //     events: {
-    //     //   where: { deletedAt: null },
-    //       include: { createdById: true },
-    //     },
-    //   },
-    // });
-
     return NextResponse.json({ ...events }, { status: 200 });
   } catch (error) {
     if (!roomId) {
@@ -227,3 +215,53 @@ export async function GET(request, context) {
     );
   }
 }
+
+export async function DELETE(request, context) {
+    const { eventId } = await request.json();
+  
+    console.log("DELETE ROUTE event", eventId)
+    try {
+      const deletedEvent = await prisma.event.delete({
+        where: {
+          id: eventId
+        }
+      });
+  
+      return NextResponse.json({ message: "Event deleted successfully", event: deletedEvent}, { status: 200 });
+
+    } catch (error) {
+        return NextResponse.json(
+            { message: "Error deleting event", error: error },
+            { status: 500 }
+        );
+    }
+  }
+
+  export async function PUT(request, context) {
+    console.log("put request", request)
+    const data = await request.json();
+    const eventData = data.eventData;
+    console.log("event data", eventData)
+    console.log("id", eventData.id)
+
+    try {
+        const updatedEvent = await prisma.event.update({
+            where: {
+                id: eventData.id
+            },
+            data: {
+                title: eventData.title,
+                startTime: eventData.startTime,
+                endTime: eventData.endTime,
+                isAllDay: eventData.isAllDay,
+                location: eventData.location,
+                description: eventData.description,
+            }
+        });
+
+        return NextResponse.json({ message: "Event updated successfully", event: updatedEvent }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ message: "Error updating event", error: error }, { status: 500 });
+    }
+}
+
