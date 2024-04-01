@@ -19,7 +19,6 @@
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.7",
     "@syncfusion/ej2-base": "^25.1.35",
-    "@syncfusion/ej2-react-diagrams": "^25.1.37",
     "@syncfusion/ej2-react-schedule": "^25.1.37",
     "dotenv": "^16.4.1",
     "next": "14.1.0",
