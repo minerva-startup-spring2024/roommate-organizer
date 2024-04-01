@@ -50,20 +50,24 @@ const EventsDetailView = ({
       });
   };
 
-  const addItem = async () => {
-    fetch(`/api/${endpoint}?roomId=${roomId}`, {
+  const addEvent = async () => {
+    fetch(`/api/events?roomId=${roomId}`, {
       method: "POST",
       body: JSON.stringify({
         roomId: roomId,
         data: {
-          name: addItemBoxName,
-          assignedToId: addItemBoxAssignedTo ? addItemBoxAssignedTo.id : null,
+          title: eventTitle,
+          description: eventDescription,
+          startDate: startDate,
+          endDate: endDate,
         },
       }),
     }).then(() => {
       getItems(false);
-      setAddItemBoxName("");
-      setAddItemBoxAssignedTo(null);
+      setEventTitle("");
+      setEventDescription(null);
+      setStartDate(new Date());
+      setEndDate(new Date());
     });
   };
 
@@ -153,7 +157,7 @@ const EventsDetailView = ({
                 <div> 
                   <button
                     className={styles.addTaskButton}
-                    onClick={async () => await addItem()}
+                    onClick={async () => await addEvent()}
                   >
                     Add Event
                   </button>   
