@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
+import EventsPreview from "../EventsPreview/EventsPreview";
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
   const [roomDetails, setRoomDetails] = useState({
@@ -49,6 +50,11 @@ export default function Room({ roomId }) {
             }
             roomId={roomId}
             linkRoute="shopping-list"
+          />
+          <EventsPreview
+            previewTitle="Events"
+            roomId={roomId}
+            linkRoute="events"
           />
         </>
       )}
