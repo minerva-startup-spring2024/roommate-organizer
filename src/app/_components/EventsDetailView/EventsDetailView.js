@@ -1,7 +1,6 @@
 "use client";
 
 import "../../../App.css";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "../RoomListDetailView/RoomListDetailView.module.css";
@@ -18,51 +17,44 @@ registerLicense(
 
 const EventsDetailView = ({
   listType,
-  endpoint,
-  attributeName,
   roomId,
-  userProfile,
 }) => {
-  const [memberSelectionStatus, setMemberSelectionStatus] = useState(false);
-  const [addItemBoxAssignedTo, setAddItemBoxAssignedTo] = useState(null);
-  const [addItemBoxName, setAddItemBoxName] = useState("");
   const [events, setEvents] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [filterCategory, setFilterCategory] = useState("all");
   const [loading, setLoading] = useState(true);
-  const session = useSession(); // tokens
-//   const supabase = useSupabaseClient(); // talk to supabase!
-  const supabase = createClientComponentClient();
+//   const session = useSession(); // tokens - google calendar
+//   const supabase = createClientComponentClient(); // google calendar
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const calendarData = [
-    {
-        Id: 1,
-        Subject: "Event 1",
-        StartTime: new Date(2025, 1, 11, 10, 0),
-        EndTime: new Date(2025, 1, 11, 12, 30),
-        IsAllDay: false
-    }
-  ]
+  const fieldsData = {
+    id: { name: 'id' },
+    subject: { name: 'title' },
+    location: { name: 'location' },
+    description: { name: 'description' },
+    startTime: { name: 'startTime' },
+    endTime: { name: 'endTime' }
+  };
+  const eventSettings = { includeFiltersInQuery: true, dataSource: events, fields: fieldsData }
 
   const getEvents = (shouldLoad) => {
     fetch(`/api/events?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
-        setEvents(data[attributeName]);
+        const dataArray = Object.values(data)
+        // Map to Syncfusion's event format
+        const mappedEvents = dataArray.map((event) => ({
+          id: event.id,
+          title: event.title,
+          description: event.description,
+          startTime: new Date(event.startTime),
+          endTime: new Date(event.endTime),
+          isAllDay: event.isAllDay
+        }));
+        setEvents(mappedEvents);
         if (shouldLoad) {
           setLoading(false);
         }
-      });
-  };
-
-  const getMembers = () => {
-    fetch(`/api/rooms/${roomId}/members`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMembers(data.members);
       });
   };
 
@@ -87,56 +79,33 @@ const EventsDetailView = ({
     });
   };
 
-  const handleUpdateItemBoxStatus = (itemId, itemStatus) => {
-    const newItemStatus = itemStatus === "DONE" ? "OPEN" : "DONE";
-    const updatedItems = items.map((t) =>
-      t.id === itemId
-        ? {
-            ...t,
-            status: newItemStatus,
-          }
-        : t
-    );
-    setItems(updatedItems);
-    fetch(`/api/${endpoint}/${itemId}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        status: newItemStatus,
-      }),
-    }).then(() => getEvents(false));
-  };
-
   useEffect(() => {
     getEvents(true);
-    getMembers();
   }, []);
 
 
-  const googleSignIn = async () => {
-    const { error } = await  supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          scopes: 'https://www.googleapis.com/auth/calendar'
-        }
-      });
+// Google authentication for later integraiton with Google Calendar
+//   const googleSignIn = async () => {
+//     const { error } = await  supabase.auth.signInWithOAuth({
+//         provider: 'google',
+//         options: {
+//           scopes: 'https://www.googleapis.com/auth/calendar'
+//         }
+//       });
 
-    if (error) {
-      console.log(error);
-      alert("Error logging in to Google provider with Supabase");
-      setErrorMessage(error.message);
-    } else {
-      // redirect("/create-profile");
-      router.refresh();
-    }
-  };
+//     if (error) {
+//       console.log(error);
+//       alert("Error logging in to Google provider with Supabase");
+//       setErrorMessage(error.message);
+//     } else {
+//       // redirect("/create-profile");
+//       router.refresh();
+//     }
+//   };
 
-  async function signOut() {
-    await supabase.auth.signOut();
-  }
-
-  async function singOut() {
-    await supabase.auth.signOut();
-  }
+//   async function signOut() {
+//     await supabase.auth.signOut();
+//   }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -148,10 +117,9 @@ const EventsDetailView = ({
 
             <div>
                 <ScheduleComponent 
-                eventSettings = {{
-                    dataSource: calendarData,
-                }}
-                selectedDate={new Date(2025, 1, 11)}
+                selectedDate={new Date()} 
+                readonly={true} 
+                eventSettings={eventSettings}
                 currentView="Week">
                   <ViewsDirective>
                     <ViewDirective option="Day" />
@@ -192,7 +160,7 @@ const EventsDetailView = ({
                 </div>
             </div>
 
-            < div style={{width: "400px", margin: "30px auto"}}>
+            {/* < div style={{width: "400px", margin: "30px auto"}}>
                 {session ? 
                     <>
                         <h2> Hey there {session.user.email}</h2>
@@ -203,7 +171,7 @@ const EventsDetailView = ({
                         <button onClick={() => googleSignIn()}> Sign in with Google</button>
                     </>
                 }
-            </div>
+            </div> */}
         </>
       )}
     </div>

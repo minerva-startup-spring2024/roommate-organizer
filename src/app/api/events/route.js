@@ -157,7 +157,7 @@ export async function POST(request, context) {
       const createEvent = await prisma.event.create({
         data: {
           createdById: profile.id,
-        //   roomId: roomId,
+          roomId: roomId,
           title: data.title,
           description: data.description,
           startTime: data.startDate,
@@ -194,7 +194,7 @@ export async function GET(request, context) {
       );
     }
 
-    const events = await prisma.announcement.findMany({
+    const events = await prisma.event.findMany({
         where: {
           roomId: roomId,
         }
