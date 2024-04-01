@@ -15,7 +15,7 @@ export default async function RoomChoresPage({ params }) {
   }
   return (
     <EventsDetailView
-      listType="shopping-list"
+      listType="events"
       roomId={params.slug}
       userProfile={profile}
       endpoint="shopping-list-items"

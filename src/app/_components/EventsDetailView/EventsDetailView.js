@@ -6,6 +6,7 @@ import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "../RoomListDetailView/RoomListDetailView.module.css";
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import DateTimePicker from 'react-datetime-picker';
 
 
 const EventsDetailView = ({
@@ -25,6 +26,10 @@ const EventsDetailView = ({
   const session = useSession(); // tokens
 //   const supabase = useSupabaseClient(); // talk to supabase!
   const supabase = createClientComponentClient();
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
   const getItems = (shouldLoad) => {
     fetch(`/api/${endpoint}?roomId=${roomId}`)
@@ -124,139 +129,35 @@ const EventsDetailView = ({
         <GreyBeatLoader />
       ) : (
         <>
-          <div className={styles.filterButtons}>
-            <button
-              className={filterCategory === "all" ? styles.active : ""}
-              onClick={() => setFilterCategory("all")}
-            >
-              All
-            </button>
-            <button
-              className={filterCategory === "to do" ? styles.active : ""}
-              onClick={() => setFilterCategory("to do")}
-            >
-              To Do
-            </button>
-            <button
-              className={filterCategory === "my" ? styles.active : ""}
-              onClick={() => setFilterCategory("my")}
-            >
-              My
-            </button>
-          </div>
-          <div className={styles.taskContainer}>
-            {items
-              .filter((item) => {
-                if (filterCategory === "to do") {
-                  return item.status === "OPEN";
-                } else if (filterCategory === "my") {
-                  return item.assignedToId === userProfile.id;
-                }
-                return true;
-              })
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className={item.status === "DONE" ? styles.completed : ""}
-                >
-                  <label className={styles.taskLabel}>
-                    <input
-                      type="checkbox"
-                      checked={item.status === "DONE" ? styles.completed : ""}
-                      onChange={() =>
-                        handleUpdateItemBoxStatus(item.id, item.status)
-                      }
-                      className={styles.taskCheckbox}
-                    />
-                    <Image
-                      src={
-                        item.assignedTo
-                          ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
-                          : "/default.png"
-                      }
-                      alt={
-                        item.assignedTo
-                          ? item.assignedTo.profileImage
-                          : "No alt"
-                      }
-                      width={25}
-                      height={25}
-                      className={styles.itemImage}
-                    />
-                    {item.name}
-                  </label>
-                </div>
-              ))}
-          </div>
-          <div className={styles.addTaskButtonContainer}>
-            {memberSelectionStatus && (
-              <div className={styles.selectAssignedTo}>
-                {members.map((member) => (
-                  <div
-                    className={styles.memberContainer}
-                    key={`image-${member.id}`}
-                    onClick={() => {
-                      setAddItemBoxAssignedTo(member);
-                      setMemberSelectionStatus(false);
-                    }}
-                  >
-                    <Image
-                      src={
-                        member.profileImage
-                          ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${member.profileImage}`
-                          : "/default.png"
-                      }
-                      alt={member.profileImage ? member.profileImage : "No alt"}
-                      width={25}
-                      height={25}
-                      className={styles.itemImage}
-                    />
-                    <p className={styles.memberName}>
-                      {member.firstName} {member.lastName}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
 
-            <div className={styles.addTaskModal}>
-              <div
-                className={styles.emptySelectPersonContainer}
-                onClick={() => setMemberSelectionStatus(true)}
-              >
-                {addItemBoxAssignedTo ? (
-                  <Image
-                    src={
-                      addItemBoxAssignedTo.profileImage
-                        ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${addItemBoxAssignedTo.profileImage}`
-                        : "/default.png"
-                    }
-                    alt={
-                      addItemBoxAssignedTo.profileImage
-                        ? addItemBoxAssignedTo.profileImage
-                        : "No alt"
-                    }
-                    width={30}
-                    height={30}
-                    className={styles.itemImage}
-                  />
-                ) : (
-                  <div className={styles.emptySelectPersonCircle} />
-                )}
-              </div>
-              <input
-                type="text"
-                placeholder={`Add a ${listType.slice(0, -1)}...`}
-                className={styles.addTaskInput}
-                value={addItemBoxName}
-                onChange={handleInputChange}
-              />
-              <button
-                className={styles.addTaskButton}
-                onClick={async () => await addItem()}
-              >
-                Add
-              </button>
+            < div style={{width: "400px", margin: "30px auto"}}>
+                <input
+                    type="text"
+                    placeholder={`Add title`}
+                    className={styles.addTaskInput}
+                    value={eventTitle}
+                    onChange={(event) => setEventTitle(event.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder={`Add description`}
+                    className={styles.addTaskInput}
+                    value={eventDescription}
+                    onChange={(event) => setEventDescription(event.target.value)}
+                />
+                <p> Start of your event</p>
+                <DateTimePicker onChange={setStartDate} value={startDate} />
+                <p> End of your event</p>
+                <DateTimePicker onChange={setEndDate} value={endDate} />
+                
+                <div> 
+                  <button
+                    className={styles.addTaskButton}
+                    onClick={async () => await addItem()}
+                  >
+                    Add Event
+                  </button>   
+                </div>
             </div>
 
             < div style={{width: "400px", margin: "30px auto"}}>
@@ -271,8 +172,6 @@ const EventsDetailView = ({
                     </>
                 }
             </div>
-
-          </div>
         </>
       )}
     </div>
