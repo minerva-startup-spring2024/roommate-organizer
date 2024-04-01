@@ -13,11 +13,7 @@ export default async function RoomLayout({ children, params }) {
 
   return (
     <div>
-      <TopBar
-        title={roomDetails.name}
-        details={true}
-        onDetailsClick={() => console.log("Hi")}
-      />
+      <TopBar title={roomDetails.name} details={true} slug={params.slug} />
       <div className={styles.container}>{children}</div>
     </div>
   );

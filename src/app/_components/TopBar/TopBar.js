@@ -1,18 +1,19 @@
-import { FaHome } from "react-icons/fa";
-import { FaGear } from "react-icons/fa6";
+import Link from "next/link";
+import { FaPeopleGroup } from "react-icons/fa6";
 import styles from "./TopBar.module.css";
 
-export default function TopBar({ title, details, onDetailsClick }) {
+export default function TopBar({ title, details, slug }) {
   return (
     <div className={styles.topBar}>
       <div className={styles.headerContainer}>
         {details ? (
           <>
-            <div className={styles.roomTitle}>
-              <FaHome size={22} color={"white"} style={{ marginRight: 10 }} />
+            <Link href={`/app/rooms/${slug}`} className={styles.roomTitle}>
               <p className={styles.header}>{title}</p>
-            </div>
-            <FaGear size={22} color={"white"} />
+            </Link>
+            <Link href={`/app/rooms/${slug}/members`}>
+              <FaPeopleGroup size={22} color={"white"} />
+            </Link>
           </>
         ) : (
           <>
