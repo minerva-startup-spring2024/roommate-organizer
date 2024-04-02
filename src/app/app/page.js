@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import CreateRoomBox from "@/app/_components/CreateRoomBox/CreateRoomBox.js";
 import RoomsOverview from "@/app/_components/RoomsOverview.js";
 import TopBar from "@/app/_components/TopBar/TopBar.js";

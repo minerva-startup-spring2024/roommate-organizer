@@ -1,5 +1,6 @@
 "use client";
 
+require("dotenv").config();
 import "../../../App.css";
 import { useEffect, useState } from "react";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
@@ -11,9 +12,8 @@ import { Day, Inject, Month, ScheduleComponent, ViewDirective, ViewsDirective, W
 import { registerLicense } from "@syncfusion/ej2-base";
 
 registerLicense(
-    "Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCekx+WmFZfVpgdVVMZVpbRnFPMyBoS35RckVnWX5fcHFTRGdbVkRz"
+  process.env.SYNCFUSION_LICENSE_KEY
 );
-
 
 const EventsDetailView = ({
   listType,
@@ -43,6 +43,7 @@ const EventsDetailView = ({
   }
 
   const getEvents = (shouldLoad) => {
+    console.log(process.env.SYNCFUSION_LICENSE_KEY)
     fetch(`/api/events?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => {
@@ -103,7 +104,7 @@ const EventsDetailView = ({
 
         if (response.ok) {
             getEvents(false);
-            // Return the response
+
             return response;
         } else {
             console.error('Error deleting event:', response.statusText);
