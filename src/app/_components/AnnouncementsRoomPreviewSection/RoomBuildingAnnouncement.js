@@ -18,7 +18,7 @@ function MessageForm({ senderId }) {
         toManager: isToManager,
     };
 
-    // For sending announcements to room members
+    // If sending to a room, adjust the payload accordingly
     if (!isToManager) {
       payload = { senderId, ...payload, toManager: false };
     }

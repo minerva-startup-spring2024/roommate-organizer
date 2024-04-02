@@ -32,7 +32,7 @@ export default function CreateRoomBox({ context }) {
       body: JSON.stringify({
         name: roomName,
         user: context.user,
-        
+        buildingId,
       }),
     });
     setLoading(false);
