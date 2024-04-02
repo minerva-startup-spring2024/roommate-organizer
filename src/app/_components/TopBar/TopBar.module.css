@@ -6,12 +6,19 @@
 }
 
 .topBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-bottom: 500px;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 12px 36px;
+    padding: 12px 36px 20px; 
     height: 100px;
     background: linear-gradient(to right, rgba(221, 94, 137, 1) 0%, rgba(247, 187, 151, 1) 100%);
+    margin-top: -10px; 
 }
 
 .headerContainer {
@@ -22,7 +29,7 @@
 }
 
 .header {
-    font-size: 18px;
+    font-size: 28px;
     font-weight: 600;
     color: white;
 }
@@ -30,4 +37,36 @@
 .roomTitle {
     display: flex;
     flex-direction: row;
+}
+
+.settingsContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+  
+.settingsContainer:hover .settingsText {
+    text-decoration: underline;
+}
+
+.settingsText {
+    color: white;
+    margin-left: 5px; 
+    font-size: 16px;
+}
+
+.pageContent {
+    padding-top: 1000px; 
+    justify-content: space-around;
+}
+
+.linkIcon {
+    display: flex;
+    justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+    .topBar {
+        background: rgba(0, 0, 0, 0.98)
+    }
 }

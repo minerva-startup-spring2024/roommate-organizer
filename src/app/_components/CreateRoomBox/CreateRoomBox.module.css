@@ -6,15 +6,15 @@
     width: 100%;
     height: 60px;
     margin-bottom: 20px;
-    border: 1px solid #DD5E89;
-    border-radius: 8px;
+    border: 3px solid var(--color-pink-accent); 
+    border-radius: 20px;
     padding: 12px 18px;
     background-color: white;
 }
 
 .previewText {
     font-size: 16px;
-    color: #373943;
+    color: var(--color-pink-accent); 
     border: none;
     background: transparent;
     border-bottom: none;
@@ -26,4 +26,24 @@
     color: #373943;
     background: transparent;
     border: none;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .container {
+        border-color: var(--color-pink-accent-darker); 
+        background-color: var(--color-pink-accent); 
+    }
+
+    .previewText {
+        color: white;
+    }
+
+    .previewText::placeholder {
+        color: white; 
+    }
+
+    .submitButton {
+        color: white; 
+    }
 }

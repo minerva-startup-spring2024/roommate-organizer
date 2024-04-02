@@ -6,25 +6,35 @@
     width: 100%;
     height: 60px;
     margin-bottom: 20px;
-    border: 1px solid #DD5E89;
-    border-radius: 8px;
+    border: 3px solid var(--color-pink-accent); 
+    border-radius: 20px;
     padding: 12px 18px;
-    background-color: #EDD4D4;
-}
-
-.previewBoxContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    background-color: #ffffff; 
 }
 
 .previewText {
-    color: #373943;
+    color: var(--color-pink-accent); 
+    font-weight: bold;
 }
 
 .memberContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .container {
+        border-color: var(--color-pink-accent-darker); 
+        background-color: var(--color-pink-accent); 
+    }
+
+    .previewText {
+        color: white;
+    }
+
+    .submitButton {
+        color: white; 
+    }
 }
