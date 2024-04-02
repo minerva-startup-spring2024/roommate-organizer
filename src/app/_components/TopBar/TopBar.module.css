@@ -35,20 +35,12 @@
     flex-direction: row;
 }
 
-
 .settingsContainer {
     display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .settingsContainer:hover .settingsText {
-    text-decoration: underline;
-  }
-  
-  .settingsText {
-    color: white;
-    margin-left: 5px; /* Adjust margin as needed */
-    font-size: 16px;
-  }
-  
+    justify-content: space-around;
+}
+
+.linkIcon {
+    display: flex;
+    justify-content: center;
+}
