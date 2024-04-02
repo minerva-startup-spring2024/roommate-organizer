@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaPeopleGroup, FaCog } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 import styles from "./TopBar.module.css";
 
 export default function TopBar({ title, details, slug }) {
@@ -11,7 +11,11 @@ export default function TopBar({ title, details, slug }) {
             <Link href={`/app/rooms/${slug}`} className={styles.roomTitle}>
               <p className={styles.header}>{title}</p>
             </Link>
-            <Link href={`/app/rooms/${slug}/members`}>
+            <Link
+              href={`/app/rooms/${slug}/members`}
+              style={{ marginRight: 8 }}
+              className={styles.linkIcon}
+            >
               <FaPeopleGroup size={22} color={"white"} />
             </Link>
           </>
@@ -20,14 +24,6 @@ export default function TopBar({ title, details, slug }) {
             <p className={styles.header}>{title}</p>
           </>
         )}
-
-        <>
-          <Link href="/app/settings">
-            <div className={styles.settingsContainer}>
-              <p className={styles.settingsText}>Settings</p>
-            </div>
-          </Link>
-        </>
       </div>
     </div>
   );

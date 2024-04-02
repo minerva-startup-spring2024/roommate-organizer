@@ -65,3 +65,10 @@
 .pageContent {
     padding-top: 1000px; 
 }
+    justify-content: space-around;
+}
+
+.linkIcon {
+    display: flex;
+    justify-content: center;
+}
