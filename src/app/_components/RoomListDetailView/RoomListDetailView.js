@@ -19,6 +19,7 @@ const RoomListDetailView = ({
   const [members, setMembers] = useState([]);
   const [filterCategory, setFilterCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [addLoading, setAddLoading] = useState(false);
 
   const getItems = (shouldLoad) => {
     fetch(`/api/${endpoint}?roomId=${roomId}`)
@@ -40,6 +41,7 @@ const RoomListDetailView = ({
   };
 
   const addItem = async () => {
+    setAddLoading(true);
     fetch(`/api/${endpoint}?roomId=${roomId}`, {
       method: "POST",
       body: JSON.stringify({
@@ -53,6 +55,7 @@ const RoomListDetailView = ({
       getItems(false);
       setAddItemBoxName("");
       setAddItemBoxAssignedTo(null);
+      setAddLoading(false);
     });
   };
 
@@ -137,7 +140,7 @@ const RoomListDetailView = ({
                     />
                     <Image
                       src={
-                        item.assignedTo
+                        item.assignedTo.profileImage
                           ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
                           : "/default.png"
                       }
@@ -218,12 +221,16 @@ const RoomListDetailView = ({
                 value={addItemBoxName}
                 onChange={handleInputChange}
               />
-              <button
-                className={styles.addTaskButton}
-                onClick={async () => await addItem()}
-              >
-                Add
-              </button>
+              {addLoading ? (
+                <GreyBeatLoader />
+              ) : (
+                <button
+                  className={styles.addTaskButton}
+                  onClick={async () => await addItem()}
+                >
+                  Add
+                </button>
+              )}
             </div>
           </div>
         </>

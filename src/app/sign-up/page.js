@@ -2,19 +2,23 @@
 
 import HouseIcon from "@mui/icons-material/House";
 import { useState } from "react";
+import GreyBeatLoader from "../_components/BeatLoaders/GreyBeatLoader";
 import { signup } from "./actions";
 import "./page.css";
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleSignUp = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const signUpError = await signup(formData);
     if (signUpError) {
       setError(signUpError);
     }
+    setLoading(false);
   };
 
   return (
@@ -57,9 +61,13 @@ export default function LoginPage() {
             {/* Add an icon inside the input or as a sibling element */}
           </div>
           <div>{error}</div>
-          <button type="submit" className="signUpButton">
-            SIGN UP
-          </button>
+          {loading ? (
+            <GreyBeatLoader />
+          ) : (
+            <button type="submit" className="signUpButton">
+              SIGN UP
+            </button>
+          )}
           {/* <div className="alreadyUser">
             Already a user?{" "}
             <Link className="loginLink" href="/login">

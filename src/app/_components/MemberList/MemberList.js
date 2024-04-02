@@ -10,6 +10,8 @@ import styles from "./MemberList.module.css";
 const MemberList = ({ roomId }) => {
   const [loading, setLoading] = useState(true);
   const [allUserLoading, setAllUserLoading] = useState(true);
+  const [addLoading, setAddLoading] = useState(false);
+  const [removeLoading, setRemoveLoading] = useState(false);
   const [members, setMembers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [memberSelectionStatus, setMemberSelectionStatus] = useState(false);
@@ -37,6 +39,7 @@ const MemberList = ({ roomId }) => {
   };
 
   const addMember = async () => {
+    setAddLoading(true);
     fetch(`/api/rooms/${roomId}/members`, {
       method: "POST",
       body: JSON.stringify({
@@ -46,9 +49,11 @@ const MemberList = ({ roomId }) => {
       getMembers(roomId);
       setUserToAdd(null);
     });
+    setAddLoading(false);
   };
 
   const removeMember = async (memberId) => {
+    setRemoveLoading(true);
     fetch(`/api/rooms/${roomId}/members`, {
       method: "DELETE",
       body: JSON.stringify({
@@ -57,6 +62,7 @@ const MemberList = ({ roomId }) => {
     }).then(() => {
       getMembers(roomId);
     });
+    setRemoveLoading(false);
   };
 
   useEffect(() => {
@@ -76,7 +82,7 @@ const MemberList = ({ roomId }) => {
                 <div className={styles.rowLabel}>
                   <Image
                     src={
-                      member
+                      member.profileImage
                         ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${member.profileImage}`
                         : "/default.png"
                     }
@@ -87,10 +93,14 @@ const MemberList = ({ roomId }) => {
                   />
                   {member.firstName} {member.lastName}
                 </div>
-                <FaTrash
-                  color={colorGrey300}
-                  onClick={async () => await removeMember(member.id)}
-                />
+                {removeLoading ? (
+                  <GreyBeatLoader />
+                ) : (
+                  <FaTrash
+                    color={colorGrey300}
+                    onClick={async () => await removeMember(member.id)}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -127,12 +137,16 @@ const MemberList = ({ roomId }) => {
                   <div className={styles.emptySelectPersonCircle} />
                 )}
               </div>
-              <button
-                className={styles.addTaskButton}
-                onClick={async () => await addMember()}
-              >
-                Add
-              </button>
+              {addLoading ? (
+                <GreyBeatLoader />
+              ) : (
+                <button
+                  className={styles.addTaskButton}
+                  onClick={async () => await addMember()}
+                >
+                  Add
+                </button>
+              )}
             </div>
             {memberSelectionStatus && (
               <div className={styles.selectMember}>

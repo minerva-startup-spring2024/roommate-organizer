@@ -8,7 +8,16 @@ export default function RoomsOverview({ rooms }) {
       {rooms.length > 0 ? (
         rooms.map((room, index) => <RoomPreview room={room} key={index} />)
       ) : (
-        <p>No rooms yet. Create one to get started!</p>
+        <p
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingBottom: "20px",
+          }}
+        >
+          No rooms yet. Create one to get started!
+        </p>
       )}
     </div>
   );
