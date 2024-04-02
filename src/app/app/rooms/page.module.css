@@ -9,8 +9,8 @@
   padding: 120px 36px 24px 36px;
 }
 
-  @media (prefers-color-scheme: dark) {
-    .pageContainer {
-      background: var(--background-color-dark);
-    }
+@media (prefers-color-scheme: dark) {
+  .pageContainer {
+    background: var(--background-color-dark);
+  }
 }

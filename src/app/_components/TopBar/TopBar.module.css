@@ -21,7 +21,6 @@
     margin-top: -10px; 
 }
 
-
 .headerContainer {
     display: flex;
     flex-direction: row;
@@ -44,31 +43,30 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-  }
+}
   
-  .settingsContainer:hover .settingsText {
+.settingsContainer:hover .settingsText {
     text-decoration: underline;
-  }
-  
-  .settingsText {
+}
+
+.settingsText {
     color: white;
     margin-left: 5px; 
     font-size: 16px;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .topBar {
-        background: rgba(0, 0, 0, 0.98)
-    }
 }
 
 .pageContent {
     padding-top: 1000px; 
-}
     justify-content: space-around;
 }
 
 .linkIcon {
     display: flex;
     justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+    .topBar {
+        background: rgba(0, 0, 0, 0.98)
+    }
 }
