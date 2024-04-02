@@ -21,7 +21,6 @@ export async function getProfile(user) {
     .single();
 
   if (error) {
-    console.log("ERROR IN GETTING PROFILE:", error);
     return null;
   }
 

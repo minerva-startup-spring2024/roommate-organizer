@@ -170,3 +170,45 @@ export async function POST(request, context) {
     return NextResponse.error("Failed to add user to room", { status: 500 });
   }
 }
+
+export async function DELETE(request, context) {
+  const roomId = context.params.slug;
+  try {
+    const { profileId } = await request.json();
+
+    if (!roomId || !profileId) {
+      return NextResponse.json(
+        { message: "Both roomId and userId are required" },
+        { status: 400 }
+      );
+    }
+
+    const remover = await getProfileIfMember(roomId);
+
+    if (!remover) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.room.update({
+      where: { id: roomId },
+      data: {
+        members: {
+          disconnect: { id: profileId },
+        },
+      },
+    });
+
+    return NextResponse.json(
+      { message: "User removed from the room successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error removing user from room:", error);
+    return NextResponse.error("Failed to remove user from room", {
+      status: 500,
+    });
+  }
+}

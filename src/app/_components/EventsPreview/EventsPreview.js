@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaAngleRight } from "react-icons/fa6";
-import styles from "./RoomItemPreview.module.css";
+import styles from "../RoomItemPreview/RoomItemPreview.module.css";
+import DateTimePicker from 'react-datetime-picker';
 
-const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
-  return (
-    <div className={styles.itemPreviewContainer}>
+
+const EventsPreview = ({ previewTitle, roomId, linkRoute }) => {
+    return (
+        <div className={styles.itemPreviewContainer}>
       <p className={styles.boxTitle}>{previewTitle}</p>
       <div className={styles.itemsContainer}>
-        {items.length === 0 ? (
+        {/* {items.length === 0 ? (
           <div className={styles.emptyText}>No {previewTitle}</div>
         ) : (
           <>
@@ -21,7 +23,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
                 <div className={styles.itemLabel}>
                   <Image
                     src={
-                      item.assignedTo.profileImage
+                      item.assignedTo
                         ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
                         : "/default.png"
                     }
@@ -38,7 +40,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
               </Link>
             ))}
           </>
-        )}
+        )} */}
         <div className={styles.viewMoreContainer}>
           <Link
             href={`${roomId}/${linkRoute}`}
@@ -49,7 +51,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
         </div>
       </div>
     </div>
-  );
-};
-
-export default RoomItemPreview;
+    );
+  };
+  
+  export default EventsPreview;

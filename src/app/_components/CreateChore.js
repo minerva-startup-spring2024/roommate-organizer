@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import GreyBeatLoader from "./BeatLoaders/GreyBeatLoader";
 
 export default function AddChoreForm({ roomId }) {
   const [choreName, setChoreName] = useState();
   const [assignedToId, setAssignedToId] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleSetChoreName = (event) => {
     setChoreName(event.target.value);
@@ -16,6 +18,7 @@ export default function AddChoreForm({ roomId }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     await fetch(`/api/chores`, {
       method: "POST",
       headers: {
@@ -27,6 +30,7 @@ export default function AddChoreForm({ roomId }) {
         roomId: roomId,
       }),
     });
+    setLoading(false);
     setChoreName("");
     setAssignedToId("");
   };
@@ -45,7 +49,7 @@ export default function AddChoreForm({ roomId }) {
         value={assignedToId}
         onChange={handleSetAssignedToId}
       />
-      <button type="submit">Add Chore</button>
+      {loading ? <GreyBeatLoader /> : <button type="submit">Add Chore</button>}
     </form>
   );
 }

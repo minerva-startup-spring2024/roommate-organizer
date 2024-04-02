@@ -62,6 +62,20 @@ export const dynamic = "force-dynamic";
  *                   type: string
  */
 
+export async function GET(request, context) {
+  try {
+    const allProfiles = await prisma.profile.findMany();
+
+    return NextResponse.json({ profiles: allProfiles }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: "Error fetching profile", error: error },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request, context) {
   const data = await request.json();
   try {

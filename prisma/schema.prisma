@@ -57,6 +57,7 @@ model Room {
   buildingId    String?        @unique
   announcements Announcement[]
   choreLists    ChoreList?
+  event         Event[]
   building      Building?      @relation(fields: [buildingId], references: [id])
   shoppingLists ShoppingList?
   members       Profile[]      @relation("RoomMembers")
@@ -153,7 +154,7 @@ model Announcement {
 }
 
 model Event {
-  id          String   @id
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
   createdById String
   createdAt   DateTime @default(now()) @db.Timestamptz(6)
   title       String
@@ -164,7 +165,9 @@ model Event {
   location    String?  @default("NULL")
   category    String?  @default("NULL")
   metadata    Json?
+  roomId      String?
   profile     Profile  @relation(fields: [createdById], references: [id])
+  room        Room?    @relation(fields: [roomId], references: [id], onDelete: Restrict)
 
   @@map("event")
   @@schema("public")

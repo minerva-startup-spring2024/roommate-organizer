@@ -1,0 +1,110 @@
+.roommatesListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.boxTitle {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.currentMemberContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    border: 1px solid var(--color-grey-100);
+    border-radius: 8px;
+    max-height: 450px;
+    overflow: scroll;
+    background-color: var(--color-white-base);
+}
+
+.itemImage {
+    border-radius: 100%;
+    margin-right: 8px;
+}
+
+.listRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+}
+
+.rowLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addMemberContainer {
+    width: 100%;
+    padding: 24px 0px;
+}
+
+.addMemberModal {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-grey-100);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-white-base);
+}
+
+.selectMember {
+    position: relative;
+    z-index: 10;
+    bottom: -10px;
+    width: 100%;
+    padding: 10px;
+    border: 1px dotted var(--color-grey-300);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-white-base);
+}
+
+.memberContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    padding: 4px 0px;
+    width: 100%;
+}
+
+.memberName {
+    font-size: 14px;
+    color: var(--color-grey-700);
+}
+
+.emptySelectPersonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptySelectPersonCircle {
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-grey-100);
+    border: 1px dotted var(--color-grey-300);
+    border-radius: 100%;
+}
+
+.addTaskButton {
+    padding: 8px 14px;
+    background-color: var(--color-pink-background);
+    border-radius: 4px;
+    border: none;
+}
