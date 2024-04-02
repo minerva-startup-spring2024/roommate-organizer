@@ -12,7 +12,6 @@ export default function Login() {
   const supabase = createClientComponentClient();
 
   const handleSignUp = async () => {
-    console.log(email, password);
     const { error } = await supabase.auth.signUp({
       email,
       password,

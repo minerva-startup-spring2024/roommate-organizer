@@ -12,7 +12,6 @@ datasource db {
 
 model Profile {
   id                        String             @id @default(dbgenerated("gen_random_uuid()"))
-  role                      Role               @default(ROOMMATE)
   firstName                 String?
   lastName                  String?
   metadata                  Json?
@@ -21,14 +20,15 @@ model Profile {
   updatedAt                 DateTime           @default(now()) @updatedAt
   deletedAt                 DateTime?
   userId                    String             @unique
-  rooms                     Room[]             @relation("RoomMembers")
-  announcementsSent         Announcement[]     @relation("SentBy")
-  announcementsReceived     Announcement[]     @relation("SentTo")
-  createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
-  createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
-  assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
-  assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
+  role                      Role               @default(ROOMMATE)
+  announcements             Announcement[]
   buildings                 Building[]
+  assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
+  createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
+  event                     Event[]
+  assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
+  createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  rooms                     Room[]             @relation("RoomMembers")
 
   @@map("profile")
   @@schema("public")
@@ -41,7 +41,7 @@ model Building {
   metadata        Json?
   buildingOwnerId String?
   buildingOwner   Profile? @relation(fields: [buildingOwnerId], references: [id])
-  rooms           Room[]
+  rooms           Room?
 
   @@map("building")
   @@schema("public")
@@ -54,12 +54,13 @@ model Room {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   deletedAt     DateTime?
-  buildingId    String?       
-  building      Building?      @relation(fields: [buildingId], references: [id])
-  members       Profile[]      @relation("RoomMembers")
-  shoppingLists ShoppingList[]
-  choreLists    ChoreList[]
+  buildingId    String?        @unique
   announcements Announcement[]
+  choreLists    ChoreList?
+  event         Event[]
+  building      Building?      @relation(fields: [buildingId], references: [id])
+  shoppingLists ShoppingList?
+  members       Profile[]      @relation("RoomMembers")
 
   @@map("room")
   @@schema("public")
@@ -82,19 +83,19 @@ model ChoreListItem {
   id            String      @id @default(dbgenerated("gen_random_uuid()"))
   name          String?
   type          String?
-  status        ChoreStatus @default(OPEN)
   metadata      Json?
-  dueDate       DateTime?
-  requiresProof Boolean?
-  proof         String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @default(now()) @updatedAt
   deletedAt     DateTime?
   choreListId   String
-  choreList     ChoreList   @relation(fields: [choreListId], references: [id])
   assignedToId  String?
-  assignedTo    Profile?    @relation("AssignedChoreListItems", fields: [assignedToId], references: [id])
   createdById   String?
+  status        ChoreStatus @default(OPEN)
+  dueDate       DateTime?
+  proof         String?
+  requiresProof Boolean?
+  assignedTo    Profile?    @relation("AssignedChoreListItems", fields: [assignedToId], references: [id])
+  choreList     ChoreList   @relation(fields: [choreListId], references: [id])
   createdBy     Profile?    @relation("CreatedChoreListItems", fields: [createdById], references: [id])
 
   @@map("chore_list_item")
@@ -118,18 +119,18 @@ model ShoppingListItem {
   id             String                 @id @default(dbgenerated("gen_random_uuid()"))
   name           String?
   type           String?
-  status         ShoppingListItemStatus @default(OPEN)
   quantity       Float?
   metadata       Json?
   createdAt      DateTime               @default(now())
   updatedAt      DateTime               @default(now()) @updatedAt
   deletedAt      DateTime?
   shoppingListId String
-  shoppingList   ShoppingList           @relation(fields: [shoppingListId], references: [id])
   assignedToId   String?
-  assignedTo     Profile?               @relation("AssignedShoppingListItems", fields: [assignedToId], references: [id])
   createdById    String?
+  status         ShoppingListItemStatus @default(OPEN)
+  assignedTo     Profile?               @relation("AssignedShoppingListItems", fields: [assignedToId], references: [id])
   createdBy      Profile?               @relation("CreatedShoppingListItems", fields: [createdById], references: [id])
+  shoppingList   ShoppingList           @relation(fields: [shoppingListId], references: [id])
 
   @@map("shopping_list_item")
   @@schema("public")
@@ -143,14 +144,32 @@ model Announcement {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
-  roomId    String?
-  room      Room?      @relation(fields: [roomId], references: [id])
+  roomId    String
   sentById  String
-  sentToId  String?
-  sentBy    Profile   @relation(name: "SentBy", fields: [sentById], references: [id])
-  sentTo    Profile?  @relation(name: "SentTo", fields: [sentToId], references: [id])
+  room      Room      @relation(fields: [roomId], references: [id])
+  sentBy    Profile   @relation(fields: [sentById], references: [id])
 
   @@map("announcement")
+  @@schema("public")
+}
+
+model Event {
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  createdById String
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  title       String
+  description String?  @default("NULL")
+  startTime   DateTime @db.Timestamptz(6)
+  endTime     DateTime @db.Timestamptz(6)
+  isAllDay    Boolean  @default(false)
+  location    String?  @default("NULL")
+  category    String?  @default("NULL")
+  metadata    Json?
+  roomId      String?
+  profile     Profile  @relation(fields: [createdById], references: [id])
+  room        Room?    @relation(fields: [roomId], references: [id], onDelete: Restrict)
+
+  @@map("event")
   @@schema("public")
 }
 
