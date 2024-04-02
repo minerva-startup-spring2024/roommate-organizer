@@ -8,8 +8,9 @@
   }
   
   .announcementCard {
-    background-color: rgba(145, 145, 145, 0.187);
-    border-radius: 10px;
+    background-color: #ffffff;
+    border: 3px solid #DD5E89;
+    border-radius: 16px; 
     padding: 10px;
     margin-right: 10px;
     display: flex;
@@ -47,4 +48,9 @@
     height: 40px;
     border-radius: 22%;
     margin-right: 10px; 
+  }
+
+  .announcementText {
+    font-weight: 600; 
+    color: #DD5E89;
   }

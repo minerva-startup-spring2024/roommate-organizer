@@ -1,0 +1,8 @@
+.pageContainer {
+    background: linear-gradient(to right, #f6e0e5, #faedf0);
+    /* #e4dbec, #f3ebfa); */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    height: 100vh; /* Set height to 100% of viewport height */
+  }
+  
