@@ -8,6 +8,9 @@ export async function POST(request) {
 
     const { roomId, content } = await request.json();
 
+
+    console.log(`print this is the ${roomId}`)
+
     
     if (!roomId || !content) {
       return NextResponse.json(
@@ -18,8 +21,11 @@ export async function POST(request) {
     }
 
     const  sender  = await getProfileIfMember(roomId);
+
     
-    console.log(`print this is the ${sender.id}`)
+
+    
+    console.log(`print this is the user ${sender}`)
 
     const sentById = sender.id
 
