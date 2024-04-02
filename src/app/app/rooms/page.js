@@ -10,8 +10,8 @@ export default async function HomePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <TopBar title={"Rooms"} />
-      <div className="mainContainer">
+      <TopBar title={"Rooms"} className={styles.topBarContainer} />
+      <div className={styles.mainBodyContainer}>
         <RoomsOverview rooms={user.rooms} />
         <CreateRoomBox context={{ user: user }} />
       </div>
