@@ -31,13 +31,13 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
               <div className={styles.announcementHeader}>
                 <Image
                   src={
-                    announcement.sentById
+                    member
                       ? member.profileImage &&
                         `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${member.profileImage}`
                       : "/default.png"
                   }
                   alt={
-                    announcement.sentById
+                    member
                       ? members.find(
                           (member) =>
                             member.id === latestAnnouncements[0].sentById
