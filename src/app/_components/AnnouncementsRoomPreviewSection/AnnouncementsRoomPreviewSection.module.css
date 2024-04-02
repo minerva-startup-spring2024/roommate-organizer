@@ -1,20 +1,21 @@
   .announcementsSection {
     margin-bottom: 20px;
+    width: 100%;
   }
   
   .announcementCards {
     display: flex;
-    overflow-x: auto;
+    width: 100%;
   }
   
   .announcementCard {
     background-color: #ffffff;
     border: 3px solid #DD5E89;
-    border-radius: 16px; 
+    border-radius: 8px; 
     padding: 10px;
-    margin-right: 10px;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
   
   .boxTitle {
@@ -23,12 +24,18 @@
     margin-bottom: 6px;
   }
 
+  .announcementHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
   .subheader {
     font-size: 14px;
     font-weight: 300;
-    margin-bottom: 6px;
   }
-  
+
   .announcementCard p {
     min-height: 40px;
   }
@@ -44,9 +51,7 @@
   }
   
   .profilePhoto {
-    width: 40px;
-    height: 40px;
-    border-radius: 22%;
+    border-radius: 100%;
     margin-right: 10px; 
   }
 

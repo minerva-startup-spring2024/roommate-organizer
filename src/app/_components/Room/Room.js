@@ -30,6 +30,7 @@ export default function Room({ roomId }) {
         <>
           <AnnouncementsRoomPreviewSection
             announcements={roomDetails.announcements}
+            members={roomDetails.members}
           />
           <RoomItemPreview
             previewTitle="Chores"
