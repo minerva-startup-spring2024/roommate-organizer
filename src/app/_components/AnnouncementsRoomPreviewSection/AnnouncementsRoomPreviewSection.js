@@ -48,7 +48,13 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
                   height={25}
                   className={styles.profilePhoto}
                 />
-                {member.firstName} {member.lastName}
+                {member ? (
+                  <>
+                    {member.firstName} {member.lastName}
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className={styles.subheader}>
                 Last Updated: {formattedUpdatedAt}
