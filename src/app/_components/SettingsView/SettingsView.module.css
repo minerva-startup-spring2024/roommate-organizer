@@ -57,7 +57,26 @@
 .pageContainer {
     display: flex;
     flex-direction: column;
-    min-height: 80vh; /* Ensure the container takes at least the height of the viewport */
+    min-height: 80vh; 
   }
   
+
+@media (prefers-color-scheme: dark) {
+   
+    .pageContainer {
+        display: flex;
+        flex-direction: column;
+        min-height: 80vh; 
+        background-color: var(--background-color-dark); 
+    }
+
+    .contactButton {
+        background-color: black;
+        color: white;
+    }
+
+    .previewText {
+        color: white;
+    }
+}
 

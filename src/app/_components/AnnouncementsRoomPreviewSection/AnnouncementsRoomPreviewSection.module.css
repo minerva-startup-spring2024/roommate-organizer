@@ -9,7 +9,7 @@
   
   .announcementCard {
     background-color: #ffffff;
-    border: 3px solid #DD5E89;
+    border: 3px solid var(--color-pink-accent);
     border-radius: 16px; 
     padding: 10px;
     margin-right: 10px;
@@ -54,3 +54,26 @@
     font-weight: 600; 
     color: #DD5E89;
   }
+
+
+@media (prefers-color-scheme: dark) {
+  .boxTitle {
+    color: white;
+  }
+
+  .announcementText {
+    color: white;
+  }
+
+  .announcementDivider {
+    color: white;
+  }
+
+  .announcementCard {
+    background-color: var(--color-pink-accent-darker);
+  }
+
+  .subheader {
+    color: white;
+  }
+}

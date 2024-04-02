@@ -22,12 +22,11 @@ export default function TopBar({ title, details, slug }) {
         )}
 
         <>
-        <Link href="/app/settings">
-          <div className={styles.settingsContainer}>
-            {/* <FaCog size={22} color={"white"} /> */}
-            <p className={styles.settingsText}>Settings</p>
-          </div>
-        </Link>
+          <Link href="/app/settings">
+            <div className={styles.settingsContainer}>
+              <p className={styles.settingsText}>Settings</p>
+            </div>
+          </Link>
         </>
       </div>
     </div>

@@ -8,5 +8,11 @@
     left: 0;
     bottom: 0;
     background-color: rgba(255, 255, 255, 0.98); 
-    z-index: 1000; /* Ensure bottom nav bar appears above other content */
+    z-index: 1000; 
   }
+
+  @media (prefers-color-scheme: dark) {
+    .navContainer {
+      background-color: rgba(0, 0, 0, 0.98);
+    }
+}
