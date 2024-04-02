@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { FaPeopleGroup, FaCog } from "react-icons/fa6";
 import styles from "./TopBar.module.css";
 
 export default function TopBar({ title, details, slug }) {
@@ -20,6 +20,15 @@ export default function TopBar({ title, details, slug }) {
             <p className={styles.header}>{title}</p>
           </>
         )}
+
+        <>
+        <Link href="/app/settings">
+          <div className={styles.settingsContainer}>
+            {/* <FaCog size={22} color={"white"} /> */}
+            <p className={styles.settingsText}>Settings</p>
+          </div>
+        </Link>
+        </>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
           return (
             <div key={announcement.id} className={styles.announcementCard}>
               <div className={styles.announcementContent}>
-                <p>{announcement.content}</p>
+                <p className={styles.announcementText}>{announcement.content}</p>
               </div>
               <div className={styles.announcementDivider}></div>
               <div className={styles.announcementHeader}>
