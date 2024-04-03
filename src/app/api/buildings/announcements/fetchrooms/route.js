@@ -21,12 +21,23 @@ export async function GET(request, context) {
       );
     }
 
+    if (profile.role !== "MANAGER") {
+      return NextResponse.json(
+      { message: "User is not authorized" },
+      { status: 401 }
+      );
+    }
+
     const rooms = await prisma.room.findMany({
       where: {
-        buildingId: buildingId,
+      buildingId: buildingId,
       },
       include: {
-        announcements: true,
+      announcements: {
+        where: {
+        sentToId: profile.id
+        }
+      },
       },
     });
 
@@ -39,3 +50,4 @@ export async function GET(request, context) {
   }
 }
 
+C
