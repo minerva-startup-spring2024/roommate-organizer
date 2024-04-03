@@ -6,16 +6,28 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   const buildingData = await request.json();
+  const buildingId=uuidv4();
 
   try {
-    const createdBuilding = await prisma.building.create({
+    const createdBuilding = await prisma.$transaction([
+    prisma.building.create({
       data: {
-        id: uuidv4(),
+        id: buildingId,
         buildingOwnerId: buildingData.buildingOwnerId,
         name: buildingData.name,
         address: buildingData.address,
       },
-    });
+    }),
+    prisma.profile.update({
+
+        where: { id: buildingData.buildingOwnerId },
+        data: { 
+          buildings: {
+            connect: { id: buildingId },
+          }
+        },
+    })
+  ]);
 
     return NextResponse.json(
       { message: "Created building entry", building: createdBuilding },
@@ -35,10 +47,10 @@ export async function GET(request) {
   try {
     const buildings = await prisma.building.findMany({
       select: {
-        id: true, // Assuming you want to return the ID
-        name: true,
+        id: true, 
+        name: true, // Include the building name
         address: true,
-        buildingOwnerId: true, // Include or exclude as per your requirements
+        buildingOwnerId: true, // Include the building owner ID  
       },
     });
 

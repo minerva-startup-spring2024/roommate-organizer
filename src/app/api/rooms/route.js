@@ -164,7 +164,7 @@ export async function POST(request, context) {
             connect: { id: roomData.user.id },
           },
           building:{
-            connect: {id: roomData.buildingId}
+            connect: {id: roomData.user.buildings[0].id}
           }
         },
       }),

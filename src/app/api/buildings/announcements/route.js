@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../../lib/db";
-import { getProfileIfMember } from "../../_utils";
+import { getProfile } from "../../_utils";
 
 export async function POST(request) {
   try {
     
 
     const { roomId, content } = await request.json();
+
+    console.log(`print this is thexvxvxvxvx room id  ${roomId}`)
 
     
     if (!roomId || !content) {
@@ -17,25 +19,10 @@ export async function POST(request) {
 
     }
 
-    const  sender  = await getProfileIfMember(roomId);
-    
-    console.log(`print this is the ${sender.id}`)
-
+    const  sender  = await getProfile();
     const sentById = sender.id
-
-    const profile = await prisma.profile.findUnique({
-      where: { id: sentById},
-      include: { rooms: true },
-    });
-
-    if (!profile || !profile.rooms.some(room => room.id === roomId)) {
-      return NextResponse.json(
-        { message: "User is not authorized to post in this room" },
-        { status: 403 }
-      );
-    }
-
-   
+    console.log(`print this is the sender ${sentById}`)
+    console.log(`print this is the profile ${sender.firstName}`)
     const announcement = await prisma.announcement.create({
       data: {
         content,
@@ -52,4 +39,9 @@ export async function POST(request) {
       { status: 500 }
     );
   }
+}
+
+
+export async function GET(request) {
+  
 }

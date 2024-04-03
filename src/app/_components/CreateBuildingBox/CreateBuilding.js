@@ -47,14 +47,17 @@ export default function AddBuildingForm({ context }) {
         placeholder="Enter building name"
         value={buildingName}
         onChange={handleInputBuildingName}
+        required
       />
       <input
         type="text"
         placeholder="Enter address"
         value={address}
         onChange={handleInputAddress}
+        required
       />
       <button type="submit">Add Building</button>
+
     </form>
   );
 }

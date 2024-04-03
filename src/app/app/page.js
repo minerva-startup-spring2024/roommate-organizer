@@ -17,11 +17,17 @@ export default async function HomePage() {
 
 
           
-    // If the user does not have any buildign selection, redirect them to the buildings page
-    if (!user.buildings || user.buildings.length === 0){
-      redirect('app/buildings');
-      return;
-    }
+
+    
+   // Check if the user has any room associated with a building
+const hasBuilding = user.rooms.some(room => room.buildingId);
+
+// If the user does not have any room associated with a building, redirect them
+if (!hasBuilding) {
+  redirect('app/buildings');
+  return;
+}
+
     
 
   return (
