@@ -1,8 +1,11 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import Animations from "./Animations.js";
-import "./RemindersProfile.css";
+import "./Rules.css";
+import "./chore.svg";
+import "./graph.svg";
 
-const Reminder = (props) => {
+const Rules = (props) => {
   /* STATES */
   const [selectedBulletIndex, setSelectedBulletIndex] = useState(0);
   const [carousalOffsetStyle, setCarousalOffsetStyle] = useState({});
@@ -14,10 +17,10 @@ const Reminder = (props) => {
   };
 
   /* REUSABLE MINOR COMPONENTS */
-  const ReminderHeading = (props) => {
+  const RulesHeading = (props) => {
     return (
-      <div className="Reminder-heading">
-        <div className="Reminder-main-heading">
+      <div className="Rules-heading">
+        <div className="Rules-main-heading">
           <div className="heading-bullet"></div>
           <span>{props.heading ? props.heading : ""}</span>
           <div className="heading-date">
@@ -29,10 +32,10 @@ const Reminder = (props) => {
               : null}
           </div>
         </div>
-        <div className="Reminder-sub-heading">
+        <div className="Rules-sub-heading">
           <span>{props.subHeading ? props.subHeading : ""}</span>
         </div>
-        <div className="Reminder-heading-description">
+        <div className="Rules-heading-description">
           <span>{props.description ? props.description : ""}</span>
         </div>
       </div>
@@ -41,12 +44,12 @@ const Reminder = (props) => {
   
   
 
-  /* STATIC Reminder DATA FOR THE LABELS*/
-  const ReminderBullets = [
-    { label: "Room Policies", logoSrc: "graph.svg" },
-    { label: "Chiamaka's Chores", logoSrc: "chore.svg" },
-    { label: "Chloe's Chores", logoSrc: "chore.svg" },
-    { label: "Ba Thien's Chores", logoSrc: "chore.svg" },
+  /* STATIC Rules DATA FOR THE LABELS*/
+  const RulesBullets = [
+    { label: "Payment Instructions", logoSrc: "graph.svg" },
+    { label: "Residential Policies", logoSrc: "chore.svg" },
+    { label: "Visiting Rules", logoSrc: "chore.svg" },
+    { label: "Cleaning Routine", logoSrc: "chore.svg" },
   ];
 
  
@@ -80,24 +83,24 @@ const Reminder = (props) => {
   },
 ];
 
-  const ReminderDetails = [
-    <div className="Reminder-screen-container" key="education">
-        <ReminderHeading
-        heading={"Friday"}
-        subHeading={"Personal Room arrangements, Clearing up of disorderliness"}
+  const RulesDetails = [
+    <div className="Rules-screen-container" key="education">
+        <RulesHeading
+        heading={"Step 1"}
+        subHeading={"Download the Housing management application, Stripay"}
         fromDate={" "}
         toDate={" "}
       />
-      <ReminderHeading
-        heading={"Saturday"}
-        subHeading={"Kitchen deep cleaning, Bathroom chores, Garden and litters"}
+      <RulesHeading
+        heading={"Step 2"}
+        subHeading={"Set up your account to connect banking details"}
         fromDate={" "}
         toDate={" "}
       />
 
-      <ReminderHeading
-        heading={"Sunday"}
-        subHeading={"Household inspections, Checkin for task completions, Prepaing for the following week"}
+      <RulesHeading
+        heading={"Step 3"}
+        subHeading={"Integrate the autopay feature to avoid late payment penalties"}
         fromDate={" "}
         toDate={" "}
       />
@@ -105,64 +108,67 @@ const Reminder = (props) => {
     </div>,
 
     /* WORK chore */
-    <div className="Reminder-screen-container" key="work-chore">
+    <div className="Rules-screen-container" key="work-chore">
       <div className="chore-container">
-        <ReminderHeading
-          heading={"Chloe"}
-          subHeading={"Cleaning questions, task updates"}
+        <RulesHeading
+          heading={"Failure to adhere to these may lead to termination of housing contract"}
+          subHeading={""}
           fromDate={" "}
           toDate={" "}
         />
         <div className="chore-description">
-          <span className="Reminder-description-text">
-          - Is someone else available to take my turn? I feel a bit sick so I cant clean the bathroom today. Thanks
+          <span className="Rules-description-text">
+          - Pets are not allowed within the premises, because we already have a minion of rats awaiting your arrival  
+          
+         
           </span>
         </div>
         <div className="chore-description">
-          <span className="Reminder-description-text">
-            - Request for roommate two to check if the guest stayed overnight.
+          <span className="Rules-description-text">
+            - Tenants are required to pay rent on time according to the terms outlined in the lease agreement
             </span>
-          <br />
-          <span className="Reminder-description-text">
-            - Someone left an open meal, should I take that out?  {" "}
+        </div>
+        <div className="chore-description">
+        <span className="Rules-description-text">
+            - Subleasing is not permitted, since only a few people are capable of living in a shoe box  {" "}
           </span>
-          <br />
         </div>
       </div>
     </div>,
 
     /* WORK chore */
-    <div className="Reminder-screen-container" key="work-chore">
+    <div className="Rules-screen-container" key="work-chore">
       <div className="chore-container">
-        <ReminderHeading
-          heading={"Ba Thien"}
-          subHeading={"Cleaning questions, task updates"}
+        <RulesHeading
+          heading={"Visiting rules for guests and tenants"}
+          subHeading={""}
           fromDate={" "}
           toDate={" "}
         />
         <div className="chore-description">
-          <span className="Reminder-description-text">
-            -  Cleaned up garage area, and lawn
+          <span className="Rules-description-text">
+            -   Guests must apply and be accepted by the housing management prior to entering the building
+          </span>
+          </div>
 
+          <div className="chore-description"> 
+          <span className="Rules-description-text">
+            - Social events must end by at most 11pm on weekends, and 9pm on weekdays {" "}
+          </span>
+          </div>
 
+          <div className="chore-description"> 
+          <span className="Rules-description-text">
+            - Tenants are  responsible for the behavior of their guests while they are on the premises {" "}
           </span>
-          <br />
-          <span className="Reminder-description-text">
-            - Removed the fluff in the washing machine. {" "}
-          </span>
-          <br />
-          <span className="Reminder-description-text">
-            - Washed dishes from the week, also cleaned the dryer {" "}
-          </span>
-          <br />
+          </div>
         </div>
-      </div>
-    </div>,
+      </div>,
 
     /* PROJECTS */
-    <div className="Reminder-screen-container" key="projects">
+    <div className="Rules-screen-container" key="projects">
   {projectsDetails.map((projectDetail, index) => (
-    <ReminderHeading
+    <RulesHeading
       key={index}
       heading={projectDetail.title}
       subHeading={projectDetail.subHeading}
@@ -189,7 +195,7 @@ const Reminder = (props) => {
   };
 
   const getBullets = () => {
-    return ReminderBullets.map((bullet, index) => (
+    return RulesBullets.map((bullet, index) => (
       <div
         onClick={() => handleCarousal(index)}
         className={
@@ -199,45 +205,43 @@ const Reminder = (props) => {
       >
         <img
           className="bullet-logo"
-          src={require(`./${bullet.logoSrc}`)}
-          alt="B"
         />
         <span className="bullet-label">{bullet.label}</span>
       </div>
     ));
   };
 
-  const getReminderScreens = () => {
+  const getRulesScreens = () => {
     return (
       <div
         style={carousalOffsetStyle.style}
-        className="Reminder-details-carousal"
+        className="Rules-details-carousal"
       >
-        {ReminderDetails.map((ReminderDetail) => ReminderDetail)}
+        {RulesDetails.map((RulesDetail) => RulesDetail)}
       </div>
     );
   };
 
   return (
     <div
-      className="Reminder-container screen-container fade-in"
+      className="Rules-container screen-container fade-in"
       id={props.id || ""}
     >
-      <div className="Reminder-content">
-        <div title={"Reminder"} subHeading={"My formal Bio Details"} />
-        <div className="Reminder-card">
-          <div className="Reminder-bullets">
+      <div className="Rules-content">
+        <div title={"Rules"} subHeading={"My formal Bio Details"} />
+        <div className="Rules-card">
+          <div className="Rules-bullets">
             <div className="bullet-container">
               <div className="bullet-icons"></div>
               <div className="bullets">{getBullets()}</div>
             </div>
           </div>
 
-          <div className="Reminder-bullet-details">{getReminderScreens()}</div>
+          <div className="Rules-bullet-details">{getRulesScreens()}</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Reminder;
+export default Rules;
