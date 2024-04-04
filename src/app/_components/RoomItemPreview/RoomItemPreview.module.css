@@ -68,6 +68,24 @@
   padding: 20px 0px;
 }
 
+
+@media (prefers-color-scheme: dark) {
+  .boxTitle {
+    color: white;
+  }
+
+  .itemsContainer {
+    border-color: black;
+    background: linear-gradient(to bottom, var(--background-color-dark) , rgba(0, 0, 0));
+  }
+
+  .viewMoreButton {
+    color: white;
+    border-color: white;
+  }
+  
+}
+
 /* ul {
   list-style-type: none;
   padding: 0;

@@ -148,3 +148,24 @@
     font-size: 14px;
     color: var(--color-grey-700);
 }
+
+
+@media (prefers-color-scheme: dark) {
+    .taskContainer {
+      background-color: black;
+    }
+  
+    .addTaskButton {
+        background-color: var(--color-pink-background);
+    }
+    
+    .addTaskModal {
+        border-color: 1px white;
+        background-color: black;
+    }
+
+    .taskList {
+        color: white;
+        background: var(--background-color-dark);
+    }
+}

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import styles from "./AnnouncementsRoomPreviewSection.module.css";
 
-function AnnouncementsRoomPreviewSection({ announcements }) {
-   // Get the latest 3 announcements
-   const sortedAnnouncements = announcements.sort((a, b) => {
+function AnnouncementsRoomPreviewSection({ announcements, members }) {
+  // Get the latest 3 announcements
+  const sortedAnnouncements = announcements.sort((a, b) => {
     return new Date(b.updatedAt) - new Date(a.updatedAt);
   });
 
@@ -16,11 +16,16 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
         {latestAnnouncements.map((announcement) => {
           const updatedAt = new Date(announcement.updatedAt);
           const formattedUpdatedAt = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
+          const member = members.find(
+            (member) => member.id === latestAnnouncements[0].sentById
+          );
 
           return (
             <div key={announcement.id} className={styles.announcementCard}>
               <div className={styles.announcementContent}>
-                <p>{announcement.content}</p>
+                <p className={styles.announcementText}>
+                  {announcement.content}
+                </p>
               </div>
               <div className={styles.announcementDivider}></div>
               <div className={styles.announcementHeader}>
@@ -46,5 +51,5 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
     </div>
   );
 }
-  
-  export default AnnouncementsRoomPreviewSection;
+
+export default AnnouncementsRoomPreviewSection;

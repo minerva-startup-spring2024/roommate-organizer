@@ -16,9 +16,7 @@ export default async function HomePage() {
     console.log(user)
 
 
-          
-
-    
+        
    // Check if the user has any room associated with a building
 const hasBuilding = user.rooms.some(room => room.buildingId);
 

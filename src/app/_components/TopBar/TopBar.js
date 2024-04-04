@@ -11,7 +11,11 @@ export default function TopBar({ title, details, slug }) {
             <Link href={`/app/rooms/${slug}`} className={styles.roomTitle}>
               <p className={styles.header}>{title}</p>
             </Link>
-            <Link href={`/app/rooms/${slug}/members`}>
+            <Link
+              href={`/app/rooms/${slug}/members`}
+              style={{ marginRight: 8 }}
+              className={styles.linkIcon}
+            >
               <FaPeopleGroup size={22} color={"white"} />
             </Link>
           </>

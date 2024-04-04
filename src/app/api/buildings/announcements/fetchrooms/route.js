@@ -107,5 +107,3 @@ export async function GET(request, context) {
     );
   }
 }
-
-C
