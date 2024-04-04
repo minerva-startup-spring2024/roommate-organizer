@@ -3,7 +3,7 @@ import RoomsOverview from "@/app/_components/RoomsOverview.js";
 import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
-import styles from "./page.module.css";
+// import styles from "./page.module.css";
 
 export default async function HomePage() {
   const user = await getProfile();
