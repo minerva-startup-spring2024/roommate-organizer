@@ -1,7 +1,10 @@
 body {
-  font-family: Roboto;
+  font-family: Poppins;
+  background: #fae0e4;
 }
-.Reminder-container {
+
+.Rules-container {
+  
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -10,20 +13,20 @@ body {
     margin: 120px 0;
   }
   
-  .Reminder-card {
+  .Rules-card {
     display: flex;
     height: 360px;
     width: 1000px;
     /* margin: 80px 0; */
   }
   
-  .Reminder-bullets {
-    box-shadow: 15px 0 9px -15px #1f2235;
+  .Rules-bullets {
+    box-shadow: 15px 0 9px -15px #c06c84;
     height: 100%;
     width: 320px;
   }
   
-  .Reminder-bullet-details {
+  .Rules-bullet-details {
     flex-grow: 1;
     width: 600px;
     overflow: hidden;
@@ -35,11 +38,11 @@ body {
     text-align: justify;
   }
   
-  .Reminder-description-text {
+  .Rules-description-text {
     font-size: 12px;
   }
   
-  .Reminder-details-carousal {
+  .Rules-details-carousal {
     transition: transform 1s ease-out;
   }
   
@@ -61,7 +64,7 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
-    background-color: #1f2235;
+    background-color: #c06c84;
     height: 40px;
     margin: 15px 0;
     padding: 0 8px;
@@ -73,7 +76,7 @@ body {
   .bullet-label {
     font-size: 14px;
     white-space: nowrap;
-    font-family: "Roboto";
+    font-family: "Poppins SemiBold";
   }
   
   .bullet-logo {
@@ -85,7 +88,7 @@ body {
     width: 34px;
     height: 100%;
     z-index: 1;
-    background-color: #1f2235;
+    background-color: #c06c84;
     position: absolute;
   }
   
@@ -94,30 +97,29 @@ body {
     width: 100%;
   }
   
-  .Reminder-screen-container {
+  .Rules-screen-container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     height: 360px;
     width: 100%;
-    font-family: Roboto;
   }
   
-  .Reminder-heading {
+  .Rules-heading {
     display: flex;
     flex-direction: column;
   }
   
-  .Reminder-main-heading {
+  .Rules-main-heading {
     position: relative;
     display: flex;
     justify-content: space-between;
   }
   
-  .Reminder-main-heading span {
+  .Rules-main-heading span {
     color: var(--dark-orange);
     font-size: 16px;
-    font-family: "Roboto";
+    font-family: "Poppins SemiBold";
   }
   
   .chore-description {
@@ -134,14 +136,14 @@ body {
     background-color: #c06c84;
   }
   
-  .Reminder-sub-heading {
+  .Rules-sub-heading {
     font-size: 14px;
-    font-family: "Roboto";
+    font-family: "Poppins SemiBold";
     color: var(--black);
     margin: 10px 0 0 0;
   }
   
-  .Reminder-heading-description {
+  .Rules-heading-description {
     font-size: 12px;
     text-align: justify;
   }
@@ -180,29 +182,29 @@ body {
     height: 15px;
     transition: 0.8s ease;
     position: absolute;
-    background-color: #1f2235;
+    background-color: #c06c84;
   }
   
   .skill-parent span {
-    font-family: "Roboto";
+    font-family: "Poppins Bold";
     font-size: 16px;
     color: #c06c84;
   }
   
   /* IPAD PRO RESPONSIVENESS */
   @media only screen and (max-width: 1110px) {
-    .Reminder-card {
+    .Rules-card {
       width: 880px;
     }
   
-    .Reminder-bullet-details {
+    .Rules-bullet-details {
       padding: 0 0 0 70px;
     }
   }
   
   /* IPAD RESPONSIVENESS */
   @media only screen and (max-width: 1023px) {
-    .Reminder-content {
+    .Rules-content {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -212,7 +214,7 @@ body {
       width: 90%;
     }
   
-    .Reminder-card {
+    .Rules-card {
       height: fit-content;
       display: flex;
       flex-direction: column;
@@ -221,13 +223,13 @@ body {
       width: 90%;
     }
   
-    .Reminder-bullet-details {
+    .Rules-bullet-details {
       height: 360px;
       padding: 0;
       width: fit-content;
     }
   
-    .Reminder-bullets {
+    .Rules-bullets {
       margin: 30px 0;
       width: 100%;
     }
