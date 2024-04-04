@@ -150,7 +150,7 @@ model Announcement {
   sentToId  String?
   room      Room      @relation(fields: [roomId], references: [id])
   sentBy    Profile   @relation("SentBy", fields: [sentById], references: [id])
-  sentTo    Profile?   @relation("SentTo", fields: [sentToId], references: [id])
+  sentTo    Profile?  @relation("SentTo", fields: [sentToId], references: [id])
 
   @@map("announcement")
   @@schema("public")
