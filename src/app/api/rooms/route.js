@@ -163,6 +163,8 @@ export async function POST(request, context) {
             // Connect the profile to the room
             connect: { id: roomData.user.id },
           },
+          building: { connect: { id: user.ProfileBuilding[0].buildingId }, 
+          },
         },
       }),
 
