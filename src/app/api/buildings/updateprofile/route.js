@@ -1,9 +1,5 @@
-
-
-import { getProfile } from "../../../utils/auth";
+import { getProfile } from "../../_utils";
 import { NextResponse } from "next/server";
-
-import prisma from "../../../../lib/db";
 export const dynamic = "force-dynamic";
 
 /**
