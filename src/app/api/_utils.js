@@ -16,6 +16,7 @@ export const getProfile = async () => {
           shoppingLists: { include: { shoppingListItems: true } },
         },
       },
+      ProfileBuilding: true,
     },
   });
 
@@ -26,6 +27,17 @@ export const getProfileIfMember = async (roomId) => {
   const profile = await getProfile();
 
   if (!profile.rooms.some((room) => room.id === roomId)) {
+    return;
+  }
+
+  return profile;
+};
+
+
+export const getProfileIfBuilding = async (buildingId) => {
+  const profile = await getProfile();
+  console.log(`the new profile is ${profile}`);
+  if (!profile.buildings.some((building) => building.id === buildingId)) {
     return;
   }
 
