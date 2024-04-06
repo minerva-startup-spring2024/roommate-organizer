@@ -1,9 +1,7 @@
 import React from 'react';
 import TopBar from "@/app/_components/TopBar/TopBar";
 import Card from "../../_components/Announcements/Card";
-import kelly from './kelly.jpg';
-import john from './person.avif';
-import { Announcement } from '@mui/icons-material';
+import CreatePost from "@/app/_components/CreatePost/CreatePost.js";
 
 export default function RulesProfile() {
   return (
@@ -23,6 +21,8 @@ export default function RulesProfile() {
                 text="Hey, Can we all make sure that we keep our rooms clean. Its really important" 
                 date = "12:39am"
             />
+            
+            <CreatePost context={{ user: user }} />
         </div>
     </>
   );
