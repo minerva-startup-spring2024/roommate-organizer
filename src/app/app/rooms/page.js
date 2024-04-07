@@ -1,5 +1,5 @@
-import CreateRoomBox from "@/app/_components/CreateRoomBox/CreateRoomBox.js";
-import RoomsOverview from "@/app/_components/RoomsOverview.js";
+import CreateEntityBox from "@/app/_components/CreateEntityBox/CreateEntityBox";
+import EntitiesOverview from "@/app/_components/EntitiesOverview.js";
 import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
@@ -10,10 +10,14 @@ export default async function HomePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <TopBar title={"Rooms"} className={styles.topBarContainer} />
+      <TopBar
+        title={"Rooms"}
+        className={styles.topBarContainer}
+        entityType={"rooms"}
+      />
       <div className={styles.mainBodyContainer}>
-        <RoomsOverview rooms={user.rooms} />
-        <CreateRoomBox context={{ user: user }} />
+        <EntitiesOverview entity={user.rooms} entityType={"rooms"} />
+        <CreateEntityBox context={{ entityType: "room", route: "rooms" }} />
       </div>
     </div>
   );

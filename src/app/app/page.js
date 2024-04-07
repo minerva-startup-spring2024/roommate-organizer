@@ -1,28 +1,37 @@
-import CreateRoomBox from "@/app/_components/CreateRoomBox/CreateRoomBox.js";
-import RoomsOverview from "@/app/_components/RoomsOverview.js";
+import CreateEntityBox from "@/app/_components/CreateEntityBox/CreateEntityBox.js";
+
 import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
-import { redirect } from "next/navigation";
+import EntitiesOverview from "../_components/EntitiesOverview";
+import styles from "./page.module.css";
 
 export default async function HomePage() {
   const user = await getProfile();
-  console.log('user:', {user}); 
-   // Check if the user IS associated with a building
-   const hasBuilding = Array.isArray(user.ProfileBuilding) && user.ProfileBuilding.length > 0;
-   console.log('hasBuilding:', hasBuilding);
-   
-   if (!hasBuilding) {
-     redirect('app/buildings');
-     return;
-   }
+
+  if (user.role === "MANAGER") {
     return (
-      <div>
-        <TopBar title={"Rooms"} />
-        <div className="mainContainer">
-          <RoomsOverview rooms={user.rooms} />
-          <CreateRoomBox context={{ user: user }} />
+      <div className={styles.pageContainer}>
+        <TopBar title={"Buildings"} role={user.role} entityType={"buildings"} />
+        <div className={styles.mainBodyContainer}>
+          <EntitiesOverview entity={user.buildings} entityType={"buildings"} />
+          <CreateEntityBox
+            context={{ user: user, entityType: "building", route: "buildings" }}
+          />
         </div>
       </div>
     );
+  }
+
+  return (
+    <div className={styles.pageContainer}>
+      <TopBar title={"Rooms"} role={user.role} entityType={"rooms"} />
+      <div className={styles.mainBodyContainer}>
+        <EntitiesOverview entity={user.rooms} entityType={"rooms"} />
+        <CreateEntityBox
+          context={{ user: user, entityType: "room", route: "rooms" }}
+        />
+      </div>
+    </div>
+  );
 }

@@ -29,7 +29,7 @@
 }
 
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     .container {
         border-color: var(--color-pink-accent-darker); 
         background-color: var(--color-pink-accent); 
@@ -46,4 +46,4 @@
     .submitButton {
         color: white; 
     }
-}
+} */
