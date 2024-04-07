@@ -108,7 +108,6 @@ export const dynamic = "force-dynamic";
  *            type: string
  */
 
-
 export async function PATCH(request, context) {
   const data = await request.json();
   try {
@@ -123,8 +122,6 @@ export async function PATCH(request, context) {
     if (!announcement) {
       return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
     }
-
-   
 
     const updateAnnouncement = await prisma.announcement.update({
       where: {

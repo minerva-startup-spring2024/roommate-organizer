@@ -17,6 +17,11 @@ export const getProfile = async () => {
         },
       },
       ProfileBuilding: true,
+      buildings:{
+        include:{
+          rooms:{include:{announcements:true}}
+        }       
+      }
     },
   });
 

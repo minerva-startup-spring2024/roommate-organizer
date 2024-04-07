@@ -207,6 +207,7 @@ export async function POST(request, context) {
             },
         });
 
+
         return NextResponse.json({ message: "Profile updated successfully" }, { status: 200 });
     } catch (error) {
         console.error("Failed to update profile with building", error);

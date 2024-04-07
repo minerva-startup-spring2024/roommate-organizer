@@ -27,11 +27,15 @@ export default function BuildingsList() {
             },
             body: JSON.stringify({ buildingId }),
         });
+
+        console.log(updateProfileResponse);
     
         if (updateProfileResponse.ok) {
             console.log("Profile updated with building selection");
+            router.push('/app');
         }
     
+        //will handle errors later
         router.push('/app');
     };
 

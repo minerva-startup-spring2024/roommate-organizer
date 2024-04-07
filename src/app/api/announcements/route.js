@@ -126,6 +126,7 @@ export const dynamic = "force-dynamic";
  */
 
 export async function GET(request, context) {
+
     const roomId = request.nextUrl.searchParams.get("roomId");
     try {
       const profile = await getProfileIfMember(roomId);
@@ -160,32 +161,50 @@ export async function GET(request, context) {
   }
 
 
-export async function POST(request, context) {
-    const { roomId, data } = await request.json();
+export async function POST(request) {
+    const { senderId, content, toManager ,roomId } = await request.json();
   
-    if (!roomId) {
+    if (!senderId) {
       return NextResponse.json(
-        { message: "No room id provided" },
+        { message: "No user provided" },
         { status: 400 }
       );
     }
+
+
+    console.log(senderId)
   
     try {
-      const profile = await getProfileIfMember(roomId);
-  
-      if (!profile) {
+      let sentToId; 
+      const sentById=senderId
+      if(toManager){
+        const managerProfile = await prisma.profile.findFirst({
+          where: {
+            role: "MANAGER",
+          },
+        });
+      if (managerProfile) {
+        sentToId = managerProfile.id;
+      } else {
         return NextResponse.json(
-          { message: "User is not a member of the room" },
-          { status: 400 }
+          { message: "Manager not found" },
+          { status: 404 }
         );
       }
+      };
+
+      console.log(content, roomId)
+
+     
   
       const createAnnouncement = await prisma.announcement.create({
         data: {
-          roomId: roomId,
-          content: data.content,
-          status: data.status || "Active",
-          sentById: profile.id
+          content,
+          roomId,
+          sentById,
+          status: "unread",
+          sentToId,
+
         },
       });
   
