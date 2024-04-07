@@ -22,26 +22,25 @@ model Profile {
   userId                    String             @unique
   role                      Role               @default(ROOMMATE)
   announcements             Announcement[]
-  buildings                 Building[]
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
-  event                     Event[]
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  buildings                 Building[]         @relation("BuildingMembers")
   rooms                     Room[]             @relation("RoomMembers")
+  event                     Event[]
 
   @@map("profile")
   @@schema("public")
 }
 
 model Building {
-  id              String   @id @default(dbgenerated("gen_random_uuid()"))
-  name            String?
-  address         String?
-  metadata        Json?
-  buildingOwnerId String?
-  buildingOwner   Profile? @relation(fields: [buildingOwnerId], references: [id])
-  rooms           Room?
+  id       String    @id @default(dbgenerated("gen_random_uuid()"))
+  name     String?
+  address  String?
+  metadata Json?
+  members  Profile[] @relation("BuildingMembers")
+  rooms    Room[]
 
   @@map("building")
   @@schema("public")
@@ -54,7 +53,7 @@ model Room {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   deletedAt     DateTime?
-  buildingId    String?        @unique
+  buildingId    String?
   announcements Announcement[]
   choreLists    ChoreList?
   event         Event[]

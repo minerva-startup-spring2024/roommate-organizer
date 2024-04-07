@@ -5,19 +5,21 @@ import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
 import styles from "./page.module.css";
 
-export default async function HomePage() {
+export default async function BuildingPage() {
   const user = await getProfile();
 
   return (
     <div className={styles.pageContainer}>
       <TopBar
-        title={"Rooms"}
+        title={"Buildings"}
         className={styles.topBarContainer}
-        entityType={"rooms"}
+        entityType={"buildings"}
       />
       <div className={styles.mainBodyContainer}>
-        <EntitiesOverview entity={user.rooms} entityType={"rooms"} />
-        <CreateEntityBox context={{ entityType: "room", route: "rooms" }} />
+        <EntitiesOverview entity={user.buildings} entityType={"buildings"} />
+        <CreateEntityBox
+          context={{ user: user, entityType: "building", route: "buildings" }}
+        />
       </div>
     </div>
   );

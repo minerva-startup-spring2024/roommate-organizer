@@ -5,7 +5,7 @@ import "@/app/globals.css";
 export default async function MembersPage({ params }) {
   const profile = await getProfileIfMember({
     entityId: params.slug,
-    entityType: "room",
+    entityType: "building",
   });
 
   if (!profile) {
@@ -19,7 +19,7 @@ export default async function MembersPage({ params }) {
 
   return (
     <>
-      <MemberList entityId={params.slug} entityType={"rooms"} />
+      <MemberList entityId={params.slug} entityType={"buildings"} />
     </>
   );
 }

@@ -1,8 +1,8 @@
 .pageContainer {
   background: linear-gradient(to right, #f6e0e5, #faedf0);
-  margin: 0; 
+  margin: 0;
   padding: 0;
-  height: 100%; 
+  height: 100%;
   min-height: 100vh;
 }
 
