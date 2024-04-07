@@ -5,6 +5,7 @@ import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import EventsPreview from "../EventsPreview/EventsPreview";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
+
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
   const [roomDetails, setRoomDetails] = useState({
@@ -19,6 +20,9 @@ export default function Room({ roomId }) {
       .then((data) => {
         setRoomDetails(data);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, [roomId]);
 
