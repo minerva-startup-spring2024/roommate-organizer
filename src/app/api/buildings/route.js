@@ -1,7 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import prisma from "../../../../lib/db";
+import { getProfile, getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-
+import prisma from "../../../../lib/db";
 
 /**
  * @swagger
@@ -95,41 +94,23 @@ import { NextResponse } from "next/server";
  *                   type: string
  */
 
-
-
 export async function POST(request) {
   const buildingData = await request.json();
-  const buildingId=uuidv4();
+  const profile = await getProfile();
 
   try {
-    const createdBuilding = await prisma.$transaction([
-    prisma.building.create({
+    const building = await prisma.building.create({
       data: {
-        id: buildingId,
-        buildingOwnerId: buildingData.buildingOwnerId,
         name: buildingData.name,
         address: buildingData.address,
-      },
-    }),
-    prisma.profile.update({
-
-        where: { id: buildingData.buildingOwnerId },
-        data: { 
-          buildings: {
-            connect: { id: buildingId },
-          }
+        members: {
+          connect: { id: profile.id },
         },
-    }),
-    prisma.profileBuilding.create({
-        data: {
-            profileId: buildingData.buildingOwnerId,
-            buildingId: buildingId, 
-        }
-    })
-  ]);
+      },
+    });
 
     return NextResponse.json(
-      { message: "Created building entry", building: createdBuilding },
+      { message: "Created building entry", building: building },
       { status: 200 }
     );
   } catch (error) {
@@ -141,29 +122,47 @@ export async function POST(request) {
   }
 }
 
-
-export async function GET(request) {
+export async function GET(request, context) {
   try {
-    const buildings = await prisma.building.findMany({
-      select: {
-        id: true, 
-        name: true, // Include the building name
-        address: true,
-        buildingOwnerId: true, // Include the building owner ID  
+    const buildingId = request.nextUrl.searchParams.get("buildingId");
+
+    if (!buildingId) {
+      return NextResponse.json(
+        { message: "No building ID provided" },
+        { status: 400 }
+      );
+    }
+
+    const profile = await getProfileIfMember({
+      entityId: buildingId,
+      entityType: "building",
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the building" },
+        { status: 400 }
+      );
+    }
+
+    const building = await prisma.building.findUnique({
+      where: {
+        id: buildingId,
+      },
+      include: {
+        members: true,
+        rooms: {
+          include: {
+            members: true,
+          },
+        },
       },
     });
 
-    // If buildings exist, return them
-    if (buildings.length > 0) {
-      return NextResponse.json(buildings, { status: 200 });
-    } else {
-      // If no buildings found, return a message indicating so
-      return NextResponse.json({ message: "No buildings found" }, { status: 404 });
-    }
+    return NextResponse.json({ ...building }, { status: 200 });
   } catch (error) {
-    console.error("Failed to fetch buildings", error);
     return NextResponse.json(
-      { message: "Failed to fetch buildings", error: error.message },
+      { message: "Error getting buidling", error: error },
       { status: 500 }
     );
   }
