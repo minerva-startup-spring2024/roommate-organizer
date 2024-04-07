@@ -21,17 +21,17 @@ model Profile {
   deletedAt                 DateTime?
   userId                    String             @unique
   role                      Role               @default(ROOMMATE)
+  ProfileBuilding           ProfileBuilding[]
   announcementsSentBy       Announcement[]     @relation("SentBy")
   announcementsReceivedBy   Announcement[]     @relation("SentTo")
-  buildings                 Building[]         @relation("ProfileBuilding")
+  Building                  Building[]
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   event                     Event[]
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  buildings                 Building[]         @relation("ProfileBuilding")
   rooms                     Room[]             @relation("RoomMembers")
-  Building                  Building[]
-  ProfileBuilding           ProfileBuilding[]
 
   @@map("profile")
   @@schema("public")
@@ -43,10 +43,10 @@ model Building {
   address         String?
   metadata        Json?
   buildingOwnerId String?
-  buildingOwner   Profile?          @relation(fields: [buildingOwnerId], references: [id])
-  profiles        Profile[]         @relation("ProfileBuilding")
-  rooms           Room[]
   ProfileBuilding ProfileBuilding[]
+  buildingOwner   Profile?          @relation(fields: [buildingOwnerId], references: [id])
+  rooms           Room[]
+  profiles        Profile[]         @relation("ProfileBuilding")
 
   @@map("building")
   @@schema("public")
@@ -55,8 +55,8 @@ model Building {
 model ProfileBuilding {
   profileId  String
   buildingId String
-  profile    Profile  @relation(fields: [profileId], references: [id])
   building   Building @relation(fields: [buildingId], references: [id])
+  profile    Profile  @relation(fields: [profileId], references: [id])
 
   @@id([profileId, buildingId])
   @@schema("public")
@@ -69,11 +69,11 @@ model Room {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now()) @updatedAt
   deletedAt     DateTime?
-  buildingId    String       
+  buildingId    String
   announcements Announcement[]
   choreLists    ChoreList?
   event         Event[]
-  building      Building?      @relation(fields: [buildingId], references: [id])
+  building      Building       @relation(fields: [buildingId], references: [id])
   shoppingLists ShoppingList?
   members       Profile[]      @relation("RoomMembers")
 
