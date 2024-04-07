@@ -1,5 +1,4 @@
 import CreateEntityBox from "@/app/_components/CreateEntityBox/CreateEntityBox.js";
-
 import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
@@ -9,20 +8,10 @@ import styles from "./page.module.css";
 export default async function HomePage() {
   const user = await getProfile();
 
-  const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST" });
-    redirect("/");
-  };
-
   if (user.role === "MANAGER") {
     return (
       <div className={styles.pageContainer}>
-        <TopBar
-          title={"Buildings"}
-          role={user.role}
-          entityType={"buildings"}
-          onLogout={handleLogout}
-        />
+        <TopBar title={"Buildings"} role={user.role} entityType={"buildings"} />
         <div className={styles.mainBodyContainer}>
           <EntitiesOverview entity={user.buildings} entityType={"buildings"} />
           <CreateEntityBox
@@ -35,12 +24,7 @@ export default async function HomePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <TopBar
-        title={"Rooms"}
-        role={user.role}
-        entityType={"rooms"}
-        onLogout={handleLogout}
-      />
+      <TopBar title={"Rooms"} role={user.role} entityType={"rooms"} />
       <div className={styles.mainBodyContainer}>
         <EntitiesOverview entity={user.rooms} entityType={"rooms"} />
         <CreateEntityBox

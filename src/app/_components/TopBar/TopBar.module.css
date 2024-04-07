@@ -35,6 +35,7 @@
 .roomTitle {
     display: flex;
     flex-direction: row;
+    text-overflow: ellipsis;
 }
 
 .settingsContainer {
