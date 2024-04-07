@@ -1,6 +1,5 @@
 .container {
-    padding: 24px 36px;
-    padding-top: 100px;
+    padding: 130px 36px 24px 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,8 +8,8 @@
     overflow: scroll;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     .container {
       background: var(--background-color-dark);
     }
-}
+} */
