@@ -1,0 +1,15 @@
+.container {
+    padding: 130px 36px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: scroll;
+}
+
+/* @media (prefers-color-scheme: dark) {
+    .container {
+      background: var(--background-color-dark);
+    }
+} */

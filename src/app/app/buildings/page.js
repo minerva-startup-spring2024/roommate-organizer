@@ -1,29 +1,26 @@
-import AddBuildingForm from "@/app/_components/CreateBuildingBox/CreateBuilding";
-import BuildingsList from "@/app/_components/CreateBuildingLists/BuildingList";
+import CreateEntityBox from "@/app/_components/CreateEntityBox/CreateEntityBox";
+import EntitiesOverview from "@/app/_components/EntitiesOverview.js";
+import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
-
-
+import "@/app/globals.css";
+import styles from "./page.module.css";
 
 export default async function BuildingPage() {
-    const user = await getProfile();
+  const user = await getProfile();
 
   return (
-    <main className="max-w-lg m-auto">
-      {user.role === 'MANAGER' ? (
-        <>
-          <h1 className="text-2xl text-center mb-6">Building Details</h1>
-          <AddBuildingForm context={{ user }} />
-          <div className="buildingsList">
-            <BuildingsList />
-          </div>
-
-        </>
-      ) : (
-
-        <div className="buildingsList">
-          <BuildingsList />
-        </div>
-      )}
-    </main>
+    <div className={styles.pageContainer}>
+      <TopBar
+        title={"Buildings"}
+        className={styles.topBarContainer}
+        entityType={"buildings"}
+      />
+      <div className={styles.mainBodyContainer}>
+        <EntitiesOverview entity={user.buildings} entityType={"buildings"} />
+        <CreateEntityBox
+          context={{ user: user, entityType: "building", route: "buildings" }}
+        />
+      </div>
+    </div>
   );
 }
