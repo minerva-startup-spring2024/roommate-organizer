@@ -142,7 +142,13 @@ async function main() {
       name: "SF Residence Hall",
       address: "16 Turk St",
       metadata: { floors: 5 },
-      buildingOwnerId: adminProfile.id,
+      members: {
+        connect: [
+          { id: adminProfile.id },
+          { id: primaryProfile.id },
+          { id: secondaryProfile.id },
+        ],
+      },
     },
   });
 
