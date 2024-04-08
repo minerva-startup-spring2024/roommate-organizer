@@ -53,6 +53,24 @@ export const dynamic = "force-dynamic";
  *                    metadata:
  *                      type: object
  *                      description: Optional JSON object for additional event details
+ *                    recurrenceRule:
+ *                      type: string
+ *                      description: Recurrence rule of the event. Refer to Syncfusion's documentation for more info: https://support.syncfusion.com/kb/article/3918/what-is-recurrencerule-in-the-schedule-control
+ *                    recurrenceId:
+ *                      type: string
+ *                      description: Recurrence ID of the event. Used to refer to parent event. 
+ *                    recurrenceException:
+ *                      type: string
+ *                      description: Recurrence exception of the event
+ *                    startTimezone:
+ *                      type: string
+ *                      description: Start time zone of the event
+ *                    endTimezone:
+ *                      type: string
+ *                      description: End time zone of the event
+ *                    followingId:
+ *                      type: string
+ *                      description: Following ID of the event
  *     responses:
  *       200:
  *         description: Successful event creation
