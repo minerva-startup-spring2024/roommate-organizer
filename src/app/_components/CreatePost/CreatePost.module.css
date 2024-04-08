@@ -4,11 +4,12 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100vh;
     margin: auto;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #c06c84;
+    background-color: var(--color-pink-background);
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
   
   .input {

@@ -18,6 +18,13 @@
     width: 100%;
   }
   
+  .boxContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   .boxTitle {
     font-size: 12px;
     font-weight: 500;

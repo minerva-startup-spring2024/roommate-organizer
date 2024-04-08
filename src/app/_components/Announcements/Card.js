@@ -1,13 +1,26 @@
 "use client";
-import "./Card.css";
-function Card(props) {
+import Image from "next/image";
+import styles from "./Card.module.css";
+
+function Card({ user, content, updatedAt }) {
   return (
-    <div className="card">
-      <img className="card-image" src={props.image} alt={props.altText} />
-      <h2 className="card-title">{props.title}</h2>
-      <br></br>
-      <p className="card-text">{props.text}</p>
-      <h4> {props.date}</h4>
+    <div className={styles.card}>
+      <Image
+        src={
+          user
+            ? user.profileImage &&
+              `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${user.profileImage}`
+            : "/default.png"
+        }
+        alt={user ? user.profileImage && user.profileImage : "No alt"}
+        width={60}
+        height={60}
+        className={styles.profilePhoto}
+      />
+      <div className={styles.cardText}>{content}</div>
+      <div className={styles.dateText}>
+        {new Date(updatedAt).toLocaleString()}
+      </div>
     </div>
   );
 }

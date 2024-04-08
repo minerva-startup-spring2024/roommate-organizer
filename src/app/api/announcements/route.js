@@ -143,9 +143,12 @@ export async function GET(request, context) {
       where: {
         roomId: roomId,
       },
+      include: {
+        sentBy: true,
+      },
     });
 
-    return NextResponse.json({ ...announcements }, { status: 200 });
+    return NextResponse.json(announcements, { status: 200 });
   } catch (error) {
     if (!roomId) {
       return NextResponse.json(
@@ -162,7 +165,7 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const { roomId, data } = await request.json();
+  const { data, roomId } = await request.json();
 
   if (!roomId) {
     return NextResponse.json(
@@ -188,7 +191,6 @@ export async function POST(request, context) {
       data: {
         roomId: roomId,
         content: data.content,
-        status: data.status || "Active",
         sentById: profile.id,
       },
     });
