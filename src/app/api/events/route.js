@@ -53,6 +53,24 @@ export const dynamic = "force-dynamic";
  *                    metadata:
  *                      type: object
  *                      description: Optional JSON object for additional event details
+ *                    recurrenceRule:
+ *                      type: string
+ *                      description: Recurrence rule of the event
+ *                    recurrenceId:
+ *                      type: string
+ *                      description: Recurrence ID of the event
+ *                    recurrenceException:
+ *                      type: string
+ *                      description: Recurrence exception of the event
+ *                    startTimezone:
+ *                      type: string
+ *                      description: Start time zone of the event
+ *                    endTimezone:
+ *                      type: string
+ *                      description: End time zone of the event
+ *                    followingId:
+ *                      type: string
+ *                      description: Following ID of the event
  *     responses:
  *       200:
  *         description: Successful event creation
