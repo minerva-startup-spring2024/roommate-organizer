@@ -167,11 +167,11 @@ model Event {
   metadata            Json?
   roomId              String?
   recurrenceRule      String?
-  startTimezone       String?
   endTimezone         String?
-  recurrenceId        String?
-  recurrenceException String?
   followingId         String?
+  recurrenceException String?
+  recurrenceId        String?
+  startTimezone       String?
   profile             Profile  @relation(fields: [createdById], references: [id])
   room                Room?    @relation(fields: [roomId], references: [id], onDelete: Restrict)
 
