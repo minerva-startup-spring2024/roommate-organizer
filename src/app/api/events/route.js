@@ -1,7 +1,6 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-
 import prisma from "../../../../lib/db";
-import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -144,7 +143,11 @@ export async function POST(request, context) {
   }
 
   try {
-    const profile = await getProfileIfMember(roomId);
+
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -182,7 +185,10 @@ export async function POST(request, context) {
 export async function GET(request, context) {
   const roomId = request.nextUrl.searchParams.get("roomId");
   try {
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -215,6 +221,7 @@ export async function GET(request, context) {
 
 export async function DELETE(request, context) {
   const { eventId } = await request.json();
+
   try {
     const deletedEvent = await prisma.event.delete({
       where: {

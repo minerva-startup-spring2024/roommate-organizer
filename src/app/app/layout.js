@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           <Link href="/app/chores">
             <FaBroom color={"grey"} size={20} />
           </Link> */}
-          <Link href="/app/rooms">
+          <Link href="/app">
             <FaHome color={"grey"} size={20} />
           </Link>
           <Link href="/app/settings">

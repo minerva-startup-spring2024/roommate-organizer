@@ -3,7 +3,10 @@ import { getProfileIfMember } from "@/app/api/_utils";
 import "@/app/globals.css";
 
 export default async function RoomChoresPage({ params }) {
-  const profile = await getProfileIfMember(params.slug);
+  const profile = await getProfileIfMember({
+    entityId: params.slug,
+    entityType: "room",
+  });
 
   if (!profile) {
     return {

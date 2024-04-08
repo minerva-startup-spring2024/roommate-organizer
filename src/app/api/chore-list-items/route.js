@@ -118,7 +118,10 @@ export const dynamic = "force-dynamic";
 export async function GET(request, context) {
   const roomId = request.nextUrl.searchParams.get("roomId");
   try {
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -168,7 +171,10 @@ export async function POST(request, context) {
   }
 
   try {
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

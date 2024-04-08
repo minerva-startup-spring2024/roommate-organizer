@@ -4,23 +4,25 @@ import "@/app/globals.css";
 import styles from "./layout.module.css";
 
 export default async function RoomLayout({ children, params }) {
-  var roomDetails = {};
+  var buildingDetails = {};
   const user = await getProfileIfMember({
     entityId: params.slug,
-    entityType: "room",
+    entityType: "building",
   });
 
   if (user) {
-    var roomDetails = user.rooms.find((item) => item.id === params.slug);
+    var buildingDetails = user.buildings.find(
+      (item) => item.id === params.slug
+    );
   }
 
   return (
     <>
       <TopBar
-        title={roomDetails.name}
-        details={true}
+        title={buildingDetails.name}
         slug={params.slug}
-        entityType={"rooms"}
+        entityType={"buildings"}
+        details={true}
       />
       <div className={styles.container}>{children}</div>
     </>
