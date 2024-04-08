@@ -72,6 +72,7 @@ const EventsDetailView = ({ roomId }) => {
       const newEvent = args.data[0];
       try {
         await addEvent(newEvent);
+        await getEvents(true);
       } catch (error) {
         console.error("Error adding event:", error.message);
       }
