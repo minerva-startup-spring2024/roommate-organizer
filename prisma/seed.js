@@ -136,28 +136,27 @@ async function main() {
   });
 
   // Seed data for Building
-  const building = await prisma.building.create({
-    data: {
-      id: "6f99bc66-32ab-4c25-aea2-e0108bc1da3e",
-      name: "SF Residence Hall",
-      address: "16 Turk St",
-      metadata: { floors: 5 },
-      members: {
-        connect: [
-          { id: adminProfile.id },
-          { id: primaryProfile.id },
-          { id: secondaryProfile.id },
-        ],
-      },
-    },
-  });
+  // const building = await prisma.building.create({
+  //   data: {
+  //     id: "6f99bc66-32ab-4c25-aea2-e0108bc1da3e",
+  //     name: "SF Residence Hall",
+  //     address: "16 Turk St",
+  //     metadata: { floors: 5 },
+  //     members: {
+  //       connect: [
+  //         { id: adminProfile.id },
+  //         { id: primaryProfile.id },
+  //         { id: secondaryProfile.id },
+  //       ],
+  //     },
+  //   },
+  // });
 
   // Seed data for Room
   const room = await prisma.room.create({
     data: {
       id: "3b432163-fd3d-47b7-8b1b-9f7dfaa57f34",
       name: "101",
-      buildingId: building.id,
       members: {
         connect: [{ id: primaryProfile.id }, { id: secondaryProfile.id }],
       },

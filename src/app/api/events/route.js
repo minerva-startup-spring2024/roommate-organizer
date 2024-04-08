@@ -156,14 +156,25 @@ export async function POST(request, context) {
       );
     }
 
+    console.log("CREATE EVNT REQUEST", data)
+
     const createEvent = await prisma.event.create({
       data: {
         createdById: profile.id,
         roomId: roomId,
         title: data.title,
         description: data.description,
-        startTime: data.startDate,
-        endTime: data.endDate,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        isAllDay: data.isAllDay,
+        location: data.location,
+        description: data.description,
+        recurrenceRule: data.recurrenceRule,
+        recurrenceId: data.recurrenceId,
+        recurrenceException: data.recurrenceException,
+        startTimezone: data.startTimezone,
+        endTimezone: data.endTimezone,
+        followingId: data.followingId,
       },
     });
 
@@ -245,6 +256,7 @@ export async function PUT(request, context) {
   const data = await request.json();
   const eventData = data.eventData;
 
+  console.log("PUT data:", eventData);
   try {
     const updatedEvent = await prisma.event.update({
       where: {
@@ -257,6 +269,12 @@ export async function PUT(request, context) {
         isAllDay: eventData.isAllDay,
         location: eventData.location,
         description: eventData.description,
+        recurrenceRule: eventData.recurrenceRule,
+        recurrenceId: eventData.recurrenceId,
+        recurrenceException: eventData.recurrenceException,
+        startTimezone: eventData.startTimezone,
+        endTimezone: eventData.endTimezone,
+        followingId: eventData.followingId,
       },
     });
 
