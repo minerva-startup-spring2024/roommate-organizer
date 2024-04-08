@@ -58,7 +58,7 @@ export const dynamic = "force-dynamic";
  *                      description: Recurrence rule of the event. Refer to Syncfusion's documentation for more info: https://support.syncfusion.com/kb/article/3918/what-is-recurrencerule-in-the-schedule-control
  *                    recurrenceId:
  *                      type: string
- *                      description: Recurrence ID of the event. Used to refer to parent event. 
+ *                      description: Recurrence ID of the event. Used to refer to parent event.
  *                    recurrenceException:
  *                      type: string
  *                      description: Recurrence exception of the event
