@@ -143,6 +143,7 @@ export async function POST(request, context) {
   }
 
   try {
+
     const profile = await getProfileIfMember({
       entityId: roomId,
       entityType: "room",
@@ -155,7 +156,6 @@ export async function POST(request, context) {
       );
     }
 
-    console.log(data);
     const createEvent = await prisma.event.create({
       data: {
         createdById: profile.id,
@@ -166,8 +166,6 @@ export async function POST(request, context) {
         endTime: data.endDate,
       },
     });
-
-    console.log(createEvent);
 
     return NextResponse.json(
       {
@@ -224,7 +222,6 @@ export async function GET(request, context) {
 export async function DELETE(request, context) {
   const { eventId } = await request.json();
 
-  console.log("DELETE ROUTE event", eventId);
   try {
     const deletedEvent = await prisma.event.delete({
       where: {
@@ -245,11 +242,8 @@ export async function DELETE(request, context) {
 }
 
 export async function PUT(request, context) {
-  console.log("put request", request);
   const data = await request.json();
   const eventData = data.eventData;
-  console.log("event data", eventData);
-  console.log("id", eventData.id);
 
   try {
     const updatedEvent = await prisma.event.update({
