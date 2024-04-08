@@ -1,23 +1,32 @@
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./AnnouncementsRoomPreviewSection.module.css";
 
 function AnnouncementsRoomPreviewSection({ announcements, members }) {
-  // Get the latest 3 announcements
-  const sortedAnnouncements = announcements.sort((a, b) => {
-    return new Date(b.updatedAt) - new Date(a.updatedAt);
-  });
-
-  const latestAnnouncements = sortedAnnouncements.slice(0, 3);
+  const pathname = usePathname();
+  const latestAnnouncement = announcements
+    .sort((a, b) => {
+      const dateA = new Date(a.updatedAt);
+      const dateB = new Date(b.updatedAt);
+      return dateB - dateA;
+    })
+    .slice(0, 1);
 
   return (
     <div className={styles.announcementsSection}>
-      <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
+      <div className={styles.boxContainer}>
+        <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
+        <Link href={`${pathname}/announcements`}>
+          <p className={styles.boxTitle}>VIEW {announcements.length} MORE</p>
+        </Link>
+      </div>
       <div className={styles.announcementCards}>
-        {latestAnnouncements.map((announcement) => {
+        {latestAnnouncement.map((announcement) => {
           const updatedAt = new Date(announcement.updatedAt);
           const formattedUpdatedAt = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
           const member = members.find(
-            (member) => member.id === latestAnnouncements[0].sentById
+            (member) => member.id === latestAnnouncement.sentById
           );
 
           return (
@@ -39,8 +48,7 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
                   alt={
                     member
                       ? members.find(
-                          (member) =>
-                            member.id === latestAnnouncements[0].sentById
+                          (member) => member.id === latestAnnouncement.sentById
                         ).profileImage
                       : "No alt"
                   }
