@@ -12,7 +12,6 @@ export default function SettingsView() {
         </div>
         <div className={styles.buttonFooter}>We&apos;d love to hear your feedback!</div>
       </div>
-      <div className={styles.footer}>Thanks for using roommate organizer ❤️</div>
     </div>
   );
 }
