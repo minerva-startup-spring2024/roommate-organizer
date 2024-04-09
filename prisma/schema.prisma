@@ -28,6 +28,7 @@ model Profile {
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  buildings                 Building[]         @relation("BuildingMembers")
   rooms                     Room[]             @relation("RoomMembers")
   event                     Event[]
   
