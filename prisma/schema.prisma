@@ -30,7 +30,7 @@ model Profile {
   buildings                 Building[]         @relation("BuildingMembers")
   rooms                     Room[]             @relation("RoomMembers")
   event                     Event[]
-
+  
   @@map("profile")
   @@schema("public")
 }
