@@ -26,10 +26,10 @@ model Profile {
   announcementsReceived     Announcement[]     @relation("SentTo")
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
-  event                     Event[]
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
   rooms                     Room[]             @relation("RoomMembers")
+  Event                     Event[]
 
   @@map("profile")
   @@schema("public")
@@ -156,26 +156,20 @@ model Announcement {
 }
 
 model Event {
-  id                  String   @id @default(dbgenerated("gen_random_uuid()"))
-  createdById         String
-  createdAt           DateTime @default(now()) @db.Timestamptz(6)
-  title               String
-  description         String?  @default("")
-  startTime           DateTime @db.Timestamptz(6)
-  endTime             DateTime @db.Timestamptz(6)
-  isAllDay            Boolean  @default(false)
-  location            String?
-  category            String?
-  metadata            Json?
-  roomId              String?
-  endTimezone         String?
-  followingId         String?
-  recurrenceException String?
-  recurrenceId        String?
-  recurrenceRule      String?
-  startTimezone       String?
-  profile             Profile  @relation(fields: [createdById], references: [id])
-  room                Room?    @relation(fields: [roomId], references: [id], onDelete: Restrict)
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  createdById String
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  title       String
+  description String?  @default("NULL")
+  startTime   DateTime @db.Timestamptz(6)
+  endTime     DateTime @db.Timestamptz(6)
+  isAllDay    Boolean  @default(false)
+  location    String?  @default("NULL")
+  category    String?  @default("NULL")
+  metadata    Json?
+  roomId      String?
+  profile     Profile  @relation(fields: [createdById], references: [id])
+  room        Room?    @relation(fields: [roomId], references: [id], onDelete: Restrict)
 
   @@map("event")
   @@schema("public")
