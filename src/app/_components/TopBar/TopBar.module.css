@@ -1,8 +1,8 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .topBar {
@@ -20,10 +20,10 @@
 }
 
 .headerContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header {
@@ -35,6 +35,7 @@
 .roomTitle {
     display: flex;
     flex-direction: row;
+    text-overflow: ellipsis;
 }
 
 .settingsContainer {

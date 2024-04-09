@@ -1,5 +1,4 @@
 import CreateEntityBox from "@/app/_components/CreateEntityBox/CreateEntityBox.js";
-
 import TopBar from "@/app/_components/TopBar/TopBar.js";
 import { getProfile } from "@/app/api/_utils";
 import "@/app/globals.css";
