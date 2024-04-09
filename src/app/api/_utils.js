@@ -16,12 +16,13 @@ export const getProfile = async () => {
           shoppingLists: { include: { shoppingListItems: true } },
         },
       },
-      buildings: {
-        include: {
-          members: true,
-          rooms: true,
-        },
-      },
+      // buildings: {
+      //   include: {
+      //     members: true,
+      //     rooms: true,
+      //   },
+      // },
+      // building
     },
   });
 
