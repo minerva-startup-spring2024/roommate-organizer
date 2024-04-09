@@ -1,5 +1,5 @@
-import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
+import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -88,8 +88,8 @@ export const dynamic = "force-dynamic";
  *          id:
  *              type: string
  *          content:
- *              type: optional string 
- *          status: 
+ *              type: optional string
+ *          status:
  *              type: optional string
  *          metadata:
  *              type: Json
@@ -108,113 +108,104 @@ export const dynamic = "force-dynamic";
  *            type: string
  */
 
-
-
 export async function PATCH(request, context) {
-
- 
   const announcementId = context.params.slug;
 
+  try {
+    const announcement = await prisma.announcement.findUnique({
+      where: {
+        id: announcementId,
+      },
+    });
 
-    try {
-
-        const announcement = await prisma.announcement.findUnique({
-            where: {
-              id: announcementId,
-            }
-          });
-      
-        if (!announcement) {
-            return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
-        }
-
-        const profile = await getProfileIfMember({
-            entityId: announcement.room.buildingId,
-            entityType: "building",
-          });
-  
-  
-      if (!profile) {
-        return NextResponse.json(
-          { message: "User is not a member of the building" },
-          { status: 400 }
-        );
-      }
-  
-    
-  
-      const updateAnnouncement = await prisma.announcement.update({
-        where: {
-          id: announcementId,
-        },
-        data: {
-          ...data,
-        },
-      });
-  
+    if (!announcement) {
       return NextResponse.json(
-        {
-          message: "Updated announcement",
-          announcement: updateAnnouncement,
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return NextResponse.json(
-        { message: "Error updating announcement", error: error },
-        { status: 500 }
+        { message: "Announcement not found" },
+        { status: 404 }
       );
     }
+
+    const profile = await getProfileIfMember({
+      entityId: announcement.room.buildingId,
+      entityType: "building",
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the building" },
+        { status: 400 }
+      );
+    }
+
+    const updateAnnouncement = await prisma.announcement.update({
+      where: {
+        id: announcementId,
+      },
+      data: {
+        ...data,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Updated announcement",
+        announcement: updateAnnouncement,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error updating announcement", error: error },
+      { status: 500 }
+    );
   }
-  
-  
-    export async function DELETE(request, context) {
-        
-        const announcementId = context.params.slug;
-        try {
+}
 
+export async function DELETE(request, context) {
+  const announcementId = context.params.slug;
+  try {
+    const announcement = await prisma.announcement.findUnique({
+      where: {
+        id: announcementId,
+      },
+    });
 
-            const announcement = await prisma.announcement.findUnique({
-                where: {
-                  id: announcementId,
-                }
-              });
-          
-            if (!announcement) {
-                return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
-            }
-    
-            const profile = await getProfileIfMember({
-                entityId: announcement.room.buildingId,
-                entityType: "building",
-              });
-      
-      
-          if (!profile) {
-            return NextResponse.json(
-              { message: "User is not a member of the building" },
-              { status: 400 }
-            );
-          }    
-
-          await prisma.announcement.deleteMany({
-            where: {
-                id: announcementId,
-                sentBy: {
-                    equals: profile.id
-                }
-            }
-            });
-
-            return NextResponse.json(
-                { message: "Deleted announcement" },
-                { status: 200 }
-            );
-        } catch (error) {
-            return NextResponse.json(
-                { message: "Error deleting announcement", error: error },
-                { status: 500 }
-            );
-        }
+    if (!announcement) {
+      return NextResponse.json(
+        { message: "Announcement not found" },
+        { status: 404 }
+      );
     }
 
+    const profile = await getProfileIfMember({
+      entityId: announcement.room.buildingId,
+      entityType: "building",
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the building" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.announcement.deleteMany({
+      where: {
+        id: announcementId,
+        sentBy: {
+          equals: profile.id,
+        },
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Deleted announcement" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error deleting announcement", error: error },
+      { status: 500 }
+    );
+  }
+}
