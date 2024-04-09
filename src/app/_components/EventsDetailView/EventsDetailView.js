@@ -39,6 +39,12 @@ const EventsDetailView = ({ roomId }) => {
           StartTime: new Date(event.startTime),
           EndTime: new Date(event.endTime),
           IsAllDay: event.isAllDay,
+          RecurrenceRule: event.recurrenceRule,
+          RecurrenceException: event.recurrenceException,
+          RecurrenceID: event.recurrenceId,
+          StartTimezone: event.startTimezone,
+          EndTimezone: event.endTimezone,
+          FollowingID: event.followingId,
         }));
         setEvents(mappedEvents);
         if (shouldLoad) {
@@ -48,18 +54,27 @@ const EventsDetailView = ({ roomId }) => {
   };
 
   const addEvent = async (eventData) => {
-    fetch(`/api/events?roomId=${roomId}`, {
+    await fetch(`/api/events?roomId=${roomId}`, {
       method: "POST",
       body: JSON.stringify({
         roomId: roomId,
         data: {
           title: eventData.Subject,
           description: eventData.Description,
-          startDate: eventData.StartTime,
-          endDate: eventData.EndTime,
+          startTime: eventData.StartTime,
+          endTime: eventData.EndTime,
           isAllDay: eventData.IsAllDay,
+          location: eventData.Location,
+          recurrenceRule: eventData.RecurrenceRule,
+          recurrenceId: eventData.RecurrenceID,
+          recurrenceException: eventData.RecurrenceException,
+          startTimezone: eventData.StartTimezone,
+          endTimezone: eventData.EndTimezone,
+          followingId: eventData.FollowingId,
         },
       }),
+    }).then(() => {
+      getEvents(true);
     });
   };
 
@@ -67,17 +82,75 @@ const EventsDetailView = ({ roomId }) => {
     getEvents(true);
   }, []);
 
-  const handleActionBegin = async (args) => {
-    if (args.requestType === "eventCreate") {
-      const newEvent = args.data[0];
+
+  const handleActionComplete = async (args) => {
+    if (args.addedRecords && Array.isArray(args.addedRecords)) {
+    args.addedRecords.forEach(async (addedRecord) => {
+      const event = addedRecord;
+      const mappedEvent = {
+        id: event.Id,
+        title: event.Subject,
+        description: event.Description,
+        startTime: event.StartTime,
+        endTime: event.EndTime,
+        isAllDay: event.IsAllDay,
+        recurrenceRule: event.RecurrenceRule,
+        recurrenceId: event.RecurrenceID,
+        recurrenceException: event.RecurrenceException,
+        startTimezone: event.StartTimezone,
+        endTimezone: event.EndTimezone,
+        followingId: event.FollowingId,
+      };
+    
       try {
-        await addEvent(newEvent);
-        await getEvents(true);
+        await fetch(`/api/events?roomId=${roomId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            roomId: roomId,
+            data: mappedEvent,
+          }),
+        });
       } catch (error) {
-        console.error("Error adding event:", error.message);
+        console.error("Error updating event:", error.message);
       }
-    } else if (args.requestType === "eventRemove") {
-      const eventId = args.deletedRecords[0].Id;
+    });    
+  }
+
+  if (args.changedRecords && Array.isArray(args.changedRecords)) {
+    args.changedRecords.forEach(async (updatedRecord) => {
+      const event = updatedRecord;
+      const mappedEvent = {
+        id: event.Id,
+        title: event.Subject,
+        description: event.Description,
+        startTime: event.StartTime,
+        endTime: event.EndTime,
+        isAllDay: event.IsAllDay,
+        recurrenceRule: event.RecurrenceRule,
+        recurrenceId: event.RecurrenceID,
+        recurrenceException: event.RecurrenceException,
+        startTimezone: event.StartTimezone,
+        endTimezone: event.EndTimezone,
+        followingId: event.FollowingId,
+      };
+    
+      try {
+        await fetch(`/api/events`, {
+          method: "PUT",
+          body: JSON.stringify({
+            eventData: mappedEvent,
+          }),
+        });
+      } catch (error) {
+        console.error("Error updating event:", error.message);
+      }
+    });    
+  }
+
+  if (args.deletedRecords && Array.isArray(args.deletedRecords)) {
+    args.deletedRecords.forEach(async (deletedRecord) => {
+      const eventId = deletedRecord.Id; 
+    
       try {
         await fetch(`/api/events`, {
           method: "DELETE",
@@ -86,29 +159,11 @@ const EventsDetailView = ({ roomId }) => {
           }),
         });
       } catch (error) {
-        console.error("Error deleting event:", error.message);
+        console.error("Error updating event:", error.message);
       }
-    } else if (args.requestType === "eventChange") {
-      const updatedEvent = args.changedRecords[0];
-      const mappedEvent = {
-        id: updatedEvent.Id,
-        title: updatedEvent.Subject,
-        description: updatedEvent.Description,
-        startTime: updatedEvent.StartTime,
-        endTime: updatedEvent.EndTime,
-        isAllDay: updatedEvent.IsAllDay,
-      };
-      try {
-        const response = await fetch(`/api/events`, {
-          method: "PUT",
-          body: JSON.stringify({
-            eventData: mappedEvent,
-          }),
-        });
-      } catch (error) {
-        console.error("Error editing event:", error.message);
-      }
-    }
+    });   
+  }
+    await getEvents(true);
   };
 
   return (
@@ -122,7 +177,8 @@ const EventsDetailView = ({ roomId }) => {
               readonly={false}
               eventSettings={eventSettings}
               currentView="Week"
-              actionBegin={handleActionBegin}
+              // actionBegin={handleActionBegin}
+              actionComplete={handleActionComplete}
             >
               <ViewsDirective>
                 <ViewDirective option="Day" />
