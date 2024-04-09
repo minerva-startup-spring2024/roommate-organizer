@@ -1,4 +1,4 @@
-import { getProfileIfMember } from "../../_utils";
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -218,4 +218,3 @@ export async function PATCH(request, context) {
         }
     }
 
-    
