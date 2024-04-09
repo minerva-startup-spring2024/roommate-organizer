@@ -162,7 +162,7 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const { roomId, data } = await request.json();
+  const { roomId, content, senderId ,toManager} = await request.json();
 
   if (!roomId) {
     return NextResponse.json(
@@ -184,19 +184,41 @@ export async function POST(request, context) {
       );
     }
 
-    const createAnnouncement = await prisma.announcement.create({
+    const sentById = senderId;
+    let sentToId; 
+
+    if(toManager){
+      const managerProfile = await prisma.profile.findFirst({
+        where: {
+          role: "MANAGER",
+        },
+      });
+    if (managerProfile) {
+      sentToId = managerProfile.id;
+    } else {
+      return NextResponse.json(
+        { message: "Manager not found" },
+        { status: 404 }
+      );
+    }
+    };
+
+    console.log(sentToId)
+
+    const announcement = await prisma.announcement.create({
       data: {
-        roomId: roomId,
-        content: data.content,
-        status: data.status || "Active",
-        sentById: profile.id,
+        content,
+        roomId,
+        sentById,
+        status: 'Active',
+        sentToId,
       },
     });
 
     return NextResponse.json(
       {
         message: "Created announcement",
-        announcement: createAnnouncement,
+        announcement: announcement,
       },
       { status: 200 }
     );

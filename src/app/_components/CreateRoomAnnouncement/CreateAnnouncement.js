@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 const CreateAnnouncement = ({ senderId, roomId, role, buildingId }) => {
     const [content, setContent] = useState('');
     const [recipient, setRecipient] = useState('');
-    const [isToManager, setIsToManager] = useState(role === 'ROOMMATE');
+    const [isToManager, setIsToManager] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [buildingOptions, setBuildingOptions] = useState([]);
 
@@ -42,8 +42,8 @@ const CreateAnnouncement = ({ senderId, roomId, role, buildingId }) => {
         if (response.ok) {
             alert('Message sent!');
             setContent('');
-            setRecipient(role === 'ROOMMATE' ? 'manager' : '');
-            setIsToManager(role === 'ROOMMATE');
+            setRecipient('');
+            setIsToManager('');
         } else {
             const errorData = await response.json();
             alert(`Failed to send message: ${errorData.message}`);
