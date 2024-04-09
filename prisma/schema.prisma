@@ -23,7 +23,6 @@ model Profile {
   role                      Role               @default(ROOMMATE)
   announcementsSentBy       Announcement[]     @relation("SentBy")
   announcementsReceivedBy   Announcement[]     @relation("SentTo")
-  building                  Building[]
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
