@@ -1,5 +1,5 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -177,35 +177,3 @@ export async function DELETE(request, context) {
       );
     }
 
-    const profile = await getProfileIfMember({
-      entityId: announcement.room.buildingId,
-      entityType: "building",
-    });
-
-    if (!profile) {
-      return NextResponse.json(
-        { message: "User is not a member of the building" },
-        { status: 400 }
-      );
-    }
-
-    await prisma.announcement.deleteMany({
-      where: {
-        id: announcementId,
-        sentBy: {
-          equals: profile.id,
-        },
-      },
-    });
-
-    return NextResponse.json(
-      { message: "Deleted announcement" },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Error deleting announcement", error: error },
-      { status: 500 }
-    );
-  }
-}
