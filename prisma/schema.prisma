@@ -30,7 +30,7 @@ model Profile {
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
   rooms                     Room[]             @relation("RoomMembers")
   event                     Event[]
-
+  
   @@map("profile")
   @@schema("public")
 }
