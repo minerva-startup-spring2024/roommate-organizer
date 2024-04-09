@@ -4,7 +4,7 @@ import { FaMessage } from "react-icons/fa6";
 
 import styles from "./TopBar.module.css";
 
-export default function TopBar({ title, details, slug, entityType, role }) {
+export default function TopBar({ title, details, slug, entityType}) {
   return (
     <div className={styles.topBar}>
       <div className={styles.headerContainer}>
