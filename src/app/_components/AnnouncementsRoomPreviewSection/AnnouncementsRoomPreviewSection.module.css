@@ -61,7 +61,7 @@
   }
 
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .boxTitle {
     color: white;
   }
@@ -81,4 +81,4 @@
   .subheader {
     color: white;
   }
-}
+} */

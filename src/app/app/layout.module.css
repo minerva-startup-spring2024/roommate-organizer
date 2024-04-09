@@ -11,8 +11,8 @@
     z-index: 1000; 
   }
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     .navContainer {
       background-color: rgba(0, 0, 0, 0.98);
-    }
+    } */
 }
