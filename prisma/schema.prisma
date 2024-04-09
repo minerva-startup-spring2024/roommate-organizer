@@ -21,8 +21,9 @@ model Profile {
   deletedAt                 DateTime?
   userId                    String             @unique
   role                      Role               @default(ROOMMATE)
-  announcements             Announcement[]
   buildings                 Building[]         @relation("BuildingMembers")
+  announcementsSent         Announcement[]     @relation("SentBy")
+  announcementsReceived     Announcement[]     @relation("SentTo")
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   event                     Event[]
@@ -145,8 +146,10 @@ model Announcement {
   deletedAt DateTime?
   roomId    String
   sentById  String
+  sentToId  String?
   room      Room      @relation(fields: [roomId], references: [id])
-  sentBy    Profile   @relation(fields: [sentById], references: [id])
+  sentBy    Profile   @relation("SentBy", fields: [sentById], references: [id])
+  sentTo    Profile?  @relation("SentTo", fields: [sentToId], references: [id])
 
   @@map("announcement")
   @@schema("public")
