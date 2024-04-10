@@ -71,7 +71,9 @@ const MemberList = ({ entityId, entityType }) => {
 
   return (
     <div className={styles.roommatesListContainer}>
-      <p className={styles.boxTitle}>Roommates</p>
+      <p className={styles.boxTitle}>
+        {entityType === "buildings" ? "Building Members" : "Roommates"}
+      </p>
       {loading ? (
         <GreyBeatLoader />
       ) : (
