@@ -1,0 +1,45 @@
+.h4 {
+  color: #f6f6f6;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  background-color: var(--color-pink-accent-darker);
+  margin-bottom: 20px;
+}
+
+.card-image {
+  max-width: 60px; /* Corrected to include px for dimension */
+  height: 60px;
+  width: 60px;
+  border-radius: 50%; /* Makes the image circular */
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  color: #f6f6f6;
+}
+
+.profilePhoto {
+  border-radius: 100%;
+  margin-bottom: 10px;
+  border: 3px solid var(--color-pink-accent);
+}
+
+.cardText {
+  color: var(--color-white-base);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.dateText {
+  color: var(--color-grey-100);
+  font-size: 12px;
+}
