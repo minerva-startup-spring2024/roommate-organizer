@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaSignOutAlt } from "react-icons/fa";
-import { FaMessage, FaPeopleGroup } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 import styles from "./TopBar.module.css";
 
@@ -29,15 +29,6 @@ export default function TopBar({ title, details, slug, entityType }) {
             >
               <p className={styles.header}>{title}</p>
             </Link>
-
-            <Link
-              href={`/app/${entityType}/${slug}/announcements`}
-              style={{ marginRight: 7 }}
-              className={styles.linkIcon}
-            >
-              <FaMessage size={22} color={"white"} />
-            </Link>
-
             <Link
               href={`/app/${entityType}/${slug}/members`}
               className={styles.linkIcon}
