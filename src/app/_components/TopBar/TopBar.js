@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaSignOutAlt } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
-
 import styles from "./TopBar.module.css";
 
 export default function TopBar({ title, details, slug, entityType }) {
