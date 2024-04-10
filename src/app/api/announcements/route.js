@@ -162,7 +162,7 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const { roomId, content, sendToId } = await request.json();
+  const { roomId, data } = await request.json();
 
   if (!roomId) {
     return NextResponse.json(
@@ -186,14 +186,14 @@ export async function POST(request, context) {
 
     const announcement = await prisma.announcement.create({
       data: {
-        content: content,
+        content: data.content,
         roomId: roomId,
         sentBy: {
           connect: { id: profile.id },
         },
-        sentTo: sentToId
+        sentTo: data.sentToId
           ? {
-              connect: { id: sentToId },
+              connect: { id: data.sentToId },
             }
           : null,
       },
