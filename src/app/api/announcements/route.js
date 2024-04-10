@@ -184,19 +184,25 @@ export async function POST(request, context) {
       );
     }
 
-    const createAnnouncement = await prisma.announcement.create({
+    const announcement = await prisma.announcement.create({
       data: {
-        roomId: roomId,
         content: data.content,
-        status: data.status || "Active",
-        sentById: profile.id,
+        roomId: roomId,
+        sentBy: {
+          connect: { id: profile.id },
+        },
+        sentTo: data.sentToId
+          ? {
+              connect: { id: data.sentToId },
+            }
+          : null,
       },
     });
 
     return NextResponse.json(
       {
         message: "Created announcement",
-        announcement: createAnnouncement,
+        announcement: announcement,
       },
       { status: 200 }
     );
