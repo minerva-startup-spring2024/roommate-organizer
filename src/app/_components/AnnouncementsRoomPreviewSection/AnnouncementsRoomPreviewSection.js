@@ -1,8 +1,8 @@
 import styles from "./AnnouncementsRoomPreviewSection.module.css";
 
 function AnnouncementsRoomPreviewSection({ announcements }) {
-   // Get the latest 3 announcements
-   const sortedAnnouncements = announcements.sort((a, b) => {
+  // Get the latest 3 announcements
+  const sortedAnnouncements = announcements.sort((a, b) => {
     return new Date(b.updatedAt) - new Date(a.updatedAt);
   });
 
@@ -29,7 +29,7 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
                   alt="Profile"
                 />
                 <div className={styles.subheader}>
-                  <p>Placeholder Name</p>
+                  <p>Name </p>
                   <p>Last Updated: {formattedUpdatedAt}</p>
                 </div>
               </div>
@@ -40,5 +40,5 @@ function AnnouncementsRoomPreviewSection({ announcements }) {
     </div>
   );
 }
-  
-  export default AnnouncementsRoomPreviewSection;
+
+export default AnnouncementsRoomPreviewSection;

@@ -1,50 +1,61 @@
-  .announcementsSection {
-    margin-bottom: 20px;
-  }
-  
-  .announcementCards {
-    display: flex;
-    overflow-x: auto;
-  }
-  
-  .announcementCard {
-    background-color: rgba(145, 145, 145, 0.187);
-    border-radius: 10px;
-    padding: 10px;
-    margin-right: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .boxTitle {
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
+.announcementsSection {
+  margin-bottom: 10px;
+}
 
-  .subheader {
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 6px;
-  }
-  
-  .announcementCard p {
-    min-height: 40px;
-  }
+.announcementCards {
+  display: flex;
+  overflow-x: auto;
+}
 
-  .announcementContent {
-    margin-top: 10px;
-  }
+.announcementCard {
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
-  .announcementDivider {
-    border-top: 1px solid #ccc;
-    margin-top: 6px;
-    margin-bottom: 4px;
-  }
-  
-  .profilePhoto {
-    width: 40px;
-    height: 40px;
-    border-radius: 22%;
-    margin-right: 10px; 
-  }
+.boxTitle {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  padding: 10px;
+  background-color: rgba(192, 108, 132);
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.subheader {
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 6px;
+  display: flex;
+}
+
+.announcementCard p {
+  min-height: 40px;
+}
+
+.announcementContent {
+  margin-top: 10px;
+}
+
+.announcementDivider {
+  border-top: 1px solid #ccc;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.profilePhoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 22%;
+  margin-right: 10px;
+  display: none;
+}
+.announcementHeader {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}

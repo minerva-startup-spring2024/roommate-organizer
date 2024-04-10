@@ -6,7 +6,7 @@ import "./globals.css";
 export default async function LandingPage() {
   const user = await getProfile();
   if (user) {
-    redirect("/app");
+    redirect("/app/rooms");
   }
 
   return (

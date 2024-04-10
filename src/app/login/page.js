@@ -40,7 +40,7 @@ export default function LoginPage() {
               }
               required
             />
-            {/* Add an icon inside the input or as a sibling element */}
+            {}
           </div>
           <div className="inputContainer">
             <input
@@ -55,7 +55,7 @@ export default function LoginPage() {
               }
               required
             />
-            {/* Add an icon inside the input or as a sibling element */}
+            {}
           </div>
           <div>{error}</div>
           <button type="submit" className="signUpButton">

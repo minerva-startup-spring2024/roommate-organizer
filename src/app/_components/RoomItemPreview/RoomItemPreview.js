@@ -12,7 +12,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
           <div className={styles.emptyText}>No {previewTitle}</div>
         ) : (
           <>
-            {items.slice(0, 3).map((item) => (
+            {items.slice(0, 1).map((item) => (
               <Link
                 href={`${roomId}/${linkRoute}`}
                 key={item.id}

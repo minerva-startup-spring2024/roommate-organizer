@@ -2,7 +2,7 @@
   --max-width: 1100px;
   --border-radius: 12px;
 
-  font-family: "Inter", sans-serif; 
+  font-family: "Inter", sans-serif;
 
   --foreground-rgb: 0, 0, 0;
 
@@ -36,15 +36,15 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 
-  --color-grey-100: #DDDCE1;
-  --color-grey-300: #6F727D;
+  --color-grey-100: #dddce1;
+  --color-grey-300: #6f727d;
   --color-grey-700: #373943;
-  --color-pink-accent: #DD5E89;
-  --color-pink-action: #F26C6D;
-  --color-pink-background: #EDD4D4;
-  --color-white-base: #FFFFFF;
+  --color-pink-accent: #dd5e89;
+  --color-pink-action: #f26c6d;
+  --color-pink-background: #edd4d4;
+  --color-white-base: #ffffff;
   --color-black-base: #000000;
-  --color-green: #00972A;
+  --color-green: #00972a;
 }
 
 * {
@@ -60,9 +60,8 @@ body {
 }
 
 body {
-  
   color: rgb(var(--foreground-rgb));
-  background: white
+  background: white;
 }
 
 a {

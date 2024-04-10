@@ -30,7 +30,7 @@
 //         title={roomDetails.name}
 //         details={true}
 //       />
-//       <div className={styles.mainContent}>  
+//       <div className={styles.mainContent}>
 //         {!loading && (
 //           <>
 //             {/* Announcements */}
@@ -61,7 +61,7 @@
 //         )}
 //       </div>
 //       {loading && (
-//         <div className={styles.loadingContainer}> 
+//         <div className={styles.loadingContainer}>
 //           <GreyBeatLoader />
 //         </div>
 //       )}
@@ -74,7 +74,7 @@
 import { useEffect, useState } from "react";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
-import AnnouncementsRoomPreviewSection from '../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection';
+import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection";
 import styles from "./Room.module.css";
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
@@ -100,28 +100,37 @@ export default function Room({ roomId }) {
       ) : (
         <>
           {/* Announcements */}
-          <AnnouncementsRoomPreviewSection announcements={roomDetails.announcements} />
+          <div className={`${styles.card} ${styles.announcementsCard}`}>
+            {" "}
+            <AnnouncementsRoomPreviewSection
+              announcements={roomDetails.announcements}
+            />
+          </div>
           {/* Chore and Shopping Previews */}
-          <RoomItemPreview
-            previewTitle="Chores"
-            items={
-              roomDetails.choreLists.length > 0
-                ? roomDetails.choreLists[0].choreListItems
-                : []
-            }
-            roomId={roomId}
-            linkRoute="chores"
-          />
-          <RoomItemPreview
-            previewTitle="Shopping Items"
-            items={
-              roomDetails.shoppingLists.length > 0
-                ? roomDetails.shoppingLists[0].shoppingListItems
-                : []
-            }
-            roomId={roomId}
-            linkRoute="shopping-list"
-          />
+          <div className={styles.listsCard}>
+            <RoomItemPreview
+              previewTitle="Chores"
+              items={
+                roomDetails.choreLists.length > 0
+                  ? roomDetails.choreLists[0].choreListItems
+                  : []
+              }
+              roomId={roomId}
+              linkRoute="chores"
+            />
+          </div>
+          <div className={styles.shoppinglistsCard}>
+            <RoomItemPreview
+              previewTitle="Shopping Items"
+              items={
+                roomDetails.shoppingLists.length > 0
+                  ? roomDetails.shoppingLists[0].shoppingListItems
+                  : []
+              }
+              roomId={roomId}
+              linkRoute="shopping-list"
+            />
+          </div>
         </>
       )}
     </div>

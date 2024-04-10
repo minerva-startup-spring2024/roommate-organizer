@@ -27,5 +27,5 @@ export async function login(formData) {
     return error.message;
   }
 
-  redirect("/");
+  redirect("/apps/rooms");
 }
