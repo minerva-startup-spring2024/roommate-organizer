@@ -36,11 +36,6 @@ export default function Room({ roomId }) {
             announcements={roomDetails.announcements}
             members={roomDetails.members}
           />
-          {/* <CreateRoomAnnouncement
-            roomId={roomId}
-            linkRoute="announcements"
-            previewTitle="Announcements"
-          /> */}
           <RoomItemPreview
             previewTitle="Chores"
             items={
