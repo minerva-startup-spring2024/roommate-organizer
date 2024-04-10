@@ -162,7 +162,7 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const { roomId, content, senderId ,toManager} = await request.json();
+  const { roomId, content, sendToId } = await request.json();
 
   if (!roomId) {
     return NextResponse.json(
@@ -184,34 +184,18 @@ export async function POST(request, context) {
       );
     }
 
-    const sentById = senderId;
-    let sentToId; 
-
-    if(toManager){
-      const managerProfile = await prisma.profile.findFirst({
-        where: {
-          role: "MANAGER",
-        },
-      });
-    if (managerProfile) {
-      sentToId = managerProfile.id;
-    } else {
-      return NextResponse.json(
-        { message: "Manager not found" },
-        { status: 404 }
-      );
-    }
-    };
-
-    console.log(sentToId)
-
     const announcement = await prisma.announcement.create({
       data: {
-        content,
-        roomId,
-        sentById,
-        status: 'Active',
-        sentToId,
+        content: content,
+        roomId: roomId,
+        sentBy: {
+          connect: { id: profile.id },
+        },
+        sentTo: sentToId
+          ? {
+              connect: { id: sentToId },
+            }
+          : null,
       },
     });
 
