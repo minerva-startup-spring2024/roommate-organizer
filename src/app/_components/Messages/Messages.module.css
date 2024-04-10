@@ -8,6 +8,7 @@
     align-items: center;
     background-color: var(--color-pink-accent);
     color: var(--color-white-base);
+    margin-bottom: 20px;
 }
 
 .newMessageContainer {

@@ -77,6 +77,12 @@ const Messages = ({ user }) => {
 
   return (
     <>
+      <button
+        className={styles.addMessageModal}
+        onClick={() => setNewMessageModalStatus(true)}
+      >
+        Send a new message
+      </button>
       {newMessageModalStatus && (
         <form className={styles.newMessageContainer} onSubmit={handleSubmit}>
           <div className={styles.messageModal}>
@@ -144,12 +150,6 @@ const Messages = ({ user }) => {
           />
         ))
       )}
-      <button
-        className={styles.addMessageModal}
-        onClick={() => setNewMessageModalStatus(true)}
-      >
-        Send a new message
-      </button>
     </>
   );
 };
