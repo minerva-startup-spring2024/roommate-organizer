@@ -5,16 +5,24 @@ import styles from "./layout.module.css";
 
 export default async function RoomLayout({ children, params }) {
   var roomDetails = {};
-  const user = await getProfileIfMember(params.slug);
+  const user = await getProfileIfMember({
+    entityId: params.slug,
+    entityType: "room",
+  });
 
   if (user) {
     var roomDetails = user.rooms.find((item) => item.id === params.slug);
   }
 
   return (
-    <div>
-      <TopBar title={roomDetails.name} details={true} slug={params.slug} />
+    <>
+      <TopBar
+        title={roomDetails.name}
+        details={true}
+        slug={params.slug}
+        entityType={"rooms"}
+      />
       <div className={styles.container}>{children}</div>
-    </div>
+    </>
   );
 }

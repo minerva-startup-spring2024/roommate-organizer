@@ -112,7 +112,10 @@ export async function PATCH(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember({
+      entityId: choreListItem.choreList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -162,7 +165,10 @@ export async function DELETE(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember({
+      entityId: choreListItem.choreList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

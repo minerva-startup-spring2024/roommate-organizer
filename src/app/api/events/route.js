@@ -1,13 +1,12 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-
 import prisma from "../../../../lib/db";
-import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
 
 /**
  * @swagger
- * /api/events:  
+ * /api/events:
  *   post:
  *     tags:
  *      - Event
@@ -35,11 +34,11 @@ export const dynamic = "force-dynamic";
  *                      description: Optional description of the event
  *                    startTime:
  *                      type: string
- *                      format: date-time  
+ *                      format: date-time
  *                      description: Start time of the event (format depends on implementation)
  *                    endTime:
  *                      type: string
- *                      format: date-time 
+ *                      format: date-time
  *                      description: End time of the event (format depends on implementation)
  *                    isAllDay:
  *                      type: boolean
@@ -54,6 +53,24 @@ export const dynamic = "force-dynamic";
  *                    metadata:
  *                      type: object
  *                      description: Optional JSON object for additional event details
+ *                    recurrenceRule:
+ *                      type: string
+ *                      description: Recurrence rule of the event. Refer to Syncfusion's documentation for more info: https://support.syncfusion.com/kb/article/3918/what-is-recurrencerule-in-the-schedule-control
+ *                    recurrenceId:
+ *                      type: string
+ *                      description: Recurrence ID of the event. Used to refer to parent event.
+ *                    recurrenceException:
+ *                      type: string
+ *                      description: Recurrence exception of the event
+ *                    startTimezone:
+ *                      type: string
+ *                      description: Start time zone of the event
+ *                    endTimezone:
+ *                      type: string
+ *                      description: End time zone of the event
+ *                    followingId:
+ *                      type: string
+ *                      description: Following ID of the event
  *     responses:
  *       200:
  *         description: Successful event creation
@@ -77,7 +94,7 @@ export const dynamic = "force-dynamic";
  *                       description: ID of the user who created the event
  *                     createdAt:
  *                       type: string
- *                       format: date-time  
+ *                       format: date-time
  *                       description: Timestamp of when the event was created
  *                     title:
  *                       type: string
@@ -87,11 +104,11 @@ export const dynamic = "force-dynamic";
  *                       description: Optional description of the event
  *                     startTime:
  *                       type: string
- *                       format: date-time 
+ *                       format: date-time
  *                       description: Start time of the event
  *                     endTime:
  *                       type: string
- *                       format: date-time  
+ *                       format: date-time
  *                       description: End time of the event
  *                     isAllDay:
  *                       type: boolean
@@ -134,58 +151,73 @@ export const dynamic = "force-dynamic";
  */
 
 export async function POST(request, context) {
-    const { roomId, data } = await request.json();
+  const { roomId, data } = await request.json();
 
-    if (!roomId) {
+  if (!roomId) {
+    return NextResponse.json(
+      { message: "No room id provided" },
+      { status: 400 }
+    );
+  }
+
+  try {
+
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
+
+    if (!profile) {
       return NextResponse.json(
-        { message: "No room id provided" },
+        { message: "User is not a member of the room" },
         { status: 400 }
       );
     }
 
-    try {
-      const profile = await getProfileIfMember(roomId);
+    console.log("CREATE EVNT REQUEST", data)
 
-      if (!profile) {
-        return NextResponse.json(
-          { message: "User is not a member of the room" },
-          { status: 400 }
-        );
-      }
+    const createEvent = await prisma.event.create({
+      data: {
+        createdById: profile.id,
+        roomId: roomId,
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        isAllDay: data.isAllDay,
+        location: data.location,
+        description: data.description,
+        recurrenceRule: data.recurrenceRule,
+        recurrenceId: data.recurrenceId,
+        recurrenceException: data.recurrenceException,
+        startTimezone: data.startTimezone,
+        endTimezone: data.endTimezone,
+        followingId: data.followingId,
+      },
+    });
 
-      console.log(data)
-      const createEvent = await prisma.event.create({
-        data: {
-          createdById: profile.id,
-          roomId: roomId,
-          title: data.title,
-          description: data.description,
-          startTime: data.startDate,
-          endTime: data.endDate,
-        },
-      });
-
-      console.log(createEvent)
-
-      return NextResponse.json(
-        {
-          message: "Created event",
-          event: createEvent,
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return NextResponse.json(
-        { message: "Error creating event", error: error },
-        { status: 500 }
-      );
-    }
+    return NextResponse.json(
+      {
+        message: "Created event",
+        event: createEvent,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error creating event", error: error },
+      { status: 500 }
+    );
+  }
 }
 
 export async function GET(request, context) {
   const roomId = request.nextUrl.searchParams.get("roomId");
   try {
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -195,10 +227,10 @@ export async function GET(request, context) {
     }
 
     const events = await prisma.event.findMany({
-        where: {
-          roomId: roomId,
-        }
-      });
+      where: {
+        roomId: roomId,
+      },
+    });
 
     return NextResponse.json({ ...events }, { status: 200 });
   } catch (error) {
@@ -217,51 +249,61 @@ export async function GET(request, context) {
 }
 
 export async function DELETE(request, context) {
-    const { eventId } = await request.json();
-  
-    console.log("DELETE ROUTE event", eventId)
-    try {
-      const deletedEvent = await prisma.event.delete({
-        where: {
-          id: eventId
-        }
-      });
-  
-      return NextResponse.json({ message: "Event deleted successfully", event: deletedEvent}, { status: 200 });
+  const { eventId } = await request.json();
 
-    } catch (error) {
-        return NextResponse.json(
-            { message: "Error deleting event", error: error },
-            { status: 500 }
-        );
-    }
+  try {
+    const deletedEvent = await prisma.event.delete({
+      where: {
+        id: eventId,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Event deleted successfully", event: deletedEvent },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error deleting event", error: error },
+      { status: 500 }
+    );
   }
-
-  export async function PUT(request, context) {
-    console.log("put request", request)
-    const data = await request.json();
-    const eventData = data.eventData;
-    console.log("event data", eventData)
-    console.log("id", eventData.id)
-
-    try {
-        const updatedEvent = await prisma.event.update({
-            where: {
-                id: eventData.id
-            },
-            data: {
-                title: eventData.title,
-                startTime: eventData.startTime,
-                endTime: eventData.endTime,
-                isAllDay: eventData.isAllDay,
-                location: eventData.location,
-                description: eventData.description,
-            }
-        });
-
-        return NextResponse.json({ message: "Event updated successfully", event: updatedEvent }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Error updating event", error: error }, { status: 500 });
-    }
 }
 
+export async function PUT(request, context) {
+  const data = await request.json();
+  const eventData = data.eventData;
+
+  console.log("PUT data:", eventData);
+  try {
+    const updatedEvent = await prisma.event.update({
+      where: {
+        id: eventData.id,
+      },
+      data: {
+        title: eventData.title,
+        startTime: eventData.startTime,
+        endTime: eventData.endTime,
+        isAllDay: eventData.isAllDay,
+        location: eventData.location,
+        description: eventData.description,
+        recurrenceRule: eventData.recurrenceRule,
+        recurrenceId: eventData.recurrenceId,
+        recurrenceException: eventData.recurrenceException,
+        startTimezone: eventData.startTimezone,
+        endTimezone: eventData.endTimezone,
+        followingId: eventData.followingId,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Event updated successfully", event: updatedEvent },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error updating event", error: error },
+      { status: 500 }
+    );
+  }
+}
