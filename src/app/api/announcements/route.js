@@ -143,9 +143,12 @@ export async function GET(request, context) {
       where: {
         roomId: roomId,
       },
+      include: {
+        sentBy: true,
+      },
     });
 
-    return NextResponse.json({ ...announcements }, { status: 200 });
+    return NextResponse.json(announcements, { status: 200 });
   } catch (error) {
     if (!roomId) {
       return NextResponse.json(
@@ -162,7 +165,7 @@ export async function GET(request, context) {
 }
 
 export async function POST(request, context) {
-  const { roomId, content, senderId ,toManager} = await request.json();
+  const { data, roomId } = await request.json();
 
   if (!roomId) {
     return NextResponse.json(
@@ -184,44 +187,52 @@ export async function POST(request, context) {
       );
     }
 
-    const sentById = senderId;
-    let sentToId; 
-
-    if(toManager){
-      const managerProfile = await prisma.profile.findFirst({
-        where: {
-          role: "MANAGER",
+    if (data.sentToId) {
+      const announcement = await prisma.announcement.create({
+        data: {
+          content: data.content,
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+          sentTo: data.sentToId
+            ? {
+                connect: { id: data.sentToId },
+              }
+            : null,
         },
       });
-    if (managerProfile) {
-      sentToId = managerProfile.id;
-    } else {
+
       return NextResponse.json(
-        { message: "Manager not found" },
-        { status: 404 }
+        {
+          message: "Created announcement with receiver",
+          announcement: announcement,
+        },
+        { status: 200 }
+      );
+    } else {
+      const announcement = await prisma.announcement.create({
+        data: {
+          content: data.content,
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+        },
+      });
+
+      return NextResponse.json(
+        {
+          message: "Created announcement without receiver",
+          announcement: announcement,
+        },
+        { status: 200 }
       );
     }
-    };
-
-    console.log(sentToId)
-
-    const announcement = await prisma.announcement.create({
-      data: {
-        content,
-        roomId,
-        sentById,
-        status: 'Active',
-        sentToId,
-      },
-    });
-
-    return NextResponse.json(
-      {
-        message: "Created announcement",
-        announcement: announcement,
-      },
-      { status: 200 }
-    );
   } catch (error) {
     return NextResponse.json(
       { message: "Error creating item", error: error },

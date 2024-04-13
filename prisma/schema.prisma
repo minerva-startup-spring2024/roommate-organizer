@@ -21,8 +21,9 @@ model Profile {
   deletedAt                 DateTime?
   userId                    String             @unique
   role                      Role               @default(ROOMMATE)
-  announcementsSentBy       Announcement[]     @relation("SentBy")
-  announcementsReceivedBy   Announcement[]     @relation("SentTo")
+  buildings                 Building[]         @relation("BuildingMembers")
+  announcementsSent         Announcement[]     @relation("SentBy")
+  announcementsReceived     Announcement[]     @relation("SentTo")
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
@@ -30,7 +31,7 @@ model Profile {
   buildings                 Building[]         @relation("BuildingMembers")
   rooms                     Room[]             @relation("RoomMembers")
   event                     Event[]
-  
+
   @@map("profile")
   @@schema("public")
 }
