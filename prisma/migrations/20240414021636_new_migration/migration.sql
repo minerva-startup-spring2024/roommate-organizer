@@ -117,6 +117,7 @@ CREATE TABLE "public"."announcement" (
     "deletedAt" TIMESTAMP(3),
     "roomId" TEXT NOT NULL,
     "sentById" TEXT NOT NULL,
+    "sentToId" TEXT,
 
     CONSTRAINT "announcement_pkey" PRIMARY KEY ("id")
 );
@@ -127,20 +128,14 @@ CREATE TABLE "public"."event" (
     "createdById" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "title" TEXT NOT NULL,
-    "description" TEXT DEFAULT '',
+    "description" TEXT DEFAULT 'NULL',
     "startTime" TIMESTAMPTZ(6) NOT NULL,
     "endTime" TIMESTAMPTZ(6) NOT NULL,
     "isAllDay" BOOLEAN NOT NULL DEFAULT false,
-    "location" TEXT,
-    "category" TEXT,
+    "location" TEXT DEFAULT 'NULL',
+    "category" TEXT DEFAULT 'NULL',
     "metadata" JSONB,
     "roomId" TEXT,
-    "endTimezone" TEXT,
-    "followingId" TEXT,
-    "recurrenceException" TEXT,
-    "recurrenceId" TEXT,
-    "recurrenceRule" TEXT,
-    "startTimezone" TEXT,
 
     CONSTRAINT "event_pkey" PRIMARY KEY ("id")
 );
@@ -159,9 +154,6 @@ CREATE TABLE "public"."_BuildingMembers" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "profile_userId_key" ON "public"."profile"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "room_buildingId_key" ON "public"."room"("buildingId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "chore_list_roomId_key" ON "public"."chore_list"("roomId");
@@ -213,6 +205,9 @@ ALTER TABLE "public"."announcement" ADD CONSTRAINT "announcement_roomId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "public"."announcement" ADD CONSTRAINT "announcement_sentById_fkey" FOREIGN KEY ("sentById") REFERENCES "public"."profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."announcement" ADD CONSTRAINT "announcement_sentToId_fkey" FOREIGN KEY ("sentToId") REFERENCES "public"."profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."event" ADD CONSTRAINT "event_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "public"."profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
