@@ -9,6 +9,8 @@ import { FaMessage } from "react-icons/fa6";
 
 import styles from "./TopBar.module.css";
 
+
+
 export default function TopBar({ title, details, slug, entityType }) {
   const router = useRouter();
   const handleLogout = async () => {
@@ -18,6 +20,7 @@ export default function TopBar({ title, details, slug, entityType }) {
 
     router.push("/login");
   };
+
 
   return (
     <div className={styles.topBar}>
