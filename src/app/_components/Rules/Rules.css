@@ -239,3 +239,45 @@ body {
     }
   }
   
+  .textarea-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .textarea {
+    width: 90%;
+    max-width: 600px;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #c06c84;
+    border-radius: 10px;
+    font-family: Poppins;
+    font-size: 14px;
+  }
+  
+  .textarea:focus {
+    outline: none;
+    border-color: #fa747c;
+  }
+  
+  /* Adjustments for responsiveness */
+  @media only screen and (max-width: 1023px) {
+    .textarea {
+      width: 80%;
+    }
+  }
+  .submit-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #c06c84;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #fa747c;
+  }

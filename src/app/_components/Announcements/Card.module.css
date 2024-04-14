@@ -2,15 +2,20 @@
   color: #f6f6f6;
 }
 
+body {
+  background: #fae0e4;
+}
+
 .card {
+  border: 1px solid hsl(0, 0%, 80%);
   border-radius: 10px;
   box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
   padding: 20px;
+  margin: 10px;
   text-align: center;
-  width: 100%;
+  max-width: 250px;
   display: inline-block;
-  background-color: var(--color-pink-accent-darker);
-  margin-bottom: 20px;
+  background-color: #c06c84;
 }
 
 .card-image {
