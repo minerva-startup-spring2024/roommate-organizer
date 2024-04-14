@@ -1,33 +1,16 @@
 .h4 {
   color: #f6f6f6;
 }
-
-<<<<<<< HEAD
-body {
-  background: #fae0e4;
-}
-
 .card {
   border: 1px solid hsl(0, 0%, 80%);
   border-radius: 10px;
   box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
   padding: 20px;
-  margin: 10px;
   text-align: center;
   max-width: 250px;
   display: inline-block;
-  background-color: #c06c84;
-=======
-.card {
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
-  padding: 20px;
-  text-align: center;
-  width: 100%;
-  display: inline-block;
-  background-color: var(--color-pink-accent-darker);
-  margin-bottom: 20px;
->>>>>>> 503c1392fc6dd08bd4d2a28ce4d2f61e40209406
+  background-color: #c06c84; /* Background color for the card */
+  margin: 10px; /* Margin for spacing between cards */
 }
 
 .card-image {
