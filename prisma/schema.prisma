@@ -21,16 +21,16 @@ model Profile {
   deletedAt                 DateTime?
   userId                    String             @unique
   role                      Role               @default(ROOMMATE)
-  buildings                 Building[]         @relation("BuildingMembers")
   announcementsSent         Announcement[]     @relation("SentBy")
   announcementsReceived     Announcement[]     @relation("SentTo")
   assignedChoreListItems    ChoreListItem[]    @relation("AssignedChoreListItems")
   createdChoreListItems     ChoreListItem[]    @relation("CreatedChoreListItems")
+  event                     Event[]
   assignedShoppingListItems ShoppingListItem[] @relation("AssignedShoppingListItems")
   createdShoppingListItems  ShoppingListItem[] @relation("CreatedShoppingListItems")
+  buildings                 Building[]         @relation("BuildingMembers")
   rooms                     Room[]             @relation("RoomMembers")
-  event                     Event[]
-  
+
   @@map("profile")
   @@schema("public")
 }
@@ -40,8 +40,8 @@ model Building {
   name     String?
   address  String?
   metadata Json?
-  members  Profile[] @relation("BuildingMembers")
   rooms    Room[]
+  members  Profile[] @relation("BuildingMembers")
 
   @@map("building")
   @@schema("public")
