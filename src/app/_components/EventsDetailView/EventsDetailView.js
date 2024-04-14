@@ -11,34 +11,18 @@ import {
   Week,
 } from "@syncfusion/ej2-react-schedule";
 import { useEffect, useState } from "react";
-import DateTimePicker from "react-datetime-picker";
-import "../../../App.css";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
-import styles from "../RoomListDetailView/RoomListDetailView.module.css";
+import styles from "./EventsDetailView.module.css";
 
 registerLicense(process.env.NEXT_PUBLIC_SYNCFUSION_LICENSE_KEY);
 
-const EventsDetailView = ({ listType, roomId }) => {
+const EventsDetailView = ({ roomId }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  //   const session = useSession(); // tokens - google calendar
-  //   const supabase = createClientComponentClient(); // google calendar
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const fieldsData = {
-    id: { name: "id" },
-    subject: { name: "title" },
-    location: { name: "location" },
-    description: { name: "description" },
-    startTime: { name: "startTime" },
-    endTime: { name: "endTime" },
-  };
+
   const eventSettings = {
     includeFiltersInQuery: true,
     dataSource: events,
-    fields: fieldsData,
     allowDeleting: true,
   };
 
@@ -49,12 +33,18 @@ const EventsDetailView = ({ listType, roomId }) => {
         const dataArray = Object.values(data);
         // Map to Syncfusion's event format
         const mappedEvents = dataArray.map((event) => ({
-          id: event.id,
-          title: event.title,
-          description: event.description,
-          startTime: new Date(event.startTime),
-          endTime: new Date(event.endTime),
-          isAllDay: event.isAllDay,
+          Id: event.id,
+          Subject: event.title,
+          Description: event.description ? event.description : "",
+          StartTime: new Date(event.startTime),
+          EndTime: new Date(event.endTime),
+          IsAllDay: event.isAllDay,
+          RecurrenceRule: event.recurrenceRule,
+          RecurrenceException: event.recurrenceException,
+          RecurrenceID: event.recurrenceId,
+          StartTimezone: event.startTimezone,
+          EndTimezone: event.endTimezone,
+          FollowingID: event.followingId,
         }));
         setEvents(mappedEvents);
         if (shouldLoad) {
@@ -63,118 +53,132 @@ const EventsDetailView = ({ listType, roomId }) => {
       });
   };
 
-  const addEvent = async () => {
-    fetch(`/api/events?roomId=${roomId}`, {
+  const addEvent = async (eventData) => {
+    await fetch(`/api/events?roomId=${roomId}`, {
       method: "POST",
       body: JSON.stringify({
         roomId: roomId,
         data: {
-          title: eventTitle,
-          description: eventDescription,
-          startDate: startDate,
-          endDate: endDate,
+          title: eventData.Subject,
+          description: eventData.Description,
+          startTime: eventData.StartTime,
+          endTime: eventData.EndTime,
+          isAllDay: eventData.IsAllDay,
+          location: eventData.Location,
+          recurrenceRule: eventData.RecurrenceRule,
+          recurrenceId: eventData.RecurrenceID,
+          recurrenceException: eventData.RecurrenceException,
+          startTimezone: eventData.StartTimezone,
+          endTimezone: eventData.EndTimezone,
+          followingId: eventData.FollowingId,
         },
       }),
     }).then(() => {
-      getEvents(false);
-      setEventTitle("");
-      setEventDescription(null);
-      setStartDate(new Date());
-      setEndDate(new Date());
+      getEvents(true);
     });
   };
 
   useEffect(() => {
     getEvents(true);
-  }, [startDate, endDate]);
+  }, []);
 
-  const handleActionBegin = async (args) => {
-    if (args.requestType === "eventRemove") {
-      // Extract the event ID of the event being deleted
-      const eventId = args.deletedRecords[0].id;
 
+  const handleActionComplete = async (args) => {
+    if (args.addedRecords && Array.isArray(args.addedRecords)) {
+    args.addedRecords.forEach(async (addedRecord) => {
+      const event = addedRecord;
+      const mappedEvent = {
+        id: event.Id,
+        title: event.Subject,
+        description: event.Description,
+        startTime: event.StartTime,
+        endTime: event.EndTime,
+        isAllDay: event.IsAllDay,
+        recurrenceRule: event.RecurrenceRule,
+        recurrenceId: event.RecurrenceID,
+        recurrenceException: event.RecurrenceException,
+        startTimezone: event.StartTimezone,
+        endTimezone: event.EndTimezone,
+        followingId: event.FollowingId,
+      };
+    
       try {
-        const response = await fetch(`/api/events`, {
+        await fetch(`/api/events?roomId=${roomId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            roomId: roomId,
+            data: mappedEvent,
+          }),
+        });
+      } catch (error) {
+        console.error("Error updating event:", error.message);
+      }
+    });    
+  }
+
+  if (args.changedRecords && Array.isArray(args.changedRecords)) {
+    args.changedRecords.forEach(async (updatedRecord) => {
+      const event = updatedRecord;
+      const mappedEvent = {
+        id: event.Id,
+        title: event.Subject,
+        description: event.Description,
+        startTime: event.StartTime,
+        endTime: event.EndTime,
+        isAllDay: event.IsAllDay,
+        recurrenceRule: event.RecurrenceRule,
+        recurrenceId: event.RecurrenceID,
+        recurrenceException: event.RecurrenceException,
+        startTimezone: event.StartTimezone,
+        endTimezone: event.EndTimezone,
+        followingId: event.FollowingId,
+      };
+    
+      try {
+        await fetch(`/api/events`, {
+          method: "PUT",
+          body: JSON.stringify({
+            eventData: mappedEvent,
+          }),
+        });
+      } catch (error) {
+        console.error("Error updating event:", error.message);
+      }
+    });    
+  }
+
+  if (args.deletedRecords && Array.isArray(args.deletedRecords)) {
+    args.deletedRecords.forEach(async (deletedRecord) => {
+      const eventId = deletedRecord.Id; 
+    
+      try {
+        await fetch(`/api/events`, {
           method: "DELETE",
           body: JSON.stringify({
             eventId: eventId,
           }),
         });
-
-        if (response.ok) {
-          getEvents(false);
-
-          return response;
-        } else {
-          console.error("Error deleting event:", response.statusText);
-        }
-        console.log("Response", response);
-        return response;
       } catch (error) {
-        console.error("Error deleting event:", error.message);
+        console.error("Error updating event:", error.message);
       }
-    } else if (args.requestType === "eventChange") {
-      const updatedEvent = args.changedRecords[0];
-
-      try {
-        console.log("EDIT EVENT", updatedEvent);
-
-        const response = await fetch(`/api/events`, {
-          method: "PUT",
-          body: JSON.stringify({
-            eventData: updatedEvent,
-          }),
-        });
-
-        if (response.ok) {
-          getEvents(false);
-          return response;
-        } else {
-          console.error("Error editing event:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error editing event:", error.message);
-      }
-    }
+    });   
+  }
+    await getEvents(true);
   };
 
-  // Google authentication for later integraiton with Google Calendar
-  //   const googleSignIn = async () => {
-  //     const { error } = await  supabase.auth.signInWithOAuth({
-  //         provider: 'google',
-  //         options: {
-  //           scopes: 'https://www.googleapis.com/auth/calendar'
-  //         }
-  //       });
-
-  //     if (error) {
-  //       console.log(error);
-  //       alert("Error logging in to Google provider with Supabase");
-  //       setErrorMessage(error.message);
-  //     } else {
-  //       // redirect("/create-profile");
-  //       router.refresh();
-  //     }
-  //   };
-
-  //   async function signOut() {
-  //     await supabase.auth.signOut();
-  //   }
-
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <p className={styles.boxTitle}>{listType}</p>
+    <div className={styles.calendarContainer}>
       {loading ? (
         <GreyBeatLoader />
       ) : (
         <>
           <div>
             <ScheduleComponent
-              // selectedDate={new Date()}
               readonly={false}
               eventSettings={eventSettings}
               currentView="Week"
-              actionBegin={handleActionBegin}
+              // actionBegin={handleActionBegin}
+              actionComplete={handleActionComplete}
             >
               <ViewsDirective>
                 <ViewDirective option="Day" />
@@ -185,48 +189,6 @@ const EventsDetailView = ({ listType, roomId }) => {
               <Inject services={[Day, Week, Month]} />
             </ScheduleComponent>
           </div>
-          <div style={{ width: "400px", margin: "30px auto" }}>
-            <input
-              type="text"
-              placeholder={`Add title`}
-              className={styles.addTaskInput}
-              value={eventTitle}
-              onChange={(event) => setEventTitle(event.target.value)}
-            />
-            <input
-              type="text"
-              placeholder={`Add description`}
-              className={styles.addTaskInput}
-              value={eventDescription}
-              onChange={(event) => setEventDescription(event.target.value)}
-            />
-            <p> Start of your event</p>
-            <DateTimePicker onChange={setStartDate} value={startDate} />
-            <p> End of your event</p>
-            <DateTimePicker onChange={setEndDate} value={endDate} />
-
-            <div>
-              <button
-                className={styles.addTaskButton}
-                onClick={async () => await addEvent()}
-              >
-                Add Event
-              </button>
-            </div>
-          </div>
-
-          {/* < div style={{width: "400px", margin: "30px auto"}}>
-                {session ? 
-                    <>
-                        <h2> Hey there {session.user.email}</h2>
-                        <button onClick={() => signOut()}> Sign Out</button>
-                    </>
-                    :
-                    <>
-                        <button onClick={() => googleSignIn()}> Sign in with Google</button>
-                    </>
-                }
-            </div> */}
         </>
       )}
     </div>

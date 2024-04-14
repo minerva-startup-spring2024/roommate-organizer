@@ -187,6 +187,7 @@ export async function POST(request, context) {
       );
     }
 
+<<<<<<< HEAD
     const createAnnouncement = await prisma.announcement.create({
       data: {
         roomId: roomId,
@@ -194,14 +195,54 @@ export async function POST(request, context) {
         sentById: profile.id,
       },
     });
+=======
+    if (data.sentToId) {
+      const announcement = await prisma.announcement.create({
+        data: {
+          content: data.content,
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+          sentTo: data.sentToId
+            ? {
+                connect: { id: data.sentToId },
+              }
+            : null,
+        },
+      });
+>>>>>>> 503c1392fc6dd08bd4d2a28ce4d2f61e40209406
 
-    return NextResponse.json(
-      {
-        message: "Created announcement",
-        announcement: createAnnouncement,
-      },
-      { status: 200 }
-    );
+      return NextResponse.json(
+        {
+          message: "Created announcement with receiver",
+          announcement: announcement,
+        },
+        { status: 200 }
+      );
+    } else {
+      const announcement = await prisma.announcement.create({
+        data: {
+          content: data.content,
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+        },
+      });
+
+      return NextResponse.json(
+        {
+          message: "Created announcement without receiver",
+          announcement: announcement,
+        },
+        { status: 200 }
+      );
+    }
   } catch (error) {
     return NextResponse.json(
       { message: "Error creating item", error: error },

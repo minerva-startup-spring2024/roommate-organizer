@@ -2,6 +2,7 @@
 
 import Card from "@/app/_components/Announcements/Card";
 import { useEffect, useState } from "react";
+import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import CreatePost from "../CreatePost/CreatePost";
 
 const Announcements = ({ roomId }) => {
@@ -21,17 +22,21 @@ const Announcements = ({ roomId }) => {
   }, []);
 
   return (
-    <div>
+    <>
       <CreatePost roomId={roomId} fetchAnnouncements={fetchAnnouncements} />
-      {announcements.map((announcement, index) => (
-        <Card
-          key={index}
-          content={announcement.content}
-          user={announcement.sentBy}
-          updatedAt={announcement.updatedAt}
-        />
-      ))}
-    </div>
+      {loading ? (
+        <GreyBeatLoader />
+      ) : (
+        announcements.map((announcement, index) => (
+          <Card
+            key={index}
+            content={announcement.content}
+            user={announcement.sentBy}
+            updatedAt={announcement.updatedAt}
+          />
+        ))
+      )}
+    </>
   );
 };
 
