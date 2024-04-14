@@ -17,9 +17,12 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
     <div className={styles.announcementsSection}>
       <div className={styles.boxContainer}>
         <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
+<<<<<<< HEAD
         <Link href={`${pathname}/announcements`}>
           <p className={styles.boxTitle}>VIEW {announcements.length} MORE</p>
         </Link>
+=======
+>>>>>>> 503c1392fc6dd08bd4d2a28ce4d2f61e40209406
       </div>
       <div className={styles.announcementCards}>
         {latestAnnouncement.map((announcement) => {
@@ -70,6 +73,14 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
             </div>
           );
         })}
+      </div>
+      <div className={styles.viewMoreContainer}>
+        <Link
+          href={`${pathname}/announcements`}
+          className={styles.viewMoreButton}
+        >
+          View or add announcements
+        </Link>
       </div>
     </div>
   );

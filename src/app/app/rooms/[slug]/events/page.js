@@ -2,11 +2,12 @@ import EventsDetailView from "@/app/_components/EventsDetailView/EventsDetailVie
 import { getProfileIfMember } from "@/app/api/_utils";
 import "@/app/globals.css";
 
-export default async function RoomChoresPage({ params }) {
+export default async function EventsPage({ params }) {
   const profile = await getProfileIfMember({
     entityId: params.slug,
     entityType: "room",
   });
+
 
   if (!profile) {
     return {

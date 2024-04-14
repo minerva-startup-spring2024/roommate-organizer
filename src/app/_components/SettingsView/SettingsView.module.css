@@ -45,23 +45,13 @@
     justify-content: center; 
 }
 
-.footer {
-    margin-top: auto;
-    padding-bottom: 40px;
-    font-size: 12px;
-    color: #777;
-    display: flex;
-    justify-content: center; 
-}
-
 .pageContainer {
     display: flex;
     flex-direction: column;
-    min-height: 80vh; 
   }
   
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
    
     .pageContainer {
         display: flex;
@@ -78,5 +68,5 @@
     .previewText {
         color: white;
     }
-}
+} */
 

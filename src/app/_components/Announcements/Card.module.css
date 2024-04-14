@@ -2,6 +2,7 @@
   color: #f6f6f6;
 }
 
+<<<<<<< HEAD
 body {
   background: #fae0e4;
 }
@@ -16,6 +17,17 @@ body {
   max-width: 250px;
   display: inline-block;
   background-color: #c06c84;
+=======
+.card {
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  background-color: var(--color-pink-accent-darker);
+  margin-bottom: 20px;
+>>>>>>> 503c1392fc6dd08bd4d2a28ce4d2f61e40209406
 }
 
 .card-image {
