@@ -5,6 +5,7 @@ import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import EventsPreview from "../EventsPreview/EventsPreview";
 import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
+import CreateRoomAnnouncement from "../RoomateAnnouncementsRoomCreateSection/CreateRoomAnnouncement";
 
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
@@ -32,10 +33,17 @@ export default function Room({ roomId }) {
         <GreyBeatLoader />
       ) : (
         <>
+          <div>
           <AnnouncementsRoomPreviewSection
             announcements={roomDetails.announcements}
             members={roomDetails.members}
           />
+          <CreateRoomAnnouncement
+            roomId={roomId}
+            linkRoute="announcements"
+            previewTitle="Announcements"
+          />
+        </div>
           <RoomItemPreview
             previewTitle="Chores"
             items={
