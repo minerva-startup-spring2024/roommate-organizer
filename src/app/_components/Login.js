@@ -1,7 +1,5 @@
-"use client";
-
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Login() {
@@ -23,7 +21,6 @@ export default function Login() {
       console.log(error);
       setErrorMessage(error.message);
     } else {
-      // redirect("/create-profile");
       router.refresh();
     }
   };
@@ -34,6 +31,22 @@ export default function Login() {
       password,
     });
     if (error) {
+      setErrorMessage(error.message);
+    } else {
+      router.refresh();
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const { error } = await supabase.auth.api.resetPasswordForEmail({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `create-profile/auth/callback`,
+      },
+    });
+    if (error) {
+      console.log(error);
       setErrorMessage(error.message);
     } else {
       router.refresh();
@@ -76,6 +89,13 @@ export default function Login() {
           onClick={handleSignIn}
         >
           Sign in
+        </button>
+        <button
+          className="bg-gray-800 p-2"
+          type="button"
+          onClick={handleForgotPassword}
+        >
+          Forgot Password
         </button>
       </form>
     </>
