@@ -201,13 +201,14 @@ body {
   
   
   /* IPAD RESPONSIVENESS */
-  @media only screen and (max-width: 1023px) {
+  @media only screen and (max-width: 1024px) {
     .Rules-content {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
   
+
     .bullets {
       width: 90%;
     }
