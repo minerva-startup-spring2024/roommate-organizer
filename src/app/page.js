@@ -10,8 +10,8 @@ export default async function LandingPage() {
   }
 
   return (
-    <main>
-      <h1 className="text-2xl text-center mb-8">Protected page</h1>
-    </main>
+    <div>
+      <BeatLoader />
+    </div>
   );
 }
