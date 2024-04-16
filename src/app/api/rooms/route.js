@@ -1,9 +1,6 @@
+import { getProfile, getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-
 import prisma from "../../../../lib/db";
-
-import { getProfileIfMember } from "@/app/api/_utils";
-import { v4 as uuidv4 } from "uuid";
 
 export const dynamic = "force-dynamic";
 
@@ -140,74 +137,46 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request, context) {
   const roomData = await request.json();
-  const roomId = uuidv4();
-  const shoppingListId = uuidv4();
-  const choreListId = uuidv4();
+  const profile = await getProfile();
 
-  if (!roomData.user.id) {
-    return NextResponse.json(
-      { message: "No user ID provided" },
-      { status: 400 }
-    );
-  }
-
-  // Single transaction to create a room
   try {
-    await prisma.$transaction([
-      // Create room
-      prisma.room.create({
+    if (roomData.buildingId) {
+      const room = await prisma.room.create({
         data: {
-          id: roomId,
           name: roomData.name,
           members: {
-            // Connect the profile to the room
-            connect: { id: roomData.user.id },
+            connect: { id: profile.id },
           },
-        },
-      }),
-
-      // Link user to the new room
-      prisma.profile.update({
-        where: { id: roomData.user.id },
-        data: {
-          rooms: {
-            connect: { id: roomId },
+          building: {
+            connect: { id: roomData.buildingId },
           },
-        },
-      }),
-
-      // Create shopping list for the room
-      prisma.shoppingList.create({
-        data: {
-          id: shoppingListId,
-          roomId: roomId,
-        },
-      }),
-
-      // Create chore list for the room
-      prisma.choreList.create({
-        data: {
-          id: choreListId,
-          roomId: roomId,
-        },
-      }),
-
-      // Link room to shopping and chore lists
-      prisma.room.update({
-        where: { id: roomId },
-        data: {
           shoppingLists: {
-            connect: { id: shoppingListId },
+            create: {},
           },
           choreLists: {
-            connect: { id: choreListId },
+            create: {},
           },
         },
-      }),
-    ]);
+      });
+    }
+
+    const room = await prisma.room.create({
+      data: {
+        name: roomData.name,
+        members: {
+          connect: { id: profile.id },
+        },
+        shoppingLists: {
+          create: {},
+        },
+        choreLists: {
+          create: {},
+        },
+      },
+    });
 
     return NextResponse.json(
-      { message: "Created room", roomId: roomId },
+      { message: "Created room", room: room },
       { status: 200 }
     );
   } catch (error) {
@@ -226,7 +195,10 @@ export async function GET(request, context) {
       );
     }
 
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

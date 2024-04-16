@@ -1,5 +1,5 @@
+import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
-import { getProfileIfMember } from "../../_utils";
 
 export const dynamic = "force-dynamic";
 
@@ -88,8 +88,8 @@ export const dynamic = "force-dynamic";
  *          id:
  *              type: string
  *          content:
- *              type: optional string 
- *          status: 
+ *              type: optional string
+ *          status:
  *              type: optional string
  *          metadata:
  *              type: Json
@@ -116,14 +116,20 @@ export async function PATCH(request, context) {
     const announcement = await prisma.announcement.findUnique({
       where: {
         id: announcementId,
-      }
+      },
     });
 
     if (!announcement) {
-      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Announcement not found" },
+        { status: 404 }
+      );
     }
 
-    const profile = await getProfileIfMember( announcement.roomId );
+    const profile = await getProfileIfMember({
+      entityId: announcement.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -163,14 +169,20 @@ export async function DELETE(request, context) {
     const announcement = await prisma.announcement.findUnique({
       where: {
         id: announcementId,
-      }
+      },
     });
 
     if (!announcement) {
-      return NextResponse.json({ message: "Announcement not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Announcement not found" },
+        { status: 404 }
+      );
     }
 
-    const profile = await getProfileIfMember(announcement.roomId);
+    const profile = await getProfileIfMember({
+      entityId: announcement.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

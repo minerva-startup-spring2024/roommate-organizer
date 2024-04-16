@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-
 import prisma from "@/../lib/db";
 import { getProfileIfMember } from "@/app/api/_utils";
+import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -103,7 +102,10 @@ export const dynamic = "force-dynamic";
 export async function GET(request, context) {
   const roomId = context.params.slug;
   try {
-    const profile = await getProfileIfMember(roomId);
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -143,7 +145,10 @@ export async function POST(request, context) {
       );
     }
 
-    const inviter = await getProfileIfMember(roomId);
+    const inviter = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!inviter) {
       return NextResponse.json(
@@ -183,7 +188,10 @@ export async function DELETE(request, context) {
       );
     }
 
-    const remover = await getProfileIfMember(roomId);
+    const remover = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
 
     if (!remover) {
       return NextResponse.json(

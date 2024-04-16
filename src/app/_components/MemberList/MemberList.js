@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa6";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
 import styles from "./MemberList.module.css";
 
-const MemberList = ({ roomId }) => {
+const MemberList = ({ entityId, entityType }) => {
   const [loading, setLoading] = useState(true);
   const [allUserLoading, setAllUserLoading] = useState(true);
   const [addLoading, setAddLoading] = useState(false);
@@ -29,8 +29,8 @@ const MemberList = ({ roomId }) => {
       });
   };
 
-  const getMembers = (roomId) => {
-    fetch(`/api/rooms/${roomId}/members`)
+  const getMembers = (entityId) => {
+    fetch(`/api/${entityType}/${entityId}/members`)
       .then((res) => res.json())
       .then((data) => {
         setMembers(data.members);
@@ -40,13 +40,13 @@ const MemberList = ({ roomId }) => {
 
   const addMember = async () => {
     setAddLoading(true);
-    fetch(`/api/rooms/${roomId}/members`, {
+    fetch(`/api/${entityType}/${entityId}/members`, {
       method: "POST",
       body: JSON.stringify({
         profileId: userToAdd.id,
       }),
     }).then(() => {
-      getMembers(roomId);
+      getMembers(entityId);
       setUserToAdd(null);
     });
     setAddLoading(false);
@@ -54,24 +54,26 @@ const MemberList = ({ roomId }) => {
 
   const removeMember = async (memberId) => {
     setRemoveLoading(true);
-    fetch(`/api/rooms/${roomId}/members`, {
+    fetch(`/api/${entityType}/${entityId}/members`, {
       method: "DELETE",
       body: JSON.stringify({
         profileId: memberId,
       }),
     }).then(() => {
-      getMembers(roomId);
+      getMembers(entityId);
     });
     setRemoveLoading(false);
   };
 
   useEffect(() => {
-    getMembers(roomId);
-  }, [roomId]);
+    getMembers(entityId);
+  }, [entityId]);
 
   return (
     <div className={styles.roommatesListContainer}>
-      <p className={styles.boxTitle}>Roommates</p>
+      <p className={styles.boxTitle}>
+        {entityType === "buildings" ? "Building Members" : "Roommates"}
+      </p>
       {loading ? (
         <GreyBeatLoader />
       ) : (

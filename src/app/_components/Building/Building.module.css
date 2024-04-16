@@ -1,0 +1,42 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%; 
+    overflow: scroll;
+}
+
+.previewsSection {
+    display: flex;
+    width: 100%; 
+}
+
+.previewsSection > * {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.previewsSection > *:last-child {
+    margin-right: 0; /* Remove margin from the last preview item */
+}
+
+.pageContainer {
+    background: linear-gradient(to right, #f6e0e5, #faedf0);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.mainBodyContainer {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.boxTitle {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
