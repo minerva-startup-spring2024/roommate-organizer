@@ -38,20 +38,14 @@ export default function Login() {
   };
 
   const handleForgotPassword = async () => {
-    const { error } = await supabase.auth.api.resetPasswordForEmail({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `create-profile/auth/callback`,
-      },
-    });
-    if (error) {
-      console.log(error);
-      setErrorMessage(error.message);
-    } else {
-      router.refresh();
+    try {
+      // Navigate to the forgot password page
+      router.push("/forgot-password");
+    } catch (error) {
+      console.error("Error navigating to forgot password page:", error);
     }
   };
+  
 
   return (
     <>

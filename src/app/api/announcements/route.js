@@ -187,15 +187,6 @@ export async function POST(request, context) {
       );
     }
 
-<<<<<<< HEAD
-    const createAnnouncement = await prisma.announcement.create({
-      data: {
-        roomId: roomId,
-        content: data.content,
-        sentById: profile.id,
-      },
-    });
-=======
     if (data.sentToId) {
       const announcement = await prisma.announcement.create({
         data: {
@@ -213,7 +204,6 @@ export async function POST(request, context) {
             : null,
         },
       });
->>>>>>> 503c1392fc6dd08bd4d2a28ce4d2f61e40209406
 
       return NextResponse.json(
         {
