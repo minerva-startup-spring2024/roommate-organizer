@@ -92,6 +92,7 @@ const MemberList = ({ entityId, entityType }) => {
                     width={30}
                     height={30}
                     className={styles.itemImage}
+                    unoptimized={true}
                   />
                   {member.firstName} {member.lastName}
                 </div>
@@ -132,6 +133,7 @@ const MemberList = ({ entityId, entityType }) => {
                       width={30}
                       height={30}
                       className={styles.itemImage}
+                      unoptimized={true}
                     />
                     {userToAdd.firstName} {userToAdd.lastName}
                   </>
@@ -176,6 +178,7 @@ const MemberList = ({ entityId, entityType }) => {
                         width={30}
                         height={30}
                         className={styles.itemImage}
+                        unoptimized={true}
                       />
                       <p className={styles.memberName}>
                         {member.firstName} {member.lastName}
