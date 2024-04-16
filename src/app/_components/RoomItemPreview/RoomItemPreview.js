@@ -32,6 +32,7 @@ const RoomItemPreview = ({ previewTitle, items, roomId, linkRoute }) => {
                     width={25}
                     height={25}
                     className={styles.itemImage}
+                    unoptimized={true}
                   />
                   {item.name}
                 </div>
