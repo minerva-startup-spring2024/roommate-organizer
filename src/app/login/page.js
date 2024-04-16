@@ -69,12 +69,6 @@ export default function LoginPage() {
               LOG IN
             </button>
           )}
-          <div className="forgotPassword">
-            <Link href="forgot-password">
-              Forgot your password?
-            </Link>
-          </div>
-
           <div className="alreadyUser">
             Not yet a user?{" "}
             <Link className="loginLink" href="sign-up">
