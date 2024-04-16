@@ -52,6 +52,7 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
                   width={25}
                   height={25}
                   className={styles.profilePhoto}
+                  unoptimized={true}
                 />
                 {member ? (
                   <>

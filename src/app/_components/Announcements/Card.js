@@ -16,6 +16,7 @@ function Card({ user, content, updatedAt }) {
         width={60}
         height={60}
         className={styles.profilePhoto}
+        unoptimized={true}
       />
       <div className={styles.cardText}>{content}</div>
       <div className={styles.dateText}>

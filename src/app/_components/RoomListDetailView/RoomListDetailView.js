@@ -153,6 +153,7 @@ const RoomListDetailView = ({
                       width={25}
                       height={25}
                       className={styles.itemImage}
+                      unoptimized={true}
                     />
                     {item.name}
                   </label>
@@ -181,6 +182,7 @@ const RoomListDetailView = ({
                       width={25}
                       height={25}
                       className={styles.itemImage}
+                      unoptimized={true}
                     />
                     <p className={styles.memberName}>
                       {member.firstName} {member.lastName}
@@ -210,6 +212,7 @@ const RoomListDetailView = ({
                     width={30}
                     height={30}
                     className={styles.itemImage}
+                    unoptimized={true}
                   />
                 ) : (
                   <div className={styles.emptySelectPersonCircle} />
