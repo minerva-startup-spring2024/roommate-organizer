@@ -145,41 +145,20 @@ export async function POST(request, context) {
   });
 
   try {
-    if (roomData.buildingId) {
-      const room = await prisma.room.create({
-        data: {
-          name: roomData.name,
-          members: {
-            connect:[ { id: profile.id }, { id: managerProfile.id }],
-            },
-          building: {
-            connect: { id: roomData.buildingId },
-          },
-          shoppingLists: {
-            create: {},
-          },
-          choreLists: {
-            create: {},
-          },
+    const room = await prisma.room.create({
+      data: {
+        name: roomData.name,
+        members: {
+          connect:[ { id: profile.id }, { id: managerProfile.id }],
         },
-      });
-    }
-
-    // const room = await prisma.room.create({
-    //   data: {
-    //     name: roomData.name,
-    //     members: {
-    //       connect: { id: profile.id },
-    //     },
-    //     shoppingLists: {
-    //       create: {},
-    //     },
-    //     choreLists: {
-    //       create: {},
-    //     },
-    //   },
-    // });
-
+        shoppingLists: {
+          create: {},
+        },
+        choreLists: {
+          create: {},
+        },
+      },
+    });
     return NextResponse.json(
       { message: "Created room", room: room },
       { status: 200 }
