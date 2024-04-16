@@ -138,6 +138,11 @@ export const dynamic = "force-dynamic";
 export async function POST(request, context) {
   const roomData = await request.json();
   const profile = await getProfile();
+  const managerProfile = await prisma.profile.findFirst({
+    where: {
+      role: "MANAGER"
+    }
+  });
 
   try {
     if (roomData.buildingId) {
@@ -145,8 +150,8 @@ export async function POST(request, context) {
         data: {
           name: roomData.name,
           members: {
-            connect: { id: profile.id },
-          },
+            connect:[ { id: profile.id }, { id: managerProfile.id }],
+            },
           building: {
             connect: { id: roomData.buildingId },
           },
@@ -160,20 +165,20 @@ export async function POST(request, context) {
       });
     }
 
-    const room = await prisma.room.create({
-      data: {
-        name: roomData.name,
-        members: {
-          connect: { id: profile.id },
-        },
-        shoppingLists: {
-          create: {},
-        },
-        choreLists: {
-          create: {},
-        },
-      },
-    });
+    // const room = await prisma.room.create({
+    //   data: {
+    //     name: roomData.name,
+    //     members: {
+    //       connect: { id: profile.id },
+    //     },
+    //     shoppingLists: {
+    //       create: {},
+    //     },
+    //     choreLists: {
+    //       create: {},
+    //     },
+    //   },
+    // });
 
     return NextResponse.json(
       { message: "Created room", room: room },
