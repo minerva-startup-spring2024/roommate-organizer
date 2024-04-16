@@ -1,3 +1,5 @@
+"use client";
+
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +23,7 @@ export default function Login() {
       console.log(error);
       setErrorMessage(error.message);
     } else {
+      // redirect("/create-profile");
       router.refresh();
     }
   };
@@ -73,13 +76,6 @@ export default function Login() {
           onClick={handleSignIn}
         >
           Sign in
-        </button>
-        <button
-          className="bg-gray-800 p-2"
-          type="button"
-          onClick={handleForgotPassword}
-        >
-          Forgot Password
         </button>
       </form>
     </>
