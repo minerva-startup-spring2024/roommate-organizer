@@ -21,14 +21,6 @@ const Rules = (props) => {
         <div className="Rules-main-heading">
           <div className="heading-bullet"></div>
           <span>{props.heading ? props.heading : ""}</span>
-          <div className="heading-date">
-            {props.fromDate && props.toDate ? `${props.fromDate} - ${props.toDate}` : ""}
-            {props.demoLink ? 
-              <span style={{ marginLeft: '10px' }}>
-                {React.cloneElement(props.demoLink, { style: { color: 'white' } })}
-              </span> 
-              : null}
-          </div>
         </div>
         <div className="Rules-sub-heading">
           <span>{props.subHeading ? props.subHeading : ""}</span>
@@ -154,18 +146,21 @@ const Rules = (props) => {
   return (
     <div className="Rules-container screen-container fade-in" id={props.id || ""}>
       <div className="Rules-content">
-        <div title={"Rules"} subHeading={"My formal Bio Details"} />
         <div className="Rules-card">
           <div className="Rules-bullets">
             <div className="bullet-container">
               <div className="bullet-icons"></div>
-              <div className="bullets">{getBullets()}</div>
+              <div className="bullets">
+                {getBullets()}
+              </div>
             </div>
           </div>
-
-          <div className="Rules-bullet-details">{getRulesScreens()}</div>
+          <div className="Rules-bullet-details">
+            {getRulesScreens()}
+          </div>
         </div>
       </div>
+
       <div className="textarea-container">
         <textarea
           className="textarea"
