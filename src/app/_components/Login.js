@@ -1,5 +1,7 @@
+"use client";
+
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login() {
@@ -21,6 +23,7 @@ export default function Login() {
       console.log(error);
       setErrorMessage(error.message);
     } else {
+      // redirect("/create-profile");
       router.refresh();
     }
   };
@@ -36,16 +39,6 @@ export default function Login() {
       router.refresh();
     }
   };
-
-  const handleForgotPassword = async () => {
-    try {
-      // Navigate to the forgot password page
-      router.push("/forgot-password");
-    } catch (error) {
-      console.error("Error navigating to forgot password page:", error);
-    }
-  };
-  
 
   return (
     <>
@@ -83,13 +76,6 @@ export default function Login() {
           onClick={handleSignIn}
         >
           Sign in
-        </button>
-        <button
-          className="bg-gray-800 p-2"
-          type="button"
-          onClick={handleForgotPassword}
-        >
-          Forgot Password
         </button>
       </form>
     </>
