@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
 import "../globals.css";
 import styles from "./layout.module.css";
 
@@ -20,6 +21,9 @@ export default function RootLayout({ children }) {
           </Link> */}
           <Link href="/app/rooms">
             <FaHome color={"grey"} size={20} />
+          </Link>
+          <Link href="/app/settings">
+            <FaGear color={"grey"} size={20} />
           </Link>
           {/* <Link href="/app/shopping-list">
             <FaShoppingBasket color={"grey"} size={20} />
