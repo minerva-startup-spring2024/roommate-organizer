@@ -111,7 +111,7 @@ const RoomListDetailView = ({
               className={filterCategory === "my" ? styles.active : ""}
               onClick={() => setFilterCategory("my")}
             >
-              My
+              Created by me
             </button>
           </div>
           <div className={styles.taskContainer}>

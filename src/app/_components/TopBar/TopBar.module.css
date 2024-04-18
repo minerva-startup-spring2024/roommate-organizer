@@ -64,6 +64,17 @@
     justify-content: center;
 }
 
+.hStack {
+    display: flex; 
+    align-items: center; 
+}
+
+.label {
+    color: white;
+    font-size: 16px; 
+    margin-left: 2px; 
+}
+
 /* @media (prefers-color-scheme: dark) {
     .topBar {
         background: rgba(0, 0, 0, 0.98)
