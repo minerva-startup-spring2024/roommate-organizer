@@ -28,13 +28,17 @@ export default function TopBar({ title, details, slug, entityType }) {
             >
               <p className={styles.header}>{title}</p>
             </Link>
-            <Link
-              href={`/app/${entityType}/${slug}/members`}
-              className={styles.linkIcon}
-              style={{ marginRight: 8 }}
-            >
-              <FaPeopleGroup size={22} color={"white"} />
-            </Link>
+            <div className={styles.hStack}>
+              <Link
+                href={`/app/${entityType}/${slug}/members`}
+                className={styles.linkIcon}
+                style={{ marginRight: 8 }}
+              >
+                <FaPeopleGroup size={20} color={"white"} />
+                <span className={styles.label}>Roommates</span>
+              </Link>
+              
+            </div>
           </>
         ) : (
           <>

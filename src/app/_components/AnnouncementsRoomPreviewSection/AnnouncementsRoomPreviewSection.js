@@ -16,14 +16,14 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
   return (
     <div className={styles.announcementsSection}>
       <div className={styles.boxContainer}>
-        <p className={styles.boxTitle}>ANNOUNCEMENTS</p>
+        <p className={styles.boxTitle}>LATEST ANNOUNCEMENT</p>
       </div>
       <div className={styles.announcementCards}>
         {latestAnnouncement.map((announcement) => {
           const updatedAt = new Date(announcement.updatedAt);
           const formattedUpdatedAt = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
           const member = members.find(
-            (member) => member.id === latestAnnouncement.sentById
+            (member) => member.id === announcement.sentById
           );
 
           return (
@@ -45,7 +45,7 @@ function AnnouncementsRoomPreviewSection({ announcements, members }) {
                   alt={
                     member
                       ? members.find(
-                          (member) => member.id === latestAnnouncement.sentById
+                          (member) => member.id === announcement.sentById
                         ).profileImage
                       : "No alt"
                   }
