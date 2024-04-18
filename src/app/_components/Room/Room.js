@@ -26,6 +26,16 @@ export default function Room({ roomId }) {
       });
   }, [roomId]);
 
+  useEffect(() => {
+    // Apply background color to the body element
+    document.body.style.background = "linear-gradient(to right, #f6e0e5, #faedf0)";
+
+    // Cleanup function to remove the style when the component unmounts
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+
   return (
     <>
       {loading ? (

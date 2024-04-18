@@ -83,6 +83,7 @@
     border: 1px solid var(--color-black-base);
     cursor: pointer;
     width: 100%;
+    background-color: white;
   }
 
 /* @media (prefers-color-scheme: dark) {
