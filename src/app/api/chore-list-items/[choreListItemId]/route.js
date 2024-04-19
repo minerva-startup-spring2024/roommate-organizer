@@ -141,6 +141,7 @@ export async function PATCH(request, context) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "Error updating item", error: error },
       { status: 500 }
