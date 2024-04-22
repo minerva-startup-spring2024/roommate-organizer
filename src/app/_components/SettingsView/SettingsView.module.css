@@ -1,0 +1,72 @@
+.contactContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contactButton {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.contactButton:hover {
+    background-color: #ddd;
+}
+
+.emailIcon {
+    margin-right: 8px;
+}
+
+.tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+
+.buttonFooter {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #3a3939;
+    display: flex;
+    justify-content: center; 
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+
+/* @media (prefers-color-scheme: dark) {
+   
+    .pageContainer {
+        display: flex;
+        flex-direction: column;
+        min-height: 80vh; 
+        background-color: var(--background-color-dark); 
+    }
+
+    .contactButton {
+        background-color: black;
+        color: white;
+    }
+
+    .previewText {
+        color: white;
+    }
+} */
+

@@ -1,13 +1,13 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./CreateProfile.module.css";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 export default function CreateProfile() {
   const router = useRouter();
@@ -99,6 +99,7 @@ export default function CreateProfile() {
             width={200}
             height={200}
             className={styles.profilePic}
+            unoptimized={true}
           />
         ) : (
           <>

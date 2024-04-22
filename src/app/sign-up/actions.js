@@ -12,10 +12,6 @@ export async function signup(formData) {
     return "Please, enter a valid email!";
   }
 
-  if (!validator.isStrongPassword(formData.password)) {
-    return "Please, enter a valid password! Your password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one symbol.";
-  }
-
   const data = {
     email: formData.email,
     password: formData.password,

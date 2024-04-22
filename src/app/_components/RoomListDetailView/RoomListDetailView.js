@@ -111,7 +111,7 @@ const RoomListDetailView = ({
               className={filterCategory === "my" ? styles.active : ""}
               onClick={() => setFilterCategory("my")}
             >
-              My
+              Created by me
             </button>
           </div>
           <div className={styles.taskContainer}>
@@ -140,8 +140,9 @@ const RoomListDetailView = ({
                     />
                     <Image
                       src={
-                        item.assignedTo.profileImage
-                          ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
+                        item.assignedTo
+                          ? item.assignedTo.profileImage &&
+                            `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${item.assignedTo.profileImage}`
                           : "/default.png"
                       }
                       alt={
@@ -152,6 +153,7 @@ const RoomListDetailView = ({
                       width={25}
                       height={25}
                       className={styles.itemImage}
+                      unoptimized={true}
                     />
                     {item.name}
                   </label>
@@ -180,6 +182,7 @@ const RoomListDetailView = ({
                       width={25}
                       height={25}
                       className={styles.itemImage}
+                      unoptimized={true}
                     />
                     <p className={styles.memberName}>
                       {member.firstName} {member.lastName}
@@ -209,6 +212,7 @@ const RoomListDetailView = ({
                     width={30}
                     height={30}
                     className={styles.itemImage}
+                    unoptimized={true}
                   />
                 ) : (
                   <div className={styles.emptySelectPersonCircle} />

@@ -1,5 +1,6 @@
 import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
+import prisma from "../../../../../lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -112,7 +113,10 @@ export async function PATCH(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember({
+      entityId: choreListItem.choreList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -138,6 +142,7 @@ export async function PATCH(request, context) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "Error updating item", error: error },
       { status: 500 }
@@ -162,7 +167,10 @@ export async function DELETE(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(choreListItem.choreList.roomId);
+    const profile = await getProfileIfMember({
+      entityId: choreListItem.choreList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

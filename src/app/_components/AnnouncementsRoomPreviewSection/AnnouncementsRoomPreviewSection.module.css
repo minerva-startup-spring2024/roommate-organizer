@@ -1,33 +1,48 @@
   .announcementsSection {
     margin-bottom: 20px;
+    width: 100%;
   }
   
   .announcementCards {
     display: flex;
-    overflow-x: auto;
+    width: 100%;
   }
   
   .announcementCard {
-    background-color: rgba(145, 145, 145, 0.187);
-    border-radius: 10px;
+    background-color: #ffffff;
+    border: 3px solid var(--color-pink-accent);
+    border-radius: 16px; 
     padding: 10px;
-    margin-right: 10px;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
   
+  .boxContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   .boxTitle {
     font-size: 12px;
     font-weight: 500;
     margin-bottom: 6px;
   }
 
+  .announcementHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
   .subheader {
     font-size: 14px;
     font-weight: 300;
-    margin-bottom: 6px;
   }
-  
+
   .announcementCard p {
     min-height: 40px;
   }
@@ -43,8 +58,52 @@
   }
   
   .profilePhoto {
-    width: 40px;
-    height: 40px;
-    border-radius: 22%;
+    border-radius: 100%;
     margin-right: 10px; 
   }
+
+  .announcementText {
+    font-weight: 600; 
+    color: #DD5E89;
+  }
+
+  .viewMoreContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 18px;
+  }
+
+  .viewMoreButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0px;
+    border-radius: 8px;
+    border: 1px solid var(--color-black-base);
+    cursor: pointer;
+    width: 100%;
+    background-color: white;
+  }
+
+/* @media (prefers-color-scheme: dark) {
+  .boxTitle {
+    color: white;
+  }
+
+  .announcementText {
+    color: white;
+  }
+
+  .announcementDivider {
+    color: white;
+  }
+
+  .announcementCard {
+    background-color: var(--color-pink-accent-darker);
+  }
+
+  .subheader {
+    color: white;
+  }
+} */

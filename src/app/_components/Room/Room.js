@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import AnnouncementsRoomPreviewSection from "../AnnouncementsRoomPreviewSection/AnnouncementsRoomPreviewSection";
 import GreyBeatLoader from "../BeatLoaders/GreyBeatLoader";
-import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
 import EventsPreview from "../EventsPreview/EventsPreview";
+import RoomItemPreview from "../RoomItemPreview/RoomItemPreview";
+
 export default function Room({ roomId }) {
   const [loading, setLoading] = useState(true);
   const [roomDetails, setRoomDetails] = useState({
@@ -19,8 +20,21 @@ export default function Room({ roomId }) {
       .then((data) => {
         setRoomDetails(data);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, [roomId]);
+
+  useEffect(() => {
+    // Apply background color to the body element
+    document.body.style.background = "linear-gradient(to right, #f6e0e5, #faedf0)";
+
+    // Cleanup function to remove the style when the component unmounts
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
 
   return (
     <>
@@ -30,12 +44,13 @@ export default function Room({ roomId }) {
         <>
           <AnnouncementsRoomPreviewSection
             announcements={roomDetails.announcements}
+            members={roomDetails.members}
           />
           <RoomItemPreview
             previewTitle="Chores"
             items={
-              roomDetails.choreLists.length > 0
-                ? roomDetails.choreLists[0].choreListItems
+              roomDetails.choreLists
+                ? roomDetails.choreLists.choreListItems
                 : []
             }
             roomId={roomId}
@@ -44,8 +59,8 @@ export default function Room({ roomId }) {
           <RoomItemPreview
             previewTitle="Shopping Items"
             items={
-              roomDetails.shoppingLists.length > 0
-                ? roomDetails.shoppingLists[0].shoppingListItems
+              roomDetails.shoppingLists
+                ? roomDetails.shoppingLists.shoppingListItems
                 : []
             }
             roomId={roomId}

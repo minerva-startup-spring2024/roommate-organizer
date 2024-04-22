@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 
+import { getProfileIfMember } from "@/app/api/_utils";
 import prisma from "../../../../lib/db";
-import { getProfileIfMember } from "../_utils";
 
 export const dynamic = "force-dynamic";
-
 
 /**
  * @swagger
@@ -40,7 +39,7 @@ export const dynamic = "force-dynamic";
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
-*   post:
+ *   post:
  *     tags:
  *      - Announcements
  *     summary: Create a new announcement
@@ -88,8 +87,8 @@ export const dynamic = "force-dynamic";
  *        id:
  *          type: string
  *        content:
- *          type: optional string 
- *        status: 
+ *          type: optional string
+ *        status:
  *          type: optional string
  *        metadata:
  *          type: Json
@@ -126,80 +125,118 @@ export const dynamic = "force-dynamic";
  */
 
 export async function GET(request, context) {
-    const roomId = request.nextUrl.searchParams.get("roomId");
-    try {
-      const profile = await getProfileIfMember(roomId);
-  
-      if (!profile) {
-        return NextResponse.json(
-          { message: "User is not a member of the room" },
-          { status: 400 }
-        );
-      }
-  
-      const announcements = await prisma.announcement.findMany({
-        where: {
-          roomId: roomId,
-        }
-      });
-  
-      return NextResponse.json({ ...announcements }, { status: 200 });
-    } catch (error) {
-      if (!roomId) {
-        return NextResponse.json(
-          { message: "No room id provided" },
-          { status: 400 }
-        );
-      }
-  
+  const roomId = request.nextUrl.searchParams.get("roomId");
+  try {
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
+
+    if (!profile) {
       return NextResponse.json(
-        { message: "Error getting announcements", error: error },
-        { status: 500 }
+        { message: "User is not a member of the room" },
+        { status: 400 }
       );
     }
-  }
 
+    const announcements = await prisma.announcement.findMany({
+      where: {
+        roomId: roomId,
+      },
+      include: {
+        sentBy: true,
+      },
+    });
 
-export async function POST(request, context) {
-    const { roomId, data } = await request.json();
-  
+    return NextResponse.json(announcements, { status: 200 });
+  } catch (error) {
     if (!roomId) {
       return NextResponse.json(
         { message: "No room id provided" },
         { status: 400 }
       );
     }
-  
-    try {
-      const profile = await getProfileIfMember(roomId);
-  
-      if (!profile) {
-        return NextResponse.json(
-          { message: "User is not a member of the room" },
-          { status: 400 }
-        );
-      }
-  
-      const createAnnouncement = await prisma.announcement.create({
+
+    return NextResponse.json(
+      { message: "Error getting announcements", error: error },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request, context) {
+  const { data, roomId } = await request.json();
+
+  if (!roomId) {
+    return NextResponse.json(
+      { message: "No room id provided" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const profile = await getProfileIfMember({
+      entityId: roomId,
+      entityType: "room",
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "User is not a member of the room" },
+        { status: 400 }
+      );
+    }
+
+    if (data.sentToId) {
+      const announcement = await prisma.announcement.create({
         data: {
-          roomId: roomId,
           content: data.content,
-          status: data.status || "Active",
-          sentById: profile.id
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+          sentTo: data.sentToId
+            ? {
+                connect: { id: data.sentToId },
+              }
+            : null,
         },
       });
-  
+
       return NextResponse.json(
         {
-          message: "Created announcement",
-          announcement: createAnnouncement,
+          message: "Created announcement with receiver",
+          announcement: announcement,
         },
         { status: 200 }
       );
-    } catch (error) {
+    } else {
+      const announcement = await prisma.announcement.create({
+        data: {
+          content: data.content,
+          room: {
+            connect: { id: roomId },
+          },
+          sentBy: {
+            connect: { id: profile.id },
+          },
+        },
+      });
+
       return NextResponse.json(
-        { message: "Error creating item", error: error },
-        { status: 500 }
+        {
+          message: "Created announcement without receiver",
+          announcement: announcement,
+        },
+        { status: 200 }
       );
     }
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error creating item", error: error },
+      { status: 500 }
+    );
   }
+}

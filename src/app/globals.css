@@ -1,3 +1,14 @@
+@import "../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -40,11 +51,14 @@
   --color-grey-300: #6F727D;
   --color-grey-700: #373943;
   --color-pink-accent: #DD5E89;
+  --color-pink-accent-darker: #aa4668;
   --color-pink-action: #F26C6D;
   --color-pink-background: #EDD4D4;
   --color-white-base: #FFFFFF;
   --color-black-base: #000000;
   --color-green: #00972A;
+
+  --background-color-dark: #202124;
 }
 
 * {
@@ -71,5 +85,5 @@ a {
 }
 
 .mainContainer {
-  padding: 24px 36px;
+  padding: 130px 26px 24px 36px;
 }

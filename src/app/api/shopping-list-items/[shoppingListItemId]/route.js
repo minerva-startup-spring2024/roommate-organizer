@@ -1,5 +1,6 @@
 import { getProfileIfMember } from "@/app/api/_utils";
 import { NextResponse } from "next/server";
+import prisma from "../../../../../lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -121,9 +122,10 @@ export async function PATCH(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(
-      shoppingListItem.shoppingList.roomId
-    );
+    const profile = await getProfileIfMember({
+      entityId: shoppingListItem.shoppingList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(
@@ -173,9 +175,10 @@ export async function DELETE(request, context) {
       return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    const profile = await getProfileIfMember(
-      shoppingListItem.shoppingList.roomId
-    );
+    const profile = await getProfileIfMember({
+      entityId: shoppingListItem.shoppingList.roomId,
+      entityType: "room",
+    });
 
     if (!profile) {
       return NextResponse.json(

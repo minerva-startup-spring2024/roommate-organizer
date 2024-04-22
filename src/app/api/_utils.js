@@ -16,17 +16,28 @@ export const getProfile = async () => {
           shoppingLists: { include: { shoppingListItems: true } },
         },
       },
+      buildings: {
+        include: {
+          members: true,
+          rooms: true,
+        },
+      },
     },
   });
 
   return res;
 };
 
-export const getProfileIfMember = async (roomId) => {
+export const getProfileIfMember = async ({ entityId, entityType }) => {
   const profile = await getProfile();
-
-  if (!profile.rooms.some((room) => room.id === roomId)) {
-    return;
+  if (entityType === "room") {
+    if (!profile.rooms.some((room) => room.id === entityId)) {
+      return;
+    }
+  } else if (entityType === "building") {
+    if (!profile.buildings.some((building) => building.id === entityId)) {
+      return;
+    }
   }
 
   return profile;
