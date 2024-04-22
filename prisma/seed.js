@@ -159,7 +159,7 @@ async function main() {
       name: "101",
       buildingId: building.id,
       members: {
-        connect: [{ id: primaryProfile.id }, { id: secondaryProfile.id }],
+        connect: [{ id: primaryProfile.id }, { id: secondaryProfile.id } , { id: adminProfile.id }],
       },
     },
   });
